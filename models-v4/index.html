@@ -72,15 +72,15 @@ import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 
 // ---- garments: colours, branding decal (normalised object space: x,y in -1..1 of the bbox), wobble rig
 const ITEMS = {
-  puffer: { name: 'LACQUER PUFFER JACKET', url: '../models-v3/assets/models/puffer.glb',
+  puffer: { name: 'LACQUER PUFFER JACKET', url: './assets/models/puffer.glb',
     desc: 'OVERSIZED CROP, HIGH-GLOSS LACQUERED NYLON SHELL, WIDE BAFFLES, TALL FUNNEL HOOD COLLAR, RIB CUFFS AND HEM.',
     colours: [['SAGE LACQUER', '#5f634c'], ['DUNE LACQUER', '#837d5b'], ['BONE LACQUER', '#cdc4b0'], ['SOOT LACQUER', '#0f0f0f']],
     mat: { lacquer: true }, logo: { x: .30, y: .30, w: .24 }, big: { x: 0, y: .12, w: 1.15, side: -1 }, rig: 'top' },
-  hoodie: { name: 'HEAVY BOXY HOODIE', url: '../models-v3/assets/models/hoodie.glb',
+  hoodie: { name: 'HEAVY BOXY HOODIE', url: './assets/models/hoodie.glb',
     desc: 'BOXY, OVERSIZED, 500 GSM BRUSHED FLEECE, DOUBLE-LAYER HOOD, KANGAROO POCKET, RIB CUFFS AND HEM.',
     colours: [['OAT', '#cbc1ad'], ['SAGE', '#7f8569'], ['WASHED BLACK', '#2b2a29'], ['UMBER', '#5b4636']],
     mat: { rough: .95, sheen: .7 }, logo: { x: 0, y: .38, w: .34 }, big: { x: 0, y: .18, w: 1.2, side: -1 }, rig: 'top' },
-  jogger: { name: 'OPEN LEG JOGGER', url: '../models-v3/assets/models/jogger.glb',
+  jogger: { name: 'OPEN LEG JOGGER', url: './assets/models/jogger.glb',
     desc: 'RELAXED STRAIGHT LEG, OPEN RAW-CUT HEM WITHOUT CUFFS, HEAVY 600 GSM COTTON JERSEY, RIB WAISTBAND.',
     colours: [['WHITE', '#ebe9e3'], ['OAT', '#cbc1ad'], ['GREY MELANGE', '#9e9d99', 1], ['WASHED BLACK', '#2b2a29']],
     mat: { rough: .95, sheen: .65 }, logo: { x: .50, y: .26, w: .28 }, big: { x: .48, y: -.3, w: 1.0, side: 1, rot: 1 }, rig: 'legs' },
