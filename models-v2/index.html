@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="googlebot" content="noindex, nofollow">
+<title>MOSSVAR — 3D models v2</title>
+<link rel="preload" href="assets/fonts/Michroma.woff2" as="font" type="font/woff2" crossorigin>
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.185.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.185.0/examples/jsm/"
+} }
+</script>
+<style>
+@font-face{font-family:"F3270";src:url("assets/fonts/3270-Regular.otf") format("opentype");font-display:swap}
+@font-face{font-family:"MossvarMark";src:url("assets/fonts/Michroma.woff2") format("woff2");font-display:block}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{background-color:#0d0d0d;background-image:linear-gradient(90deg,#000 0 1px,transparent 1px),linear-gradient(#000 0 1px,transparent 1px);background-size:10px 10px;
+  color:#fff;font-family:"F3270",ui-monospace,Menlo,monospace;text-transform:uppercase;letter-spacing:.02em;display:grid;grid-template-rows:auto 1fr auto;min-height:100svh;overflow:hidden}
+header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 20px;border-bottom:1px solid rgba(255,255,255,.18);flex-wrap:wrap}
+header img{width:84px;height:auto;display:block}
+.ver{font-size:12px;color:rgba(255,255,255,.55)}
+[role=tablist]{display:flex;gap:8px;flex-wrap:wrap}
+[role=tab]{font:inherit;color:#fff;background:none;border:1px solid rgba(255,255,255,.3);padding:9px 14px;cursor:pointer;font-size:13px;letter-spacing:inherit}
+[role=tab][aria-selected=true]{border-color:#fff;box-shadow:inset 0 0 0 1px #fff}
+[role=tab]:focus-visible,button:focus-visible{outline:2px solid #fff;outline-offset:2px}
+main{position:relative;min-height:0}
+canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;cursor:grab}
+canvas:active{cursor:grabbing}
+.panel{position:absolute;left:20px;bottom:20px;z-index:2;display:grid;gap:10px;max-width:min(440px,calc(100% - 40px))}
+.panel h1{font-size:22px;font-weight:400;margin:0;line-height:1.1}
+.panel p{margin:0;font-size:12px;color:rgba(255,255,255,.6);line-height:1.4}
+.sw{display:flex;gap:10px;flex-wrap:wrap}
+.sw button{font:inherit;font-size:11px;color:#fff;background:none;border:1px solid rgba(255,255,255,.3);padding:6px 10px 6px 6px;display:flex;align-items:center;gap:8px;cursor:pointer;letter-spacing:inherit}
+.sw button i{width:16px;height:16px;display:block;background:var(--c);border:1px solid rgba(255,255,255,.4)}
+.sw button[aria-pressed=true]{border-color:#fff;box-shadow:inset 0 0 0 1px #fff}
+.status{position:absolute;right:20px;top:16px;z-index:2;font-size:11px;color:rgba(255,255,255,.5)}
+.err{color:#ffb3ab;text-transform:none}
+footer{padding:10px 20px;font-size:11px;color:rgba(255,255,255,.4);border-top:1px solid rgba(255,255,255,.18)}
+</style>
+</head>
+<body>
+<header>
+  <div style="display:flex;align-items:center;gap:14px"><img src="assets/logo-mark.webp" alt="MOSSVAR"><span class="ver">3D MODELS V2 · PREVIEW</span></div>
+  <div role="tablist" aria-label="Garments">
+    <button role="tab" id="t-puffer" aria-selected="true" aria-controls="stage">01 HOODED PUFFER</button>
+    <button role="tab" id="t-hoodie" aria-selected="false" aria-controls="stage" tabindex="-1">02 HEAVY HOODIE</button>
+    <button role="tab" id="t-jogger" aria-selected="false" aria-controls="stage" tabindex="-1">03 OPEN LEG JOGGER</button>
+  </div>
+</header>
+<main id="stage" role="tabpanel" aria-labelledby="t-puffer">
+  <canvas id="c" role="img" aria-label="3D model, drag to rotate, scroll or pinch to zoom"></canvas>
+  <div class="status" id="status" aria-live="polite">LOADING…</div>
+  <div class="panel">
+    <h1 id="name">HOODED PUFFER JACKET</h1>
+    <p id="desc"></p>
+    <div class="sw" id="sw" role="group" aria-label="Colour"></div>
+  </div>
+</main>
+<footer>DRAG TO ROTATE · SCROLL / PINCH TO ZOOM · RIGHT-DRAG TO PAN · CONCEPT DEMO, NOT A REAL BRAND</footer>
+<script type="module">
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+
+// ---- garments: colours, branding decal (normalised object space: x,y in -1..1 of the bbox), wobble rig
+const ITEMS = {
+  puffer: { name: 'HOODED PUFFER JACKET', url: './assets/models/puffer.glb',
+    desc: 'OVERSIZED CROP, MATTE NYLON SHELL, WIDE BAFFLES, TALL FUNNEL HOOD COLLAR, RIB CUFFS AND HEM. MOSSVAR WORDMARK ON THE CHEST.',
+    colours: [['SAGE', '#7f8569'], ['DUNE', '#a19d80'], ['BONE', '#d9d2c2'], ['SOOT', '#222222']],
+    mat: { rough: .62, sheen: .5, clearcoat: .12 }, logo: { x: .30, y: .30, w: .30 }, rig: 'top' },
+  hoodie: { name: 'HEAVY BOXY HOODIE', url: './assets/models/hoodie.glb',
+    desc: 'BOXY, OVERSIZED, 500 GSM BRUSHED FLEECE, DOUBLE-LAYER HOOD, KANGAROO POCKET, RIB CUFFS AND HEM. SMALL MOSSVAR WORDMARK.',
+    colours: [['OAT', '#cbc1ad'], ['SAGE', '#7f8569'], ['WASHED BLACK', '#2b2a29'], ['UMBER', '#5b4636']],
+    mat: { rough: .95, sheen: .7 }, logo: { x: 0, y: .44, w: .26 }, rig: 'top' },
+  jogger: { name: 'OPEN LEG JOGGER', url: './assets/models/jogger.glb',
+    desc: 'RELAXED STRAIGHT LEG, OPEN RAW-CUT HEM WITHOUT CUFFS, HEAVY 600 GSM COTTON JERSEY, RIB WAISTBAND. MOSSVAR WORDMARK ON THE THIGH.',
+    colours: [['WHITE', '#ebe9e3'], ['OAT', '#cbc1ad'], ['GREY MELANGE', '#9e9d99', 1], ['WASHED BLACK', '#2b2a29']],
+    mat: { rough: .95, sheen: .65 }, logo: { x: -.42, y: .62, w: .34 }, rig: 'legs' },
+};
+const IDS = Object.keys(ITEMS);
+const statusEl = document.getElementById('status');
+const fail = (u, e) => { console.warn(u, e); statusEl.innerHTML = `<span class="err">Failed to load: ${u}</span>`; };
+
+// ---- renderer + the lighting rig the shop page will reuse (LIGHT is the single source of truth)
+const LIGHT = { exposure: .9, envIntensity: .32, key: [0xfff7ee, 1.15, [-2.5, 3, 4]], fill: [0xeef0f2, .35, [3, .5, 3]], rim: [0xffffff, 1.5, [2.5, 2.5, -3.5]], hemi: [0xf4f2ee, 0x101010, .22] };
+const canvas = document.getElementById('c');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.outputColorSpace = THREE.SRGBColorSpace; renderer.toneMapping = THREE.NeutralToneMapping; renderer.toneMappingExposure = LIGHT.exposure;
+renderer.setClearColor(0, 0);
+const scene = new THREE.Scene();
+scene.environment = new THREE.PMREMGenerator(renderer).fromScene(new RoomEnvironment(), .04).texture; scene.environmentIntensity = LIGHT.envIntensity;
+for (const k of ['key', 'fill', 'rim']) { const [c, i, p] = LIGHT[k]; const l = new THREE.DirectionalLight(c, i); l.position.set(...p); scene.add(l); }
+scene.add(new THREE.HemisphereLight(...LIGHT.hemi));
+const camera = new THREE.PerspectiveCamera(28, 1, .05, 50); camera.position.set(.6, .1, 3);
+const controls = new OrbitControls(camera, canvas);
+controls.enableDamping = true; controls.dampingFactor = .08; controls.minDistance = 1.2; controls.maxDistance = 6;
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+controls.autoRotate = !reduced; controls.autoRotateSpeed = 1.2;
+canvas.addEventListener('pointerdown', () => controls.autoRotate = false);
+
+// ---- MOSSVAR wordmark: wide refined sans, drawn large so it stays sharp at close zoom
+async function makeLogo() {
+  try { await document.fonts.load('400 120px "MossvarMark"'); } catch {}
+  const c = document.createElement('canvas'); c.width = 2048; c.height = 256; const x = c.getContext('2d');
+  x.fillStyle = '#fff'; x.textAlign = 'center'; x.textBaseline = 'middle';
+  let fs = 150; const ls = .26;   // generous tracking, scaled so the word fills the decal width
+  const setF = () => { x.font = `400 ${fs}px "MossvarMark", "Helvetica Neue", Arial, sans-serif`; if ('letterSpacing' in x) x.letterSpacing = `${fs * ls}px`; };
+  setF(); fs = Math.min(200, fs * 1900 / x.measureText('MOSSVAR').width); setF();
+  x.fillText('MOSSVAR', 1024 + fs * ls / 2, 132);
+  const t = new THREE.CanvasTexture(c); t.anisotropy = renderer.capabilities.getMaxAnisotropy(); t.generateMipmaps = true; t.minFilter = THREE.LinearMipmapLinearFilter;
+  return t;
+}
+const logoTexP = makeLogo();
+
+function meanLum(img) {   // fabric "white point": 80th percentile of the atlas luminance (atlas has lots of dark filler)
+  try { const c = document.createElement('canvas'); c.width = c.height = 128; const x = c.getContext('2d'); x.drawImage(img, 0, 0, 128, 128);
+    const d = x.getImageData(0, 0, 128, 128).data, lin = v => (v /= 255) <= .04045 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4, a = [];
+    for (let i = 0; i < d.length; i += 4) { const l = .2126 * lin(d[i]) + .7152 * lin(d[i + 1]) + .0722 * lin(d[i + 2]); if (l > .03) a.push(l); }
+    a.sort((p, q) => p - q); return a.length ? a[Math.floor(a.length * .8)] : .5; } catch { return .5; }
+}
+
+// ---- spring state per garment (secondary motion that trails the turn, like sleeve/strap bones on springs)
+function makeSpring() { return { yaw: 0, yawV: 0, pitch: 0, pitchV: 0, bounce: 0, bounceV: 0 }; }
+
+// garment material: texture luminance x swatch colour (keeps fabric shading, recolours), decal wordmark, vertex wobble
+function garmentMat(src, it, geo, logoTex) {
+  if (src.map) src.map.colorSpace = THREE.SRGBColorSpace;
+  const o = it.mat;
+  const m = new THREE.MeshPhysicalMaterial({ map: src.map, roughness: o.rough, sheen: o.sheen, sheenRoughness: .75, sheenColor: new THREE.Color('#ffffff'),
+    clearcoat: o.clearcoat || 0, clearcoatRoughness: .6, side: THREE.DoubleSide });
+  geo.computeBoundingBox(); const bb = geo.boundingBox, C = bb.getCenter(new THREE.Vector3()), H = bb.getSize(new THREE.Vector3()).multiplyScalar(.5);
+  const U = {
+    uTint: { value: new THREE.Color(it.colours[0][1]) }, uMeanLum: { value: src.map ? meanLum(src.map.image) : .5 }, uMel: { value: 0 },
+    uLogo: { value: logoTex }, uLogoP: { value: new THREE.Vector3(it.logo.x, it.logo.y, it.logo.w) },
+    uC: { value: C }, uH: { value: H }, uYaw: { value: 0 }, uPitch: { value: 0 }, uBounce: { value: 0 }, uTime: { value: 0 }, uLegs: { value: it.rig === 'legs' ? 1 : 0 },
+  };
+  if (location.search.includes('dbg')) m.defines = { DBG: '' };
+  m.onBeforeCompile = sh => {
+    Object.assign(sh.uniforms, U);
+    sh.vertexShader = sh.vertexShader.replace('#include <common>', `#include <common>
+      uniform vec3 uC, uH; uniform float uYaw, uPitch, uBounce, uTime, uLegs; varying vec3 vObj; varying vec3 vObjN;
+      mat2 rot2(float a) { float c = cos(a), s = sin(a); return mat2(c, -s, s, c); }`)
+      .replace('#include <begin_vertex>', `#include <begin_vertex>
+        vObj = (position - uC) / uH; vObjN = normal;
+        vec3 u = vObj;
+        // weights: what trails the turn. top garments: sleeves (far from the axis), hem and hood; legs: the lower leg swings
+        float wSide = smoothstep(.28, 1.0, abs(u.x));
+        float wHem = smoothstep(-.1, -1.0, u.y);
+        float wTop = smoothstep(.55, 1.0, u.y) * .55;
+        float wLeg = smoothstep(.75, -1.0, u.y);
+        float w = mix(max(max(wSide, wHem * .55), wTop), wLeg, uLegs);
+        vec3 p = transformed - uC;
+        p.xz = rot2(uYaw * w) * p.xz;                          // yaw lag around the vertical axis
+        float wp = mix(clamp(abs(u.y) , 0.0, 1.0), wLeg, uLegs);
+        p.yz = rot2(uPitch * wp * sign(u.y + 1e-3) * mix(1.0, 1.0, uLegs)) * p.yz; // pitch lag
+        // jelly: a small travelling ripple through the fabric, only while it is moving
+        float mv = clamp(abs(uYaw) * 3.0 + abs(uPitch) * 3.0 + abs(uBounce) * 4.0, 0.0, 1.0);
+        p += normal * sin(u.y * 7.0 - uTime * 11.0 + u.x * 3.0) * mv * .012 * length(uH) * (.35 + w);
+        p.y *= 1.0 + uBounce * (.6 + .4 * w); p.xz *= 1.0 - uBounce * .4 * (.6 + .4 * w);
+        transformed = p + uC;`);
+    sh.fragmentShader = sh.fragmentShader.replace('#include <common>', `#include <common>
+      uniform vec3 uTint; uniform float uMeanLum, uMel; uniform sampler2D uLogo; uniform vec3 uLogoP, uH; varying vec3 vObj; varying vec3 vObjN;
+      float h21(vec2 p) { p = fract(p * vec2(234.34, 435.345)); p += dot(p, p + 34.23); return fract(p.x * p.y); }`)
+      .replace('#include <map_fragment>', `#ifdef USE_MAP
+        vec4 sDC = texture2D(map, vMapUv); float lum = dot(sDC.rgb, vec3(.2126, .7152, .0722));
+        vec3 col = uTint * clamp(lum / uMeanLum, 0.0, 1.25);
+        // grey melange: fine two-tone fibre speckle
+        float sp = h21(floor(vObj.xy * vec2(900.0, 1400.0) + vObj.z * 300.0));
+        col *= mix(1.0, .82 + .36 * sp, uMel);
+        // MOSSVAR wordmark, projected onto the front only (front-facing object normal, front half of the bbox)
+        vec2 lUv = vec2((vObj.x - uLogoP.x) / uLogoP.z + .5, (vObj.y - uLogoP.y) / (uLogoP.z * .125 * uH.x / uH.y) + .5);
+        float inR = step(0.0, lUv.x) * step(lUv.x, 1.0) * step(0.0, lUv.y) * step(lUv.y, 1.0);
+        float front = smoothstep(.25, .55, normalize(vObjN).z) * step(0.05, vObj.z);
+        float lA = texture2D(uLogo, lUv).a * inR * front;
+        #ifdef DBG
+        col = vec3(inR, front, texture2D(uLogo, lUv).a); lA = 0.0;
+        #endif
+        float tl = dot(uTint, vec3(.2126, .7152, .0722));
+        vec3 ink = tl > .12 ? col * .46 : mix(col, vec3(.55), .5);   // tonal: darker on light shades, lighter on dark ones
+        diffuseColor.rgb = mix(col, ink, lA);
+      #endif`);
+  };
+  m.setColour = (h, mel) => { U.uTint.value.set(h); U.uMel.value = mel ? 1 : 0; };
+  m.U = U; return m;
+}
+
+const loader = new GLTFLoader().setDRACOLoader(new DRACOLoader().setDecoderPath('https://cdn.jsdelivr.net/npm/three@0.185.0/examples/jsm/libs/draco/gltf/'));
+const loaded = {}; let current = null;
+const state = Object.fromEntries(IDS.map(k => [k, 0]));
+function load(id) {
+  if (loaded[id]) return loaded[id];
+  const it = ITEMS[id];
+  return loaded[id] = logoTexP.then(logoTex => new Promise((res, rej) => loader.load(it.url, g => {
+    const obj = g.scene; let mat;
+    obj.traverse(o => { if (!o.isMesh) return; o.frustumCulled = false; mat = garmentMat(o.material, it, o.geometry, logoTex); o.material = mat; });
+    obj.updateMatrixWorld(true);
+    const box = new THREE.Box3().setFromObject(obj), size = box.getSize(new THREE.Vector3()), ctr = box.getCenter(new THREE.Vector3());
+    const s = (id === 'jogger' ? 1.3 : 1.12) / Math.max(size.x, size.y); obj.scale.setScalar(s); obj.position.copy(ctr).multiplyScalar(-s);
+    const g2 = new THREE.Group(); g2.add(obj); g2.userData.mat = mat; g2.userData.spring = makeSpring(); g2.visible = false; scene.add(g2); res(g2);
+  }, undefined, e => { fail(it.url, e); rej(e); })));
+}
+async function show(id) {
+  document.querySelectorAll('[role=tab]').forEach(t => { const on = t.id === 't-' + id; t.setAttribute('aria-selected', on); t.tabIndex = on ? 0 : -1; });
+  document.getElementById('stage').setAttribute('aria-labelledby', 't-' + id);
+  const it = ITEMS[id]; document.getElementById('name').textContent = it.name; document.getElementById('desc').textContent = it.desc;
+  const sw = document.getElementById('sw');
+  sw.innerHTML = it.colours.map((c, k) => `<button type="button" aria-pressed="${k === state[id]}" data-k="${k}" style="--c:${c[1]}"><i></i>${c[0]}</button>`).join('');
+  sw.querySelectorAll('button').forEach(b => b.onclick = () => { state[id] = +b.dataset.k; sw.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b)); loaded[id].then(g => g.userData.mat.setColour(it.colours[state[id]][1], it.colours[state[id]][2])); });
+  statusEl.textContent = 'LOADING…';
+  try {
+    const g = await load(id);
+    if (current) current.visible = false; current = g; g.visible = true;
+    g.userData.mat.setColour(it.colours[state[id]][1], it.colours[state[id]][2]);
+    controls.target.set(0, 0, 0); camera.position.set(.6, .1, 3); controls.update(); prevAz = controls.getAzimuthalAngle(); prevPol = controls.getPolarAngle(); prevDist = camera.position.length();
+    statusEl.textContent = 'READY'; window.__shown = id;
+  } catch (e) {}
+}
+const tabs = [...document.querySelectorAll('[role=tab]')];
+tabs.forEach((t, i) => { t.onclick = () => show(t.id.slice(2)); t.onkeydown = e => { if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { const n = tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length]; n.focus(); n.click(); } }; });
+function resize() { const r = canvas.getBoundingClientRect(); renderer.setSize(r.width, r.height, false); camera.aspect = r.width / r.height; camera.updateProjectionMatrix(); }
+addEventListener('resize', resize); resize();
+
+// ---- spring integration: camera angular velocity drives the lag (orbiting the camera = the garment turning the other way)
+const SPR = { k: 90, c: 9, gain: .085, max: .42, pk: 110, pc: 10, pgain: .06, bk: 160, bc: 7, bgain: .35 };
+let prevAz = 0, prevPol = 0, prevDist = 3, last = performance.now(), t = 0;
+const dWrap = a => Math.atan2(Math.sin(a), Math.cos(a));
+renderer.setAnimationLoop(() => {
+  const now = performance.now(), dt = Math.min(.05, (now - last) / 1000) || .016; last = now; t += dt;
+  controls.update();
+  const az = controls.getAzimuthalAngle(), pol = controls.getPolarAngle(), dist = camera.position.distanceTo(controls.target);
+  const wAz = dWrap(az - prevAz) / dt, wPol = (pol - prevPol) / dt, vD = (dist - prevDist) / dt; prevAz = az; prevPol = pol; prevDist = dist;
+  if (current) {
+    const s = current.userData.spring, U = current.userData.mat.U;
+    if (!reduced) {
+      const ty = THREE.MathUtils.clamp(wAz * SPR.gain, -SPR.max, SPR.max), tp = THREE.MathUtils.clamp(-wPol * SPR.pgain, -.25, .25), tb = THREE.MathUtils.clamp(vD * SPR.bgain * .1, -.06, .06);
+      s.yawV += (SPR.k * (ty - s.yaw) - SPR.c * s.yawV) * dt; s.yaw += s.yawV * dt;
+      s.pitchV += (SPR.pk * (tp - s.pitch) - SPR.pc * s.pitchV) * dt; s.pitch += s.pitchV * dt;
+      s.bounceV += (SPR.bk * (tb - s.bounce) - SPR.bc * s.bounceV) * dt; s.bounce += s.bounceV * dt;
+    }
+    U.uYaw.value = s.yaw; U.uPitch.value = s.pitch; U.uBounce.value = s.bounce; U.uTime.value = t;
+    window.__spring = s;
+  }
+  renderer.render(scene, camera);
+});
+show('puffer'); IDS.forEach(load);
+Promise.allSettled(IDS.map(load)).then(r => { window.__allLoaded = r.map(x => x.status); });
+window.__v = { camera, controls };
+</script>
+</body>
+</html>
