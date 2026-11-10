@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Oldtimer looks v1</title>
+  <style>
+    @font-face { font-family: "Instrument Serif"; src: url("InstrumentSerif.ttf") format("truetype"); font-weight: 400; font-display: swap; }
+    @font-face { font-family: "Manrope"; src: url("Manrope.ttf") format("truetype"); font-weight: 400 800; font-display: swap; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Manrope", system-ui, sans-serif;
+      background: #f4f0ea;
+      color: #161616;
+      -webkit-font-smoothing: antialiased;
+    }
+    header {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 64px 24px 40px;
+    }
+    header h1 {
+      font-family: "Instrument Serif", Georgia, serif;
+      font-weight: 400;
+      font-size: clamp(40px, 6vw, 72px);
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+    header p {
+      margin-top: 16px;
+      max-width: 640px;
+      font-size: 15px;
+      line-height: 1.55;
+      font-weight: 500;
+      color: #333;
+    }
+    section {
+      margin: 0 auto 72px;
+      max-width: 1280px;
+      padding: 0 24px;
+    }
+    .label {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 12px 20px;
+      margin-bottom: 16px;
+    }
+    .label h2 {
+      font-family: "Instrument Serif", Georgia, serif;
+      font-weight: 400;
+      font-size: 32px;
+      letter-spacing: -0.02em;
+    }
+    .label p {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #444;
+      line-height: 1.5;
+      max-width: 720px;
+    }
+    figure {
+      margin: 0;
+      background: #ddd;
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+    }
+    figure img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+    footer {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #777;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Oldtimer looks v1</h1>
+    <p>Three hero versions for a classic-car detailing showcase. Same layout as the reference — wordmark, pill nav, serif headline, four metrics, car centred — each with a different car, colour world and mood. Pick one to build.</p>
+  </header>
+
+  <section id="look-a">
+    <div class="label">
+      <h2>Look A — Velora</h2>
+      <p>Mercedes-Benz 300 SL Gullwing · cream studio · sage metallic · quiet luxury atelier</p>
+    </div>
+    <figure>
+      <img src="A.png" width="1920" height="1080" alt="Look A, Velora: sage 300 SL Gullwing in a cream studio">
+    </figure>
+  </section>
+
+  <section id="look-b">
+    <div class="label">
+      <h2>Look B — Aureum</h2>
+      <p>Jaguar E-Type Series 1 · dark garage · antique gold · nocturnal, cinematic</p>
+    </div>
+    <figure>
+      <img src="B.png" width="1920" height="1080" alt="Look B, Aureum: gold Jaguar E-Type in a dark garage">
+    </figure>
+  </section>
+
+  <section id="look-c">
+    <div class="label">
+      <h2>Look C — Pétale</h2>
+      <p>Citroën DS · pastel botanical set · powder blue and blush florals · soft French atelier</p>
+    </div>
+    <figure>
+      <img src="C.png" width="1920" height="1080" alt="Look C, Pétale: powder-blue Citroën DS among pastel flowers">
+    </figure>
+  </section>
+
+  <footer>Demo only · noindex · 1920 × 1080 frames</footer>
+</body>
+</html>
