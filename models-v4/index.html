@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="googlebot" content="noindex, nofollow">
+<title>KYRZEN — 3D models v4</title>
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.185.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.185.0/examples/jsm/"
+} }
+</script>
+<style>
+@font-face{font-family:"F3270";src:url("../models-v3/assets/fonts/3270-Regular.otf") format("opentype");font-display:swap}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{background-color:#0d0d0d;background-image:linear-gradient(90deg,#000 0 1px,transparent 1px),linear-gradient(#000 0 1px,transparent 1px);background-size:10px 10px;
+  color:#fff;font-family:"F3270",ui-monospace,Menlo,monospace;text-transform:uppercase;letter-spacing:.02em;display:grid;grid-template-rows:auto 1fr auto;min-height:100svh;overflow:hidden}
+header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 20px;border-bottom:1px solid rgba(255,255,255,.18);flex-wrap:wrap}
+.brand{font-size:20px;letter-spacing:.18em}
+.lg{display:flex;gap:6px;align-items:center;flex-wrap:wrap;font-size:11px;color:rgba(255,255,255,.55)}
+.lg button{font:inherit;color:#fff;background:none;border:1px solid rgba(255,255,255,.3);padding:5px 9px;cursor:pointer;letter-spacing:inherit}
+.lg button[aria-pressed=true]{border-color:#fff;box-shadow:inset 0 0 0 1px #fff}
+.ver{font-size:12px;color:rgba(255,255,255,.55)}
+[role=tablist]{display:flex;gap:8px;flex-wrap:wrap}
+[role=tab]{font:inherit;color:#fff;background:none;border:1px solid rgba(255,255,255,.3);padding:9px 14px;cursor:pointer;font-size:13px;letter-spacing:inherit}
+[role=tab][aria-selected=true]{border-color:#fff;box-shadow:inset 0 0 0 1px #fff}
+[role=tab]:focus-visible,button:focus-visible{outline:2px solid #fff;outline-offset:2px}
+main{position:relative;min-height:0}
+canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;cursor:grab}
+canvas:active{cursor:grabbing}
+.panel{position:absolute;left:20px;bottom:20px;z-index:2;display:grid;gap:10px;max-width:min(440px,calc(100% - 40px))}
+.panel h1{font-size:22px;font-weight:400;margin:0;line-height:1.1}
+.panel p{margin:0;font-size:12px;color:rgba(255,255,255,.6);line-height:1.4}
+.sw{display:flex;gap:10px;flex-wrap:wrap}
+.sw button{font:inherit;font-size:11px;color:#fff;background:none;border:1px solid rgba(255,255,255,.3);padding:6px 10px 6px 6px;display:flex;align-items:center;gap:8px;cursor:pointer;letter-spacing:inherit}
+.sw button i{width:16px;height:16px;display:block;background:var(--c);border:1px solid rgba(255,255,255,.4)}
+.sw button[aria-pressed=true]{border-color:#fff;box-shadow:inset 0 0 0 1px #fff}
+.status{position:absolute;right:20px;top:16px;z-index:2;font-size:11px;color:rgba(255,255,255,.5)}
+.err{color:#ffb3ab;text-transform:none}
+footer{padding:10px 20px;font-size:11px;color:rgba(255,255,255,.4);border-top:1px solid rgba(255,255,255,.18)}
+</style>
+</head>
+<body>
+<header>
+  <div style="display:flex;align-items:center;gap:14px"><span class="brand">KYRZEN</span><span class="ver">3D MODELS V4 · PREVIEW</span></div>
+  <div role="tablist" aria-label="Garments">
+    <button role="tab" id="t-puffer" aria-selected="true" aria-controls="stage">01 HOODED PUFFER</button>
+    <button role="tab" id="t-hoodie" aria-selected="false" aria-controls="stage" tabindex="-1">02 HEAVY HOODIE</button>
+    <button role="tab" id="t-jogger" aria-selected="false" aria-controls="stage" tabindex="-1">03 OPEN LEG JOGGER</button>
+  </div>
+</header>
+<main id="stage" role="tabpanel" aria-labelledby="t-puffer">
+  <canvas id="c" role="img" aria-label="3D model, drag to rotate, scroll or pinch to zoom"></canvas>
+  <div class="status" id="status" aria-live="polite">LOADING…</div>
+  <div class="panel">
+    <h1 id="name">HOODED PUFFER JACKET</h1>
+    <p id="desc"></p>
+    <div class="sw" id="sw" role="group" aria-label="Colour"></div>
+    <div class="lg" id="lg" role="group" aria-label="Print style">PRINT STYLE <button type="button" data-l="0" aria-pressed="true">1 TONAL DARK</button><button type="button" data-l="1" aria-pressed="false">2 TONAL WASHED</button><button type="button" data-l="2" aria-pressed="false">3 HIGH-DENSITY</button><button type="button" data-l="3" aria-pressed="false">4 VINTAGE CRACKLE</button><button type="button" data-l="4" aria-pressed="false">5 STATEMENT</button></div>
+  </div>
+</main>
+<footer>DRAG TO ROTATE · SCROLL / PINCH TO ZOOM · RIGHT-DRAG TO PAN · CONCEPT DEMO, NOT A REAL BRAND</footer>
+<script type="module">
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+
+// ---- garments: colours, branding decal (normalised object space: x,y in -1..1 of the bbox), wobble rig
+const ITEMS = {
+  puffer: { name: 'LACQUER PUFFER JACKET', url: '../models-v3/assets/models/puffer.glb',
+    desc: 'OVERSIZED CROP, HIGH-GLOSS LACQUERED NYLON SHELL, WIDE BAFFLES, TALL FUNNEL HOOD COLLAR, RIB CUFFS AND HEM.',
+    colours: [['SAGE LACQUER', '#5f634c'], ['DUNE LACQUER', '#837d5b'], ['BONE LACQUER', '#cdc4b0'], ['SOOT LACQUER', '#0f0f0f']],
+    mat: { lacquer: true }, logo: { x: .30, y: .30, w: .24 }, big: { x: 0, y: .12, w: 1.15, side: -1 }, rig: 'top' },
+  hoodie: { name: 'HEAVY BOXY HOODIE', url: '../models-v3/assets/models/hoodie.glb',
+    desc: 'BOXY, OVERSIZED, 500 GSM BRUSHED FLEECE, DOUBLE-LAYER HOOD, KANGAROO POCKET, RIB CUFFS AND HEM.',
+    colours: [['OAT', '#cbc1ad'], ['SAGE', '#7f8569'], ['WASHED BLACK', '#2b2a29'], ['UMBER', '#5b4636']],
+    mat: { rough: .95, sheen: .7 }, logo: { x: 0, y: .38, w: .34 }, big: { x: 0, y: .18, w: 1.2, side: -1 }, rig: 'top' },
+  jogger: { name: 'OPEN LEG JOGGER', url: '../models-v3/assets/models/jogger.glb',
+    desc: 'RELAXED STRAIGHT LEG, OPEN RAW-CUT HEM WITHOUT CUFFS, HEAVY 600 GSM COTTON JERSEY, RIB WAISTBAND.',
+    colours: [['WHITE', '#ebe9e3'], ['OAT', '#cbc1ad'], ['GREY MELANGE', '#9e9d99', 1], ['WASHED BLACK', '#2b2a29']],
+    mat: { rough: .95, sheen: .65 }, logo: { x: .50, y: .26, w: .28 }, big: { x: .48, y: -.3, w: 1.0, side: 1, rot: 1 }, rig: 'legs' },
+};
+// artwork 09 (traced SVG, rasterised): R = coverage, GB = normal xy of a slightly raised print
+const LOGO_URL = './assets/logo/k09.webp', LOGO_ASP = 1139 / 2048;
+// print styles. ink = fabric colour * k (k>1 lighter); dark fabrics flip to a lighter ink automatically
+const STYLES = [
+  { k: .66, a: .62, bump: .25 },                         // 1 tonal dark (~18 % darker, ~60 % opacity)
+  { k: 1.55, a: .5, bump: .1, wash: 1 },                  // 2 tonal washed / lighter
+  { k: .72, a: .96, bump: 1.6, hd: 1 },                   // 3 high-density rubber
+  { k: .68, a: .78, bump: .3, wash: .6, crack: 1 },       // 4 vintage crackle
+  { k: .66, a: .55, bump: .2, wash: .3, big: 1 },         // 5 statement, large
+];
+const IDS = Object.keys(ITEMS);
+const statusEl = document.getElementById('status');
+const fail = (u, e) => { console.warn(u, e); statusEl.innerHTML = `<span class="err">Failed to load: ${u}</span>`; };
+
+// ---- renderer + the lighting rig the shop page will reuse (LIGHT is the single source of truth)
+const LIGHT = { exposure: .9, envIntensity: .32, key: [0xfff7ee, 1.15, [-2.5, 3, 4]], fill: [0xeef0f2, .35, [3, .5, 3]], rim: [0xffffff, 1.5, [2.5, 2.5, -3.5]], hemi: [0xf4f2ee, 0x101010, .22] };
+const canvas = document.getElementById('c');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.outputColorSpace = THREE.SRGBColorSpace; renderer.toneMapping = THREE.NeutralToneMapping; renderer.toneMappingExposure = LIGHT.exposure;
+renderer.setClearColor(0, 0);
+const scene = new THREE.Scene();
+scene.environment = new THREE.PMREMGenerator(renderer).fromScene(new RoomEnvironment(), .04).texture; scene.environmentIntensity = LIGHT.envIntensity;
+for (const k of ['key', 'fill', 'rim']) { const [c, i, p] = LIGHT[k]; const l = new THREE.DirectionalLight(c, i); l.position.set(...p); scene.add(l); }
+scene.add(new THREE.HemisphereLight(...LIGHT.hemi));
+const camera = new THREE.PerspectiveCamera(28, 1, .05, 50); camera.position.set(.6, .1, 3);
+const controls = new OrbitControls(camera, canvas);
+controls.enableDamping = true; controls.dampingFactor = .08; controls.minDistance = 1.2; controls.maxDistance = 6;
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+controls.autoRotate = !reduced; controls.autoRotateSpeed = 1.2;
+canvas.addEventListener('pointerdown', () => controls.autoRotate = false);
+
+const texLoader = new THREE.TextureLoader();
+const logoTexP = texLoader.loadAsync(LOGO_URL).then(t => { t.colorSpace = THREE.NoColorSpace; t.anisotropy = renderer.capabilities.getMaxAnisotropy(); return t; }).catch(e => { fail(LOGO_URL, e); return null; });
+const logoState = { k: Math.max(0, Math.min(4, parseInt(new URLSearchParams(location.search).get('print') ?? '0', 10) || 0)) };
+
+function meanLum(img) {   // fabric "white point": 80th percentile of the atlas luminance (atlas has lots of dark filler)
+  try { const c = document.createElement('canvas'); c.width = c.height = 128; const x = c.getContext('2d'); x.drawImage(img, 0, 0, 128, 128);
+    const d = x.getImageData(0, 0, 128, 128).data, lin = v => (v /= 255) <= .04045 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4, a = [];
+    for (let i = 0; i < d.length; i += 4) { const l = .2126 * lin(d[i]) + .7152 * lin(d[i + 1]) + .0722 * lin(d[i + 2]); if (l > .03) a.push(l); }
+    a.sort((p, q) => p - q); return a.length ? a[Math.floor(a.length * .8)] : .5; } catch { return .5; }
+}
+
+// ---- spring state per garment (secondary motion that trails the turn, like sleeve/strap bones on springs)
+function makeSpring() { return { yaw: 0, yawV: 0, pitch: 0, pitchV: 0, bounce: 0, bounceV: 0 }; }
+
+// garment material: texture luminance x swatch colour (keeps fabric shading, recolours), decal wordmark, vertex wobble
+function garmentMat(src, it, geo, logoTex) {
+  if (src.map) src.map.colorSpace = THREE.SRGBColorSpace;
+  const o = it.mat;
+  const m = o.lacquer
+    // lacquer: high-gloss clearcoat over a smooth base, faint iridescence, reflections from the RoomEnvironment
+    ? new THREE.MeshPhysicalMaterial({ map: src.map, roughness: .26, metalness: 0, clearcoat: 1, clearcoatRoughness: .035, iridescence: .22, iridescenceIOR: 1.32, iridescenceThicknessRange: [180, 420], specularIntensity: 1, envMap: scene.environment, envMapIntensity: 1.0, side: THREE.FrontSide })
+    : new THREE.MeshPhysicalMaterial({ map: src.map, roughness: o.rough, sheen: o.sheen, sheenRoughness: .75, sheenColor: new THREE.Color('#ffffff'), side: THREE.FrontSide });
+  geo.computeBoundingBox(); const bb = geo.boundingBox, C = bb.getCenter(new THREE.Vector3()), H = bb.getSize(new THREE.Vector3()).multiplyScalar(.5);
+  const U = {
+    uTint: { value: new THREE.Color(it.colours[0][1]) }, uMeanLum: { value: src.map ? meanLum(src.map.image) : .5 }, uMel: { value: 0 },
+    uLogo: { value: logoTex }, uLogoOn: { value: logoTex ? 1 : 0 }, uLogoAsp: { value: LOGO_ASP }, uLogoP: { value: new THREE.Vector3() }, uLogoS: { value: new THREE.Vector2(1, 0) }, uTexMix: { value: o.lacquer ? .55 : 1 },
+    uInkK: { value: .66 }, uInkA: { value: .6 }, uBump: { value: .25 }, uWash: { value: 0 }, uCrack: { value: 0 }, uHD: { value: 0 }, uLacq: { value: o.lacquer ? 1 : 0 },
+    uC: { value: C }, uH: { value: H }, uYaw: { value: 0 }, uPitch: { value: 0 }, uBounce: { value: 0 }, uTime: { value: 0 }, uLegs: { value: it.rig === 'legs' ? 1 : 0 },
+  };
+  if (location.search.includes('dbg')) m.defines = { DBG: '' };
+  m.onBeforeCompile = sh => {
+    Object.assign(sh.uniforms, U);
+    sh.vertexShader = sh.vertexShader.replace('#include <common>', `#include <common>
+      uniform vec3 uC, uH; uniform float uYaw, uPitch, uBounce, uTime, uLegs; varying vec3 vObj; varying vec3 vObjN;
+      mat2 rot2(float a) { float c = cos(a), s = sin(a); return mat2(c, -s, s, c); }`)
+      .replace('#include <begin_vertex>', `#include <begin_vertex>
+        vObj = (position - uC) / uH; vObjN = normal;
+        vec3 u = vObj;
+        // weights: what trails the turn. top garments: sleeves (far from the axis), hem and hood; legs: the lower leg swings
+        float wSide = smoothstep(.28, 1.0, abs(u.x));
+        float wHem = smoothstep(-.1, -1.0, u.y);
+        float wTop = smoothstep(.55, 1.0, u.y) * .55;
+        float wLeg = smoothstep(.75, -1.0, u.y);
+        float w = mix(max(max(wSide, wHem * .55), wTop), wLeg, uLegs);
+        vec3 p = transformed - uC;
+        p.xz = rot2(uYaw * w) * p.xz;                          // yaw lag around the vertical axis
+        float wp = mix(clamp(abs(u.y) , 0.0, 1.0), wLeg, uLegs);
+        p.yz = rot2(uPitch * wp * sign(u.y + 1e-3) * mix(1.0, 1.0, uLegs)) * p.yz; // pitch lag
+        // jelly: a small travelling ripple through the fabric, only while it is moving
+        float mv = clamp(abs(uYaw) * 3.0 + abs(uPitch) * 3.0 + abs(uBounce) * 4.0, 0.0, 1.0);
+        // ripple depends on position only, so coincident shell layers move together and can never cross
+        p.x += sin(u.y * 6.0 - uTime * 10.0) * mv * .0035 * uH.x * w;
+        p.z += cos(u.y * 5.0 - uTime * 9.0 + u.x * 2.0) * mv * .0035 * uH.z * w;
+        p.y *= 1.0 + uBounce * .6; p.xz *= 1.0 - uBounce * .25;
+        transformed = p + uC;`);
+    sh.fragmentShader = sh.fragmentShader.replace('#include <common>', `#include <common>
+      uniform vec3 uTint; uniform float uMeanLum, uMel, uLogoOn, uLogoAsp, uTexMix, uInkK, uInkA, uBump, uWash, uCrack, uHD, uLacq; uniform sampler2D uLogo; uniform vec3 uLogoP, uH; uniform vec2 uLogoS; varying vec3 vObj; varying vec3 vObjN;
+      float h21(vec2 p) { p = fract(p * vec2(234.34, 435.345)); p += dot(p, p + 34.23); return fract(p.x * p.y); }
+      float vn(vec2 p) { vec2 i = floor(p), f = fract(p); f = f * f * (3.0 - 2.0 * f); return mix(mix(h21(i), h21(i + vec2(1, 0)), f.x), mix(h21(i + vec2(0, 1)), h21(i + 1.0), f.x), f.y); }
+      float fbm(vec2 p) { return .5 * vn(p) + .25 * vn(p * 2.1) + .125 * vn(p * 4.3) + .125 * vn(p * 8.7); }
+      // crack lines: distance to voronoi cell borders
+      float cracks(vec2 p) { vec2 i = floor(p), f = fract(p); float d1 = 8.0, d2 = 8.0;
+        for (int y = -1; y <= 1; y++) for (int x = -1; x <= 1; x++) { vec2 g = vec2(x, y), o = vec2(h21(i + g), h21(i + g + 17.3)); float d = length(g + o - f); if (d < d1) { d2 = d1; d1 = d; } else if (d < d2) d2 = d; }
+        return d2 - d1; }`)
+      .replace('void main() {', `void main() { float lA = 0.0; vec2 lUv = vec2(-1.0); vec3 lNrm = vec3(.5, .5, 1.0);`)
+      .replace('#include <map_fragment>', `vec3 lCol = vec3(0.0);
+      #ifdef USE_MAP
+        vec4 sDC = texture2D(map, vMapUv); float lum = dot(sDC.rgb, vec3(.2126, .7152, .0722));
+        vec3 col = uTint * mix(1.0, clamp(lum / uMeanLum, 0.0, 1.25), uTexMix);
+        float sp = h21(floor(vObj.xy * vec2(900.0, 1400.0) + vObj.z * 300.0));
+        col *= mix(1.0, .82 + .36 * sp, uMel);
+        // printed artwork, planar projection onto the front (uLogoS.x = +1) or back (-1); uLogoS.y = 1 runs it up the leg
+        vec2 pp = vec2((vObj.x - uLogoP.x) * uH.x, (vObj.y - uLogoP.y) * uH.y); pp.x *= uLogoS.x;
+        if (uLogoS.y > .5) pp = vec2(pp.y, -pp.x);
+        float sc = uLogoP.z * (uLogoS.y > .5 ? uH.y : uH.x);
+        lUv = vec2(pp.x / sc + .5, pp.y / (sc * uLogoAsp) + .5);
+        float inR = step(0.0, lUv.x) * step(lUv.x, 1.0) * step(0.0, lUv.y) * step(lUv.y, 1.0);
+        float face = smoothstep(.2, .5, normalize(vObjN).z * uLogoS.x) * step(0.03, vObj.z * uLogoS.x);
+        vec4 lT = texture2D(uLogo, lUv); lNrm = vec3(lT.gb, 1.0);
+        float cov = lT.r * inR * face * uLogoOn;
+        // washed: ink worn away by soft noise; crackle: fine dry cracks through the ink
+        float wn = fbm(lUv * vec2(26.0, 14.0));
+        cov *= 1.0 - uWash * smoothstep(.35, .75, wn) * .7;
+        float cr = cracks(lUv * vec2(34.0, 19.0) + fbm(lUv * 40.0) * .6);
+        cov *= mix(1.0, smoothstep(.02, .07, cr), uCrack);
+        // ink colour from the fabric colour (keeps the weave/lacquer texture underneath); very dark fabric gets a lighter ink
+        float tl = dot(uTint, vec3(.2126, .7152, .0722));
+        float k = (tl < .05 && uInkK < 1.0) ? 1.0 / uInkK + .25 : uInkK;
+        vec3 ink = col * k + (k > 1.0 ? (k - 1.0) * .015 : 0.0);
+        if (uHD > .5) ink = mix(ink, vec3(dot(ink, vec3(.333))), .15);
+        lA = cov * uInkA;
+        diffuseColor.rgb = mix(col, ink, lA);
+      #endif`)
+      // print finish: plastisol sits slightly smoother on fleece; high-density = glossy rubber on fabric, matte on lacquer
+      .replace('#include <roughnessmap_fragment>', `#include <roughnessmap_fragment>
+        roughnessFactor = mix(roughnessFactor, mix(mix(.8, .55, uLacq), mix(.32, .85, uLacq), uHD), lA);`)
+      .replace('#include <lights_physical_fragment>', `#include <lights_physical_fragment>
+        #ifdef USE_CLEARCOAT
+          material.clearcoat *= 1.0 - lA * mix(.5, 1.0, uHD);
+        #endif`)
+      // raised print edge: normal from the artwork height, tangent frame from screen derivatives of the print uv
+      .replace('#include <normal_fragment_maps>', `#include <normal_fragment_maps>
+        if (lA > .001) {
+          vec3 q0 = dFdx(-vViewPosition), q1 = dFdy(-vViewPosition); vec2 s0 = dFdx(lUv), s1 = dFdy(lUv);
+          vec3 N = normal, q1p = cross(q1, N), q0p = cross(N, q0);
+          vec3 T = q1p * s0.x + q0p * s1.x, B = q1p * s0.y + q0p * s1.y; float det = max(dot(T, T), dot(B, B));
+          float sf = det == 0.0 ? 0.0 : inversesqrt(det);
+          vec2 d = (lNrm.xy * 2.0 - 1.0) * uBump * (lA / max(uInkA, .01));
+          normal = normalize(N + (T * d.x + B * d.y) * sf);
+        }`);
+  };
+  m.setLogo = (k) => { const s = STYLES[k], p = s.big ? it.big : it.logo;
+    U.uLogoP.value.set(p.x, p.y, p.w); U.uLogoS.value.set(p.side ?? 1, p.rot ?? 0);
+    U.uInkK.value = s.k; U.uInkA.value = s.a; U.uBump.value = s.bump; U.uWash.value = s.wash ?? 0; U.uCrack.value = s.crack ?? 0; U.uHD.value = s.hd ?? 0; };
+  m.setColour = (h, mel) => { U.uTint.value.set(h); U.uMel.value = mel ? 1 : 0; };
+  m.U = U; return m;
+}
+
+const loader = new GLTFLoader().setDRACOLoader(new DRACOLoader().setDecoderPath('https://cdn.jsdelivr.net/npm/three@0.185.0/examples/jsm/libs/draco/gltf/'));
+const loaded = {}; let current = null;
+const state = Object.fromEntries(IDS.map(k => [k, 0]));
+function load(id) {
+  if (loaded[id]) return loaded[id];
+  const it = ITEMS[id];
+  return loaded[id] = logoTexP.then(logoTex => new Promise((res, rej) => loader.load(it.url, g => {
+    const obj = g.scene; let mat;
+    obj.traverse(o => { if (!o.isMesh) return; o.frustumCulled = false; mat = garmentMat(o.material, it, o.geometry, logoTex); mat.setLogo(logoState.k); o.material = mat; });
+    obj.updateMatrixWorld(true);
+    const box = new THREE.Box3().setFromObject(obj), size = box.getSize(new THREE.Vector3()), ctr = box.getCenter(new THREE.Vector3());
+    const s = (id === 'jogger' ? 1.3 : 1.12) / Math.max(size.x, size.y); obj.scale.setScalar(s); obj.position.copy(ctr).multiplyScalar(-s);
+    const g2 = new THREE.Group(); g2.add(obj); g2.userData.mat = mat; g2.userData.spring = makeSpring(); g2.visible = false; scene.add(g2); res(g2);
+  }, undefined, e => { fail(it.url, e); rej(e); })));
+}
+async function show(id) {
+  document.querySelectorAll('[role=tab]').forEach(t => { const on = t.id === 't-' + id; t.setAttribute('aria-selected', on); t.tabIndex = on ? 0 : -1; });
+  document.getElementById('stage').setAttribute('aria-labelledby', 't-' + id);
+  const it = ITEMS[id]; document.getElementById('name').textContent = it.name; document.getElementById('desc').textContent = it.desc;
+  const sw = document.getElementById('sw');
+  sw.innerHTML = it.colours.map((c, k) => `<button type="button" aria-pressed="${k === state[id]}" data-k="${k}" style="--c:${c[1]}"><i></i>${c[0]}</button>`).join('');
+  sw.querySelectorAll('button').forEach(b => b.onclick = () => { state[id] = +b.dataset.k; sw.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b)); loaded[id].then(g => g.userData.mat.setColour(it.colours[state[id]][1], it.colours[state[id]][2])); });
+  statusEl.textContent = 'LOADING…';
+  try {
+    const g = await load(id);
+    if (current) current.visible = false; current = g; g.visible = true;
+    g.userData.mat.setColour(it.colours[state[id]][1], it.colours[state[id]][2]);
+    controls.target.set(0, 0, 0); camera.position.set(.6, .1, 3); controls.update(); prevAz = controls.getAzimuthalAngle(); prevPol = controls.getPolarAngle(); prevDist = camera.position.length();
+    statusEl.textContent = 'READY'; window.__shown = id;
+  } catch (e) {}
+}
+const tabs = [...document.querySelectorAll('[role=tab]')];
+tabs.forEach((t, i) => { t.onclick = () => show(t.id.slice(2)); t.onkeydown = e => { if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { const n = tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length]; n.focus(); n.click(); } }; });
+function resize() { const r = canvas.getBoundingClientRect(); renderer.setSize(r.width, r.height, false); camera.aspect = r.width / r.height; camera.updateProjectionMatrix(); }
+addEventListener('resize', resize); resize();
+
+// ---- spring integration: camera angular velocity drives the lag (orbiting the camera = the garment turning the other way)
+// amplitudes capped so sleeves/legs never swing into the body (tested with fast flicks)
+const SPR = { k: 90, c: 9.5, gain: .05, max: .2, pk: 110, pc: 11, pgain: .04, pmax: .1, bk: 160, bc: 8, bgain: .35, bmax: .025 };
+let prevAz = 0, prevPol = 0, prevDist = 3, last = performance.now(), t = 0;
+const dWrap = a => Math.atan2(Math.sin(a), Math.cos(a));
+renderer.setAnimationLoop(() => {
+  const now = performance.now(), dt = Math.min(.05, (now - last) / 1000) || .016; last = now; t += dt;
+  controls.update();
+  const az = controls.getAzimuthalAngle(), pol = controls.getPolarAngle(), dist = camera.position.distanceTo(controls.target);
+  const wAz = dWrap(az - prevAz) / dt, wPol = (pol - prevPol) / dt, vD = (dist - prevDist) / dt; prevAz = az; prevPol = pol; prevDist = dist;
+  if (current) {
+    const s = current.userData.spring, U = current.userData.mat.U;
+    if (!reduced) {
+      const ty = THREE.MathUtils.clamp(wAz * SPR.gain, -SPR.max, SPR.max), tp = THREE.MathUtils.clamp(-wPol * SPR.pgain, -SPR.pmax, SPR.pmax), tb = THREE.MathUtils.clamp(vD * SPR.bgain * .1, -SPR.bmax, SPR.bmax);
+      s.yawV += (SPR.k * (ty - s.yaw) - SPR.c * s.yawV) * dt; s.yaw += s.yawV * dt;
+      s.pitchV += (SPR.pk * (tp - s.pitch) - SPR.pc * s.pitchV) * dt; s.pitch += s.pitchV * dt;
+      s.bounceV += (SPR.bk * (tb - s.bounce) - SPR.bc * s.bounceV) * dt; s.bounce += s.bounceV * dt;
+    }
+    s.yaw = THREE.MathUtils.clamp(s.yaw, -SPR.max * 1.25, SPR.max * 1.25); s.pitch = THREE.MathUtils.clamp(s.pitch, -SPR.pmax * 1.25, SPR.pmax * 1.25);
+    U.uYaw.value = s.yaw; U.uPitch.value = s.pitch; U.uBounce.value = s.bounce; U.uTime.value = t;
+    window.__spring = s;
+  }
+  renderer.render(scene, camera);
+});
+document.querySelectorAll('#lg button').forEach(x => x.setAttribute('aria-pressed', +x.dataset.l === logoState.k));
+show('puffer'); IDS.forEach(load);
+Promise.allSettled(IDS.map(load)).then(r => { window.__allLoaded = r.map(x => x.status); });
+document.querySelectorAll('#lg button').forEach(b => b.onclick = () => { logoState.k = +b.dataset.l; document.querySelectorAll('#lg button').forEach(x => x.setAttribute('aria-pressed', x === b)); IDS.forEach(id => loaded[id] && loaded[id].then(g => g.userData.mat.setLogo(logoState.k))); });
+window.__v = { camera, controls };
+</script>
+</body>
+</html>
