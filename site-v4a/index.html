@@ -1,0 +1,1602 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="googlebot" content="noindex, nofollow">
+<title>KYRZEN — Lacquer Puffer, Heavy Hoodie, Open Leg Jogger</title>
+<meta name="description" content="KYRZEN concept store: a high-gloss lacquer puffer, a heavyweight boxy hoodie and an open leg jogger, each in four colours with a tonal gothic print. Demo build, not a real brand.">
+<meta name="theme-color" content="#0d0d0d">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="preload" href="assets/fonts/3270-Regular.otf" as="font" type="font/otf" crossorigin>
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.185.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.185.0/examples/jsm/",
+  "lenis": "https://cdn.jsdelivr.net/npm/lenis@1.3.27/dist/lenis.mjs"
+} }
+</script>
+<style>
+@font-face{font-family:"F3270";src:url("assets/fonts/3270-Regular.otf") format("opentype");font-display:block}
+:root{--line:rgba(255,255,255,.25);--dim:rgba(255,255,255,.58);--faint:rgba(255,255,255,.32);
+  --ease-out:cubic-bezier(.23,1,.32,1);--ease-io:cubic-bezier(.77,0,.175,1);--pad:16rem;
+  --lattice:linear-gradient(90deg,#000 0 1px,transparent 1px),linear-gradient(#000 0 1px,transparent 1px);
+  --tint:grayscale(1) sepia(.42) hue-rotate(38deg) saturate(1.25) brightness(1.06) contrast(1.04)}
+/* two layouts: 390 artboard below the frame breakpoint, 1440x800 artboard at and above it. 1rem = 1 artboard unit */
+html{font-size:calc(100vw / 390);-webkit-text-size-adjust:100%;text-size-adjust:100%;background-color:#0d0d0d;background-image:var(--lattice);background-size:10px 10px}
+@media (min-width:1024px){html{font-size:calc(100vw / 1440)}:root{--pad:40rem}}
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{color:#fff;font-family:"F3270",ui-monospace,Menlo,monospace;text-transform:uppercase;font-size:11rem;line-height:1.3;letter-spacing:.02em;overflow-x:clip;-webkit-font-smoothing:antialiased}
+@media (min-width:1024px){body{font-size:12rem}}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+img,svg,canvas{display:block}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;text-transform:inherit;letter-spacing:inherit}
+ul,ol,dl,dd,p,h1,h2,h3{margin:0;padding:0;list-style:none;font-weight:400}
+:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.sr-only{position:absolute!important;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.skip{position:fixed;left:8px;top:8px;z-index:200;padding:10px 14px;border:1px solid #fff;background:#0d0d0d;transform:translateY(-200%)}
+.skip:focus{transform:none}
+#field,#garment{position:fixed;left:0;top:0;width:100vw;height:100vh;pointer-events:none}
+#field{z-index:0}#garment{z-index:1}
+main{position:relative}
+:where(main section>*:not([data-anchor]):not(.hero-plate)){position:relative;z-index:2}
+.edge{z-index:2}
+/* preloader */
+.preloader{position:fixed;inset:0;z-index:150;display:grid;place-items:center;background-color:#0d0d0d;background-image:var(--lattice);background-size:10px 10px;transition:transform 1s var(--ease-io)}
+.preloader-inner{display:grid;justify-items:center;gap:22rem}
+.preloader img{width:150rem;height:auto}
+.preloader-bar{width:150rem;height:1px;background:var(--line);position:relative;overflow:hidden}
+.preloader-bar i{position:absolute;inset:0;background:#fff;transform-origin:left;transform:scaleX(var(--p,0));transition:transform .3s var(--ease-out)}
+.preloader-count{font-size:11rem;color:var(--dim);font-variant-numeric:tabular-nums}
+@media (min-width:1024px){.preloader img,.preloader-bar{width:240rem}}
+html.is-ready .preloader{transform:translateY(-100%)}
+html.is-gone .preloader{display:none}
+.load-errors{position:fixed;left:16px;right:16px;bottom:16px;z-index:180;display:grid;gap:6px}
+.load-errors p{border:1px solid #ff6b5e;color:#ffb3ab;background:#0d0d0d;padding:10px 12px;font-size:11px;text-transform:none;word-break:break-all}
+/* header */
+.site-header{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:0 var(--pad);height:56rem}
+.logo img{width:72rem;height:auto}
+.primary,.cart{display:none}
+.burger{width:24rem;height:24rem;display:grid;align-content:center;gap:5rem}
+.burger span{display:block;height:1px;background:#fff;transition:transform .25s var(--ease-out),opacity .2s}
+.burger[aria-expanded="true"] span:nth-child(1){transform:translateY(6rem) rotate(45deg)}
+.burger[aria-expanded="true"] span:nth-child(2){opacity:0}
+.burger[aria-expanded="true"] span:nth-child(3){transform:translateY(-6rem) rotate(-45deg)}
+.mobile-menu{position:fixed;inset:0;z-index:45;padding:90rem var(--pad) 30rem;background-color:#0d0d0d;background-image:var(--lattice);background-size:10px 10px;display:grid;align-content:start;gap:16rem;font-size:22rem}
+.mobile-menu[hidden]{display:none}
+.mobile-menu ul{display:grid;gap:12rem}
+.mobile-menu .sub{padding-left:14rem}
+.mobile-menu .sub a{font-size:13rem;color:var(--dim)}
+@media (min-width:1024px){
+  .site-header{height:62rem}
+  .logo img{width:70rem}
+  .primary{display:block;position:absolute;left:472rem;top:50%;transform:translateY(-50%)}
+  .primary>ul{display:flex}
+  .primary>ul>li{position:relative}
+  .primary>ul>li:nth-child(1){margin-right:57rem}.primary>ul>li:nth-child(2){margin-right:59rem}.primary>ul>li:nth-child(3){margin-right:63rem}
+  .primary a,.sub-toggle{font-size:15rem;display:inline-flex;align-items:center;gap:7rem;padding:6rem 0}
+  .sub-toggle img{width:5.2rem;height:4.5rem;transform:rotate(180deg);transition:transform .2s var(--ease-out)}
+  .sub-toggle[aria-expanded="true"] img{transform:none}
+  .submenu{position:absolute;left:-14rem;top:calc(100% + 10rem);min-width:240rem;border:1px solid var(--line);padding:8rem 0;display:grid;background-color:#0d0d0d;background-image:var(--lattice);background-size:10px 10px;opacity:0;transform:translateY(-4rem);transition:opacity .18s var(--ease-out),transform .18s var(--ease-out);visibility:hidden}
+  .submenu.open{opacity:1;transform:none;visibility:visible}
+  .submenu a{display:flex;justify-content:space-between;width:100%;padding:8rem 14rem;font-size:12rem;color:var(--dim)}
+  .submenu a:hover,.submenu a:focus-visible{color:#fff}
+  .cart{display:block;font-size:15rem}
+  .burger,.mobile-menu{display:none!important}
+}
+/* bracketed buttons */
+.btn-b{position:relative;display:inline-flex;align-items:center;justify-content:space-between;gap:28rem;border:1px solid rgba(255,255,255,.85);padding:0 16rem;height:40rem;font-size:13rem;white-space:nowrap}
+.btn-b img{width:10rem;height:auto;transition:transform .25s var(--ease-out)}
+.btn-b::before,.btn-b::after{content:"";position:absolute;width:7rem;height:7rem;border:1px solid #fff;opacity:0;transition:opacity .2s,transform .25s var(--ease-out)}
+.btn-b::before{left:-5rem;top:-5rem;border-right:0;border-bottom:0;transform:translate(3rem,3rem)}
+.btn-b::after{right:-5rem;bottom:-5rem;border-left:0;border-top:0;transform:translate(-3rem,-3rem)}
+@media (hover:hover) and (pointer:fine){.btn-b:hover::before,.btn-b:hover::after{opacity:1;transform:none}.btn-b:hover img{transform:translateX(3rem)}}
+.btn-b:focus-visible{outline:none}
+.btn-b:focus-visible::before,.btn-b:focus-visible::after{opacity:1;transform:none}
+@media (min-width:1024px){.btn-b{height:45rem;font-size:15rem;padding:0 18rem}}
+/* HERO */
+.hero{position:relative;padding:76rem var(--pad) 26rem;display:grid;gap:18rem}
+.hero-plate{position:absolute;left:50%;top:120rem;width:360rem;height:auto;transform:translateX(-50%);opacity:.2;z-index:0;pointer-events:none}
+.hero-anchor{height:300rem;margin:0 calc(var(--pad) * -1)}
+.edge{position:relative;font-size:11rem;line-height:1.25;padding:10rem 0}
+.edge .bk{position:absolute;width:10.5rem;height:10.5rem}
+.edge-l .bk.t{left:0;top:-4rem}.edge-l .bk.b{left:0;bottom:-4rem;transform:scaleY(-1)}
+.edge-r{text-align:right}
+.edge-r .bk.t{right:0;top:-4rem;transform:scaleX(-1)}.edge-r .bk.b{right:0;bottom:-4rem;transform:scale(-1,-1)}
+.hero-edges{display:flex;justify-content:space-between;gap:20rem}
+.hero-claim{font-size:12rem;line-height:1.35;text-align:center;text-wrap:balance}
+.hero-cta{justify-self:center}
+.corner{display:grid;grid-template-columns:62rem 1fr;border:1px solid var(--line);min-height:52rem}
+.corner .ic{display:grid;place-items:center;align-content:center;gap:5rem;border-right:1px solid var(--line);font-size:8.5rem}
+.corner .ic img{width:18rem;height:18rem}
+.corner p{align-self:center;padding:8rem 14rem;font-size:9rem;line-height:1.45}
+@media (min-width:1024px){
+  .hero{display:block;height:max(800rem,100svh);padding:0}
+  .hero-plate{top:calc(50% - 300rem);width:1010rem}
+  .hero-anchor{position:absolute;inset:0;height:auto;margin:0}
+  .hero-edges{display:contents}
+  .edge{position:absolute!important;top:50%;transform:translateY(-50%);font-size:14.5rem;line-height:1.18;padding:0}
+  .edge-l{left:40rem}.edge-r{right:40rem}
+  .edge .bk.t{top:-31rem}.edge .bk.b{bottom:-31rem}
+  .hero-claim{position:absolute!important;left:0;right:0;bottom:112rem;font-size:16.5rem;line-height:1.15}
+  .hero-cta{position:absolute!important;left:636rem;bottom:42rem;width:168rem}
+  .corner{position:absolute!important;bottom:41rem;height:68rem;min-height:0}
+  .corner-l{left:40rem;width:267rem;grid-template-columns:93rem 1fr}
+  .corner-r{right:40rem;width:227rem;grid-template-columns:76rem 1fr}
+  .corner .ic img{width:21rem;height:21rem}
+  .corner .ic{font-size:10rem}
+  .corner p{font-size:10rem;padding:0 18rem}
+}
+/* shared */
+.h2{font-size:34rem;line-height:1.02;letter-spacing:.04em}
+.spec,.layer,.layer-card{display:grid;grid-template-columns:50rem 1fr;grid-template-rows:auto 1fr;column-gap:14rem;row-gap:8rem;border:1px solid var(--line);padding:12rem 14rem 14rem}
+.spec .idx,.layer .idx,.layer-card .idx{color:var(--faint)}
+.spec img,.layer img,.layer-card img{grid-row:2;grid-column:1;width:24rem;height:24rem;align-self:end}
+.spec h3,.layer h3,.layer-card h3{grid-row:1;grid-column:2;font-size:12rem}
+.spec p,.layer p,.layer-card p{grid-row:2;grid-column:2;color:var(--dim);font-size:11rem;text-wrap:balance}
+@media (min-width:1024px){
+  .h2{font-size:64rem;line-height:1.0}
+  .spec,.layer-card{height:120rem;grid-template-columns:42rem 1fr;padding:14rem;row-gap:8rem}
+  .spec .idx,.layer-card .idx{font-size:13rem}
+  .spec h3,.layer-card h3{font-size:14rem}
+  .spec p,.layer-card p{font-size:13rem;line-height:1.33;text-wrap:pretty}
+  .spec img,.layer-card img{width:28rem;height:28rem;align-self:end}
+}
+/* DETAILS */
+.details{position:relative;padding:60rem var(--pad) 40rem}
+.details-copy{margin-top:16rem;color:var(--dim);max-width:300rem;text-wrap:balance}
+.spec-list{margin-top:26rem;display:grid;gap:10rem}
+.details-cta{margin:28rem auto 0;display:flex;width:max-content}
+@media (min-width:1024px){
+  .details{height:880rem;padding:0}
+  .details .h2{position:absolute;left:40rem;top:120rem}
+  .details-copy{position:absolute!important;left:40rem;top:270rem;width:340rem;margin:0;font-size:14rem;line-height:1.33}
+  .spec-list{position:absolute!important;right:40rem;top:110rem;width:416rem;margin:0;gap:13rem}
+  .details-cta{position:absolute!important;left:40rem;top:742rem;margin:0;width:280rem}
+}
+/* COLLECTION */
+.collection{position:relative;padding:70rem var(--pad) 50rem}
+.collection-blurb{margin-top:12rem;color:var(--dim);text-wrap:balance}
+.cards{margin-top:26rem;display:grid;gap:12rem;perspective:1100px}
+.card{position:relative;border:1px solid var(--line);padding:12rem;display:flex;flex-direction:column;transform-style:preserve-3d}
+.card-top{display:flex;justify-content:space-between;align-items:center;color:var(--faint);font-size:11rem}
+.add{width:24rem;height:24rem;display:grid;place-items:center;margin:-6rem -6rem 0 0}
+.add img{width:12rem;height:12rem}
+.card-head{display:flex;justify-content:space-between;gap:12rem;margin-top:6rem}
+.card-head h3{font-size:16rem;line-height:1.1}
+.price{color:var(--dim);font-size:12rem;white-space:nowrap}
+.card-stage{position:relative;flex:1;min-height:300rem;margin-top:6rem}
+.card-media{position:absolute;inset:0 26rem 18rem 0;cursor:grab;touch-action:pan-y}
+.card-media:active{cursor:grabbing}
+.card-media.live img{opacity:0}
+.card-media img{width:100%;height:100%;object-fit:contain;display:block;filter:drop-shadow(0 18rem 22rem rgba(0,0,0,.55))}
+.news-note{margin-top:6rem;color:var(--faint);font-size:10rem}
+.drag-hint{position:absolute;left:0;bottom:0;font-size:9.5rem;color:var(--faint)}
+.swatches{position:absolute;right:0;top:50%;transform:translateY(-50%);display:grid;gap:9rem}
+.sw{width:12rem;height:12rem;border:1px solid rgba(255,255,255,.7);padding:2rem;display:block;position:relative}
+.sw::after{content:"";position:absolute;inset:-6rem}
+.sw i{display:block;width:100%;height:100%;background:var(--c);opacity:0;transition:opacity .2s}
+.sw:hover i{opacity:.5}
+.sw[aria-pressed="true"]{border-color:#fff}
+.sw[aria-pressed="true"] i{opacity:1}
+.colour-name{position:absolute;right:0;bottom:0;font-size:9.5rem;color:var(--dim)}
+.card-foot{position:relative;margin-top:12rem;min-height:30rem}
+.tags{display:flex;flex-wrap:wrap;gap:6rem;transition:opacity .2s var(--ease-out),transform .2s var(--ease-out)}
+.tags li{border:1px solid var(--line);padding:6rem 9rem;font-size:9.5rem;color:var(--dim)}
+.shop-now{display:flex;justify-content:space-between;align-items:center;border:1px solid rgba(255,255,255,.85);height:32rem;padding:0 12rem;font-size:11rem;margin-top:10rem}
+.shop-now img{width:10rem}
+.collection-cta{display:flex;width:max-content;margin:28rem auto 0}
+@media (min-width:1024px){
+  .collection{height:800rem;padding:0}
+  .collection .h2{position:absolute;left:40rem;top:56rem}
+  .collection-blurb{position:absolute!important;left:1069rem;top:62rem;margin:0;font-size:14rem;line-height:1.33;width:330rem}
+  .cards{position:absolute!important;left:40rem;right:40rem;top:204rem;margin:0;grid-template-columns:repeat(3,1fr);gap:14rem}
+  .card{height:452rem;padding:14rem 16rem}
+  .card-top{font-size:13rem}
+  .card-head h3{font-size:18rem}
+  .price{font-size:14rem}
+  .card-stage{min-height:0}
+  .swatches{gap:10rem}
+  .drag-hint,.colour-name{font-size:11rem}
+  .card-foot{min-height:36rem;margin-top:10rem}
+  .tags li{font-size:11rem;padding:8rem 12rem}
+  .shop-now{position:absolute;inset:0;margin:0;height:36rem;opacity:0;transform:translateY(4rem);transition:opacity .2s var(--ease-out),transform .2s var(--ease-out);font-size:13rem}
+  .card:hover .shop-now,.card:focus-within .shop-now{opacity:1;transform:none}
+  .card:hover .tags,.card:focus-within .tags{opacity:0;transform:translateY(-4rem)}
+  .collection-cta{position:absolute!important;left:580rem;top:692rem;margin:0;width:280rem}
+}
+/* TECHNOLOGY */
+.tech{position:relative;padding:60rem var(--pad) 40rem}
+.tech-copy{margin-top:16rem;color:var(--dim);text-wrap:balance}
+.reel{position:relative;width:100%;aspect-ratio:1/1;margin-top:20rem}
+
+.dot{position:absolute;width:7rem;height:7rem;background:#fff;transform:translate(-50%,-50%);display:none;transition:left .5s var(--ease-out),top .5s var(--ease-out)}
+.leader{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;display:none;overflow:visible}
+.layer-card{display:none}
+.layer-list{display:grid;gap:10rem;margin-top:10rem}
+@media (min-width:1024px){
+  .tech{padding:0;height:calc(100svh + 2200rem)}
+  .tech-stage{position:sticky;top:0;height:100svh;min-height:800rem;overflow:hidden}
+  .tech .h2{position:absolute;left:40rem;top:126rem}
+  .tech-copy{position:absolute!important;left:40rem;bottom:150rem;width:360rem;margin:0;font-size:14rem;line-height:1.38}
+  .reel{position:absolute!important;left:400rem;top:calc(50% - 315rem);width:640rem;height:640rem;margin:0;aspect-ratio:auto}
+  .dot,.leader{display:block}
+  .layer-list{position:absolute!important;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+  .layer-card{display:grid;position:absolute!important;right:40rem;top:0;width:416rem;transition:transform .55s var(--ease-out)}
+}
+/* FAQ */
+.faq{position:relative;padding:60rem var(--pad) 40rem}
+.faq-list{margin-top:24rem;display:grid;gap:10rem}
+.faq-row{border:1px solid var(--line);display:grid}
+.faq-row dt{padding:14rem;display:grid;gap:14rem;font-size:12rem;border-bottom:1px solid var(--line)}
+.faq-row dt .idx{color:var(--faint);font-size:11rem;order:-1}
+.faq-row dd{padding:14rem;color:var(--dim);text-wrap:balance}
+@media (min-width:1024px){
+  .faq{height:820rem;padding:0}
+  .faq .h2{position:absolute;left:40rem;top:80rem}
+  .faq-list{position:absolute!important;right:40rem;top:80rem;width:674rem;margin:0;gap:13rem}
+  .faq-row{grid-template-columns:245rem 1fr;height:112rem}
+  .faq-row dt{border-bottom:0;border-right:1px solid var(--line);padding:16rem 16rem 14rem;align-content:space-between;font-size:14rem;line-height:1.15}
+  .faq-row dt .idx{order:2;font-size:13rem}
+  .faq-row dd{padding:16rem 18rem;font-size:13rem;line-height:1.36}
+}
+/* FOOTER */
+.site-footer{position:relative;z-index:2;padding:40rem var(--pad) 26rem;display:grid;gap:28rem}
+.f-logo img{width:76rem;height:auto;display:block}
+.f-cols{display:grid;grid-template-columns:1fr 1fr;gap:26rem 20rem}
+.f-cols h2{font-size:12rem;margin-bottom:12rem}
+.f-cols li+li{margin-top:9rem}
+.f-cols a{color:var(--dim);font-size:11rem}
+.f-cols a:hover{color:#fff}
+.news h2{font-size:12rem;margin-bottom:12rem}
+.news-row{display:flex;border:1px solid rgba(255,255,255,.85);height:42rem}
+.news-row input{flex:1;min-width:0;background:none;border:0;color:#fff;font:inherit;text-transform:uppercase;padding:0 12rem;font-size:11rem}
+.news-row input::placeholder{color:#fff}
+.news-row button{width:44rem;display:grid;place-items:center}
+.news-row button img{width:10rem}
+.consent{display:flex;gap:8rem;align-items:center;margin-top:10rem;color:var(--faint);font-size:9.5rem}
+.consent input{appearance:none;width:11rem;height:11rem;border:1px solid var(--faint);margin:0}
+.consent input:checked{background:#fff;border-color:#fff}
+.news-msg{margin-top:8rem;font-size:10rem;min-height:14rem}
+.f-rule{height:1px;background:var(--line);border:0;margin:0}
+.f-bottom{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10rem;color:var(--faint);font-size:10rem}
+.f-bottom ul{display:flex;gap:18rem}
+@media (min-width:1024px){
+  .site-footer{display:block;height:430rem;padding:0}
+  .site-footer>*{position:absolute}
+  .f-logo{left:40rem;top:48rem}.f-logo img{width:94rem;height:auto}
+  .f-cols{left:297rem;top:48rem;display:flex}
+  .f-cols>div{width:168rem}.f-cols>div:last-child{width:auto}
+  .f-cols h2{font-size:15rem;margin-bottom:18rem}
+  .f-cols a{font-size:14rem}
+  .f-cols li+li{margin-top:10rem}
+  .news{left:1156rem;top:48rem;width:243rem}
+  .news h2{font-size:15rem;margin-bottom:16rem}
+  .news-row{height:45rem}
+  .consent{font-size:10rem}
+  .f-rule{left:40rem;right:40rem;top:340rem}
+  .f-bottom{left:40rem;right:40rem;top:362rem;font-size:12rem}
+}
+[data-reveal]{opacity:0;transform:translateY(14px);transition:opacity .7s var(--ease-out),transform .7s var(--ease-out)}
+[data-reveal].in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+  [data-reveal]{opacity:1;transform:none;transition:none}
+  .preloader,.layer-card,.dot{transition:none}
+}
+/* ---------- v3: product view, cart drawer, dialogs, tech tabs ---------- */
+html.is-pdp main>section:not(.pdp){display:none}
+.pdp[hidden]{display:none}
+.pdp{position:relative;padding:72rem var(--pad) 40rem}
+.pdp-top{display:flex;justify-content:space-between;align-items:center;gap:12rem;font-size:11rem;color:var(--dim)}
+.pdp-back{display:inline-flex;align-items:center;gap:8rem;color:#fff;border:1px solid var(--line);height:30rem;padding:0 10rem}
+.pdp-back:hover,.pdp-back:focus-visible{border-color:#fff;outline:none}
+.pdp-crumbs a{color:var(--dim)}.pdp-crumbs a:hover{color:#fff}
+.pdp-grid{display:grid;gap:18rem;margin-top:14rem}
+.pdp-stage{position:relative;height:500rem;border:1px solid var(--line);background:radial-gradient(60% 55% at 50% 45%,rgba(255,255,255,.07),transparent 70%);cursor:grab;touch-action:pan-y;outline:none}
+.pdp-stage:active{cursor:grabbing}
+.pdp-stage:focus-visible{border-color:#fff}
+.pdp-stage .corner-mark{position:absolute;width:9rem;height:9rem;border:1px solid #fff}
+.pdp-stage .cm1{left:-1px;top:-1px;border-right:0;border-bottom:0}.pdp-stage .cm2{right:-1px;bottom:-1px;border-left:0;border-top:0}
+.pdp-hint{position:absolute;left:12rem;bottom:12rem;font-size:10rem;color:var(--faint);pointer-events:none}
+.pdp-views{position:absolute;right:10rem;bottom:10rem;display:flex;gap:6rem}
+.pdp-views button,.pdp-sizes button,.qty button,.tech-tabs button{border:1px solid var(--line);height:28rem;padding:0 9rem;font-size:10rem;color:var(--dim);transition:color .2s,border-color .2s,background-color .2s}
+.pdp-views button[aria-pressed="true"],.tech-tabs button[aria-selected="true"]{border-color:#fff;color:#fff;background:rgba(255,255,255,.08)}
+.pdp-views button:hover,.pdp-sizes button:hover,.qty button:hover,.tech-tabs button:hover{color:#fff;border-color:rgba(255,255,255,.7)}
+.pdp-loading{position:absolute;inset:0;display:grid;place-items:center;font-size:11rem;color:var(--faint);pointer-events:none;transition:opacity .4s}
+.pdp-stage.live .pdp-loading{opacity:0}
+.pdp-panel{display:grid;gap:14rem;align-content:start}
+.pdp-idx{color:var(--faint);font-size:11rem}
+.pdp-panel h1{font-size:30rem;line-height:1.02;letter-spacing:.04em;outline:none}
+.pdp-price{font-size:16rem}
+.pdp-copy{color:var(--dim);text-wrap:pretty;line-height:1.38}
+.pdp-field{border:0;padding:0;margin:0;display:grid;gap:9rem}
+.pdp-field legend{padding:0;margin-bottom:9rem;font-size:11rem;color:var(--dim);display:flex;justify-content:space-between;width:100%}
+.pdp-field legend b{font-weight:400;color:#fff}
+.pdp-sw{display:flex;gap:10rem}
+.pdp-sw .sw{width:26rem;height:26rem;padding:3rem}
+.pdp-sizes{display:flex;gap:6rem;flex-wrap:wrap}
+.pdp-sizes button{min-width:46rem;height:36rem;font-size:12rem;color:#fff}
+.pdp-sizes button[aria-pressed="true"]{background:#fff;color:#0d0d0d;border-color:#fff}
+.pdp-sizes.need button{border-color:rgba(255,120,90,.9)}
+.linkish{text-decoration:underline;text-underline-offset:3rem;color:var(--dim);font-size:10rem}
+.linkish:hover{color:#fff}
+.pdp-add{width:100%;height:50rem!important;font-size:14rem!important}
+.pdp-msg{min-height:14rem;font-size:10rem;color:var(--dim)}
+.pdp-note{font-size:10rem;color:var(--faint)}
+.acc{border-top:1px solid var(--line)}
+.acc details{border-bottom:1px solid var(--line)}
+.acc summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;padding:12rem 0;font-size:12rem}
+.acc summary::-webkit-details-marker{display:none}
+.acc summary::after{content:"+";color:var(--dim)}
+.acc details[open] summary::after{content:"–"}
+.acc summary:focus-visible{outline:1px solid #fff;outline-offset:2rem}
+.acc .acc-b{padding:0 0 14rem;color:var(--dim);line-height:1.4;text-wrap:pretty}
+.pdp-tech-slot{margin-top:40rem}
+.pdp-tech-slot .tech{padding-left:0;padding-right:0}
+.pdp-related{margin-top:40rem}
+.pdp-related h2{font-size:22rem;letter-spacing:.04em}
+.rel{display:grid;gap:12rem;margin-top:14rem}
+.rel a{display:grid;grid-template-columns:110rem 1fr;gap:12rem;align-items:center;border:1px solid var(--line);padding:10rem;transition:border-color .2s}
+.rel a:hover,.rel a:focus-visible{border-color:#fff;outline:none}
+.rel img{width:110rem;height:110rem;object-fit:contain}
+.rel h3{font-size:14rem;line-height:1.1}
+.rel p{color:var(--dim);font-size:11rem;margin-top:6rem}
+.rel .go{margin-top:10rem;display:inline-flex;gap:10rem;align-items:center;font-size:11rem}
+.rel .go img{width:10rem;height:auto}
+@media (min-width:1024px){
+  .pdp{padding:86rem var(--pad) 60rem}
+  .pdp-grid{grid-template-columns:820rem 1fr;gap:40rem;margin-top:18rem;align-items:start}
+  .pdp-stage{position:sticky;top:70rem;height:calc(100svh - 96rem);min-height:640rem}
+  .pdp-panel{padding-top:20rem;gap:18rem}
+  .pdp-panel h1{font-size:44rem}
+  .pdp-price{font-size:18rem}
+  .pdp-copy{font-size:13rem}
+  .rel{grid-template-columns:1fr 1fr;gap:20rem}
+  .rel a{grid-template-columns:200rem 1fr;padding:16rem;gap:20rem}
+  .rel img{width:200rem;height:200rem}
+  .rel h3{font-size:20rem}
+  .pdp-related h2{font-size:34rem}
+}
+/* tech tabs */
+.tech-tabs{display:flex;gap:6rem;margin-top:16rem;position:relative;z-index:3}
+.tech-tabs button{height:32rem;padding:0 12rem;font-size:11rem}
+@media (min-width:1024px){.tech-tabs{position:absolute!important;left:40rem;top:350rem;margin:0}}
+/* cart drawer */
+.drawer{position:fixed;inset:0;z-index:80}
+.drawer[hidden]{display:none}
+.drawer-scrim{position:absolute;inset:0;background:rgba(0,0,0,.6);opacity:0;transition:opacity .3s}
+.drawer-panel{position:absolute;top:0;right:0;bottom:0;width:min(100%,440rem);background-color:#0d0d0d;background-image:var(--lattice);background-size:10px 10px;border-left:1px solid var(--line);display:flex;flex-direction:column;transform:translateX(100%);transition:transform .45s var(--ease-out)}
+.drawer.open .drawer-scrim{opacity:1}.drawer.open .drawer-panel{transform:none}
+.drawer-head{display:flex;justify-content:space-between;align-items:center;padding:0 var(--pad);height:56rem;border-bottom:1px solid var(--line)}
+.drawer-head h2{font-size:14rem}
+.x{border:1px solid var(--line);height:30rem;padding:0 10rem;font-size:11rem}
+.x:hover,.x:focus-visible{border-color:#fff;outline:none}
+.cart-items{flex:1;overflow:auto;padding:8rem var(--pad);display:grid;align-content:start;gap:10rem;overscroll-behavior:contain}
+.ci{display:grid;grid-template-columns:76rem 1fr auto;gap:12rem;border:1px solid var(--line);padding:10rem;align-items:start}
+.ci img{width:76rem;height:76rem;object-fit:contain}
+.ci h3{font-size:12rem;line-height:1.15}
+.ci .meta{color:var(--dim);font-size:10rem;margin-top:5rem;display:flex;gap:8rem;align-items:center;flex-wrap:wrap}
+.ci select{background:#0d0d0d;color:#fff;border:1px solid var(--line);font:inherit;font-size:10rem;height:24rem;padding:0 4rem}
+.qty{display:flex;align-items:center;gap:6rem;margin-top:8rem}
+.qty button{width:26rem;height:26rem;padding:0;color:#fff;font-size:13rem}
+.qty output{min-width:18rem;text-align:center}
+.ci .lp{text-align:right;font-size:12rem}
+.ci .rm{display:block;margin-top:30rem;color:var(--dim);font-size:10rem;text-decoration:underline;text-underline-offset:3rem}
+.ci .rm:hover{color:#fff}
+.cart-empty{padding:30rem var(--pad);color:var(--dim);display:grid;gap:16rem;justify-items:start}
+.cart-empty[hidden]{display:none}
+.drawer-foot{border-top:1px solid var(--line);padding:14rem var(--pad) 18rem;display:grid;gap:10rem}
+.drawer-foot .row{display:flex;justify-content:space-between}
+.drawer-foot .sub{color:var(--dim);font-size:10rem}
+.drawer-foot .btn-b{width:100%}
+.cart-msg{min-height:14rem;font-size:10rem;color:var(--dim)}
+/* dialogs + toast */
+.modal{background:#0d0d0d;color:#fff;border:1px solid rgba(255,255,255,.7);padding:0;width:min(92vw,560rem);max-height:80vh}
+.modal::backdrop{background:rgba(0,0,0,.65)}
+.modal form{display:grid;gap:14rem;padding:22rem}
+.modal h2{font-size:18rem;letter-spacing:.04em}
+.modal-body{color:var(--dim);line-height:1.45;display:grid;gap:10rem;overflow:auto}
+.modal table{border-collapse:collapse;width:100%;font-size:11rem}
+.modal td,.modal th{border:1px solid var(--line);padding:6rem 8rem;text-align:left;font-weight:400}
+.modal th{color:#fff}
+.toast{position:fixed;left:50%;bottom:24rem;transform:translate(-50%,20rem);z-index:90;background:#0d0d0d;border:1px solid #fff;padding:10rem 14rem;font-size:11rem;opacity:0;pointer-events:none;transition:opacity .25s,transform .35s var(--ease-out)}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+.card-media{cursor:pointer}
+.card-name:hover h3,.card-name:focus-visible h3{text-decoration:underline;text-underline-offset:4rem}
+.card-name:focus-visible{outline:none}
+@media (prefers-reduced-motion:reduce){.drawer-panel,.drawer-scrim,.toast{transition:none}}
+.drawer-foot[hidden]{display:none}
+.pdp-sw .sw i{opacity:1}.pdp-sw .sw{border-color:rgba(255,255,255,.3)}.pdp-sw .sw[aria-pressed="true"]{border-color:#fff;outline:1px solid #fff;outline-offset:2rem}
+.tech-tabs[hidden]{display:none}
+@media (max-width:1023px){.pdp-hint{display:none}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="preloader" id="preloader" aria-hidden="true">
+  <div class="preloader-inner">
+    <img src="assets/ui/logo-mark.svg" alt="" width="980" height="545">
+    <div class="preloader-bar"><i></i></div>
+    <span class="preloader-count" id="preCount">000%</span>
+  </div>
+</div>
+<div class="load-errors" id="loadErrors" role="alert"></div>
+<canvas id="field" aria-hidden="true"></canvas>
+<canvas id="garment" role="img" aria-label="KYRZEN Lacquer Puffer Jacket in 3D: oversized, cropped high-gloss puffer in sage lacquer with wide baffles, a tall funnel collar and a tonal gothic KYRZEN print on the left chest."></canvas>
+
+<header class="site-header">
+  <a class="logo" href="#top" aria-label="KYRZEN, back to top"><img src="assets/ui/logo-mark.svg" alt="KYRZEN" width="980" height="545"></a>
+  <nav class="primary" aria-label="Primary">
+    <ul>
+      <li><a href="#collection"><span data-scramble>SHOP</span></a></li>
+      <li>
+        <button class="sub-toggle" aria-expanded="false" aria-controls="submenu"><span data-scramble>COLLECTION</span><img src="assets/ui/hero-caret.svg" alt="" width="5" height="4"></button>
+        <ul class="submenu" id="submenu">
+          <li><a href="#/product/jacket"><span data-scramble>LACQUER PUFFER JACKET</span><span>01</span></a></li>
+          <li><a href="#/product/hoodie"><span data-scramble>HEAVY BOXY HOODIE</span><span>02</span></a></li>
+          <li><a href="#/product/jogger"><span data-scramble>OPEN LEG JOGGER</span><span>03</span></a></li>
+          <li><a href="#collection"><span data-scramble>VIEW ALL PIECES</span><span>→</span></a></li>
+        </ul>
+      </li>
+      <li><a href="#technology"><span data-scramble>TECHNOLOGY</span></a></li>
+      <li><a href="#faq"><span data-scramble>ABOUT</span></a></li>
+    </ul>
+  </nav>
+  <button class="cart" type="button" aria-label="Open cart, 0 items" id="cartBtn" aria-controls="cart"><span data-scramble>CART</span> [ <span id="cartCount">0</span> ]</button>
+  <button class="burger" type="button" aria-expanded="false" aria-controls="mobileMenu" aria-label="Menu"><span></span><span></span><span></span></button>
+</header>
+<nav class="mobile-menu" id="mobileMenu" aria-label="Mobile" hidden>
+  <ul>
+    <li><a href="#collection">SHOP</a></li>
+    <li><a href="#collection">COLLECTION</a>
+      <ul class="sub"><li><a href="#/product/jacket">LACQUER PUFFER JACKET</a></li><li><a href="#/product/hoodie">HEAVY BOXY HOODIE</a></li><li><a href="#/product/jogger">OPEN LEG JOGGER</a></li></ul></li>
+    <li><a href="#technology">TECHNOLOGY</a></li>
+    <li><a href="#faq">ABOUT</a></li>
+    <li><button type="button" class="cart-open">CART [ <span class="cartMirror">0</span> ]</button></li>
+  </ul>
+</nav>
+
+<main id="main">
+  <section class="hero" id="top" aria-labelledby="hero-title">
+    <img class="hero-plate" src="assets/ui/wordmark-plate.webp" alt="" width="1400" height="779" aria-hidden="true">
+    <div class="hero-edges">
+      <p class="edge edge-l"><img class="bk t" src="assets/ui/hero-bracket.svg" alt=""><span data-scramble>LACQUERED<br>FOR THE NIGHT.<br>BUILT TO LAST.</span><img class="bk b" src="assets/ui/hero-bracket.svg" alt=""></p>
+      <p class="edge edge-r"><img class="bk t" src="assets/ui/hero-bracket.svg" alt=""><span data-scramble>CUT WIDE.<br>PRINTED TONAL.<br>MADE IN SMALL RUNS.</span><img class="bk b" src="assets/ui/hero-bracket.svg" alt=""></p>
+    </div>
+    <div class="hero-anchor" data-anchor="hero" aria-hidden="true"></div>
+    <h1 id="hero-title" class="hero-claim"><span data-scramble>HIGH-GLOSS LACQUER SHELL. 650 FILL DOWN.<br>OVERSIZED CROP. LIMITED QUANTITY.</span></h1>
+    <a class="btn-b hero-cta" href="#/product/jacket"><span data-scramble>SHOP NOW</span><img src="assets/ui/arrow-right.svg" alt=""></a>
+    <div class="corner corner-l"><div class="ic"><img src="assets/ui/hero-icon-globe.svg" alt=""><span>EST.2026</span></div><p data-scramble>BUILT ON CRAFT.<br>DRIVEN BY DETAIL.<br>MADE FOR YOU.</p></div>
+    <div class="corner corner-r"><div class="ic"><img src="assets/ui/hero-icon-target.svg" alt=""></div><p data-scramble>EU-WIDE SHIPPING<br>FREE RETURNS<br>WITHIN 30 DAYS</p></div>
+  </section>
+
+  <section class="pdp" id="product" aria-labelledby="pdp-title" hidden>
+    <div class="pdp-top">
+      <a class="pdp-back" href="#collection" data-back><span aria-hidden="true">←</span> <span data-scramble>COLLECTION</span></a>
+      <p class="pdp-crumbs"><a href="#top">KYRZEN</a> / <a href="#collection">COLLECTION</a> / <span id="pdpCrumb"></span></p>
+    </div>
+    <div class="pdp-grid">
+      <div class="pdp-stage" id="pdpStage" tabindex="0" role="img" aria-label="">
+        <span class="corner-mark cm1" aria-hidden="true"></span><span class="corner-mark cm2" aria-hidden="true"></span>
+        <p class="pdp-loading" aria-hidden="true">LOADING THE FITTING…</p>
+        <p class="pdp-hint" aria-hidden="true">DRAG TO TURN · ARROW KEYS</p>
+        <div class="pdp-views" role="group" aria-label="View">
+          <button type="button" data-view="full" aria-pressed="true">FULL LOOK</button>
+          <button type="button" data-view="close" aria-pressed="false">CLOSE-UP</button>
+          <button type="button" data-spin aria-pressed="true">TURNTABLE</button>
+        </div>
+      </div>
+      <div class="pdp-panel">
+        <span class="pdp-idx" id="pdpIdx">01 / 03</span>
+        <h1 id="pdp-title" tabindex="-1"><span data-scramble id="pdpName"></span></h1>
+        <p class="pdp-price" id="pdpPrice"></p>
+        <p class="pdp-copy" id="pdpCopy"></p>
+        <fieldset class="pdp-field"><legend><span>COLOUR</span><b id="pdpColour" aria-live="polite"></b></legend><div class="pdp-sw" id="pdpSw"></div></fieldset>
+        <fieldset class="pdp-field"><legend><span>SIZE</span><a href="#" class="linkish" data-dialog="size">SIZE GUIDE</a></legend><div class="pdp-sizes" id="pdpSizes" role="group" aria-label="Size"></div></fieldset>
+        <button class="btn-b pdp-add" type="button" id="pdpAdd"><span>ADD TO CART</span><span id="pdpAddPrice"></span></button>
+        <p class="pdp-msg" id="pdpMsg" aria-live="polite"></p>
+        <p class="pdp-note">EU-WIDE SHIPPING IN 2–4 DAYS · FREE RETURNS WITHIN 30 DAYS · CONCEPT DEMO, NO REAL ORDERS</p>
+        <div class="acc" id="pdpAcc"></div>
+      </div>
+    </div>
+    <div class="pdp-tech-slot" id="pdpTech"></div>
+    <div class="pdp-related"><h2 data-scramble>COMPLETE THE LOOK.</h2><ul class="rel" id="related"></ul></div>
+  </section>
+
+  <section class="details" id="details" aria-labelledby="details-title">
+    <div data-anchor="details" aria-hidden="true"></div>
+    <h2 class="h2" id="details-title" data-scramble>DETAILS<br>MATTER.</h2>
+    <p class="details-copy" data-scramble>AN OVERSIZED PUFFER CUT SHORT AND WIDE, FILLED WITH DOWN AND SEALED IN A HIGH-GLOSS LACQUER SHELL THAT THROWS THE LIGHT BACK.</p>
+    <ol class="spec-list">
+      <li class="spec" data-reveal><span class="idx" aria-hidden="true">01</span><img src="assets/ui/details-shell.svg" alt=""><h3 data-scramble>LACQUER SHELL</h3><p data-scramble>COATED NYLON WITH A MIRROR FINISH AND A DWR LAYER. SHEDS RAIN AND WIND.</p></li>
+      <li class="spec" data-reveal><span class="idx" aria-hidden="true">02</span><img src="assets/ui/details-thermal.svg" alt=""><h3 data-scramble>650 FILL DOWN</h3><p data-scramble>RESPONSIBLY SOURCED DOWN IN WIDE BAFFLES. WARM WITHOUT THE WEIGHT.</p></li>
+      <li class="spec" data-reveal><span class="idx" aria-hidden="true">03</span><img src="assets/ui/details-construction.svg" alt=""><h3 data-scramble>BOX-BAFFLE BUILD</h3><p data-scramble>14 CM CHANNELS, WELDED SEAMS AND A TWO-WAY METAL ZIP UNDER A STORM FLAP.</p></li>
+      <li class="spec" data-reveal><span class="idx" aria-hidden="true">04</span><img src="assets/ui/details-storage.svg" alt=""><h3 data-scramble>FUNNEL COLLAR</h3><p data-scramble>A TALL STAND COLLAR THAT CLOSES TO THE CHIN, RIB CUFFS AND A RIB HEM.</p></li>
+      <li class="spec" data-reveal><span class="idx" aria-hidden="true">05</span><img src="assets/ui/details-fit.svg" alt=""><h3 data-scramble>TONAL 09 PRINT</h3><p data-scramble>THE GOTHIC KYRZEN MARK ON THE LEFT CHEST, ONE SHADE DARKER, SO THE LACQUER SHOWS THROUGH.</p></li>
+    </ol>
+    <a class="btn-b details-cta" href="#/product/jacket"><span data-scramble>EXPLORE THE JACKET</span><img src="assets/ui/arrow-right.svg" alt=""></a>
+  </section>
+
+  <section class="collection" id="collection" aria-labelledby="collection-title">
+    <h2 class="h2" id="collection-title" data-scramble>COLLECTION.</h2>
+    <p class="collection-blurb" data-scramble>ONE PUFFER, ONE HOODIE, ONE JOGGER.<br>FOUR COLOURS EACH,<br>ONE TONAL PRINT ACROSS ALL.</p>
+    <ul class="cards" id="cards"></ul>
+    <a class="btn-b collection-cta" href="#technology"><span data-scramble>HOW THEY ARE MADE</span><img src="assets/ui/arrow-right.svg" alt=""></a>
+  </section>
+
+  <section class="tech" id="technology" aria-labelledby="tech-title">
+    <div class="tech-stage" id="techStage">
+      <h2 class="h2" id="tech-title" data-scramble>TECHNOLOGY<br>ENGINEERED<br>TO ENDURE</h2>
+      <p class="tech-copy" data-scramble>EVERY LAYER HAS A PURPOSE.<br>FROM THE LACQUER OUTER SHELL<br>TO THE DOWN INSIDE,<br>THE PUFFER KEEPS ITS VOLUME<br>WITHOUT ADDING WEIGHT.</p>
+      <div class="reel" id="reel" role="img" aria-label="Exploded view of the Lacquer Puffer's five layers: lacquer outer shell, downproof ripstop, 650 fill down, breathable membrane and taffeta lining.">
+        <span class="dot" id="reelDot" aria-hidden="true"></span>
+      </div>
+      <svg class="leader" id="leader" aria-hidden="true"><line x1="0" y1="0" x2="0" y2="0" stroke="rgba(255,255,255,.55)" stroke-width="1"/></svg>
+      <div class="layer-card" id="layerCard" aria-hidden="true"><span class="idx">01</span><img src="assets/ui/technology-icon-01.svg" alt=""><h3>LACQUER OUTER SHELL</h3><p></p></div>
+      <ol class="layer-list" id="layerList"></ol>
+    </div>
+  </section>
+
+  <section class="faq" id="faq" aria-labelledby="faq-title">
+    <div data-anchor="faq" aria-hidden="true"></div>
+    <h2 class="h2" id="faq-title" data-scramble>NEED<br>TO KNOW.</h2>
+    <dl class="faq-list">
+      <div class="faq-row" data-reveal><dt><span data-scramble>WHICH SIZE SHOULD I TAKE?</span><span class="idx" aria-hidden="true">01</span></dt><dd data-scramble>PUFFER AND HOODIE ARE CUT BOXY AND OVERSIZED: TAKE YOUR USUAL SIZE (S–XL). THE JOGGER RUNS TRUE TO WAIST WITH A RELAXED, STRAIGHT LEG.</dd></div>
+      <div class="faq-row" data-reveal><dt><span data-scramble>WHAT ARE THE PIECES MADE OF?</span><span class="idx" aria-hidden="true">02</span></dt><dd data-scramble>LACQUER-COATED NYLON AND 650 FILL DOWN FOR THE PUFFER, 500 GSM BRUSHED COTTON FLEECE FOR THE HOODIE, 600 GSM COTTON JERSEY FOR THE JOGGER.</dd></div>
+      <div class="faq-row" data-reveal><dt><span data-scramble>HOW DO I CARE FOR THEM?</span><span class="idx" aria-hidden="true">03</span></dt><dd data-scramble>PUFFER: WIPE CLEAN, COLD DOWN CYCLE, TUMBLE LOW WITH DRYER BALLS. HOODIE AND JOGGER: 30°C INSIDE OUT, NO TUMBLE, DO NOT IRON THE PRINT.</dd></div>
+      <div class="faq-row" data-reveal><dt><span data-scramble>HOW LONG DOES SHIPPING TAKE?</span><span class="idx" aria-hidden="true">04</span></dt><dd data-scramble>EU-WIDE IN 2–4 WORKING DAYS, TRACKED AND INSURED. FREE ABOVE €150.</dd></div>
+      <div class="faq-row" data-reveal><dt><span data-scramble>CAN I RETURN OR EXCHANGE?</span><span class="idx" aria-hidden="true">05</span></dt><dd data-scramble>YES. UNWORN PIECES WITH TAGS ATTACHED CAN BE RETURNED OR EXCHANGED WITHIN 30 DAYS, FREE OF CHARGE.</dd></div>
+    </dl>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <a class="f-logo" href="#top" aria-label="KYRZEN, back to top"><img src="assets/ui/logo-mark.svg" alt="KYRZEN" width="980" height="545"></a>
+  <div class="f-cols">
+    <div><h2 data-scramble>SHOP</h2><ul><li><a href="#/product/jacket" data-scramble>PUFFER</a></li><li><a href="#/product/hoodie" data-scramble>HOODIE</a></li><li><a href="#/product/jogger" data-scramble>JOGGER</a></li></ul></div>
+    <div><h2 data-scramble>TECHNOLOGY</h2><ul><li><a href="#technology" data-scramble>MATERIALS</a></li><li><a href="#details" data-scramble>CONSTRUCTION</a></li></ul></div>
+    <div><h2 data-scramble>ABOUT</h2><ul><li><a href="#faq" data-scramble>STUDIO</a></li></ul></div>
+    <div><h2 data-scramble>SUPPORT</h2><ul><li><a href="#" data-dialog="privacy" data-scramble>PRIVACY POLICY</a></li><li><a href="#" data-dialog="terms" data-scramble>TERMS &amp; CONDITIONS</a></li><li><a href="#" data-dialog="size" data-scramble>SIZE GUIDE</a></li><li><a href="#faq" data-scramble>SHIPPING &amp; RETURNS</a></li><li><a href="#faq" data-scramble>FAQ</a></li></ul></div>
+  </div>
+  <form class="news" id="newsForm" novalidate>
+    <h2 id="news-title" data-scramble>STAY AHEAD OF THE DROP.</h2>
+    <div class="news-row"><label class="sr-only" for="newsEmail">Your e-mail</label><input id="newsEmail" name="email" type="email" autocomplete="email" placeholder="YOUR E-MAIL" required><button type="submit" aria-label="Subscribe"><img src="assets/ui/arrow-right.svg" alt=""></button></div>
+    <label class="consent"><input type="checkbox" name="consent" required> <span>I AGREE TO RECEIVE UPDATES.</span></label>
+    <p class="news-msg" id="newsMsg" aria-live="polite"></p>
+    <p class="news-note">DEMO FORM: NOTHING IS SENT OR STORED.</p>
+  </form>
+  <hr class="f-rule">
+  <div class="f-bottom"><p>© 2026 KYRZEN. CONCEPT DEMO, NOT A REAL BRAND. NO ORDERS ARE TAKEN.</p><ul><li><a href="#" data-toast="CONCEPT DEMO: KYRZEN HAS NO INSTAGRAM CHANNEL." data-scramble>INSTAGRAM</a></li><li><a href="#" data-toast="CONCEPT DEMO: KYRZEN HAS NO YOUTUBE CHANNEL." data-scramble>YOUTUBE</a></li><li><a href="#" data-toast="CONCEPT DEMO: KYRZEN HAS NO TIK-TOK CHANNEL." data-scramble>TIK-TOK</a></li></ul></div>
+</footer>
+<div class="drawer" id="cart" hidden>
+  <div class="drawer-scrim" data-close></div>
+  <aside class="drawer-panel" role="dialog" aria-modal="true" aria-labelledby="cart-title">
+    <div class="drawer-head"><h2 id="cart-title">CART [ <span id="cartN">0</span> ]</h2><button class="x" type="button" data-close>CLOSE ✕</button></div>
+    <ul class="cart-items" id="cartItems"></ul>
+    <div class="cart-empty" id="cartEmpty"><p>YOUR CART IS EMPTY.</p><a class="btn-b" href="#collection" data-close><span>SHOP THE COLLECTION</span><img src="assets/ui/arrow-right.svg" alt=""></a></div>
+    <div class="drawer-foot" id="cartFoot">
+      <div class="row"><span>SUBTOTAL</span><span id="cartSub">€0</span></div>
+      <div class="row sub"><span>SHIPPING</span><span id="cartShip">FREE ABOVE €150</span></div>
+      <button class="btn-b" type="button" id="checkout"><span>CHECKOUT</span><img src="assets/ui/arrow-right.svg" alt=""></button>
+      <p class="cart-msg" id="cartMsg" aria-live="polite"></p>
+    </div>
+  </aside>
+</div>
+<dialog class="modal" id="infoDlg" aria-labelledby="dlgTitle"><form method="dialog"><h2 id="dlgTitle"></h2><div class="modal-body" id="dlgBody"></div><button class="btn-b" value="close"><span>CLOSE</span><span aria-hidden="true">✕</span></button></form></dialog>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script type="module">
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+import Lenis from 'lenis';
+
+/* ---------- constants ---------- */
+const ASSET_BASE_URL = './assets';
+const FRAME_BP = 1024;
+const ARTBOARD_W = 1440;
+const DRACO_PATH = 'https://cdn.jsdelivr.net/npm/three@0.185.0/examples/jsm/libs/draco/gltf/';
+const REEL_HI = 61, REEL_LO = 41;
+const GLYPHS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#$%&*<>@?!';
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const finePointer = matchMedia('(hover: hover) and (pointer: fine)').matches;
+const isDesk = () => innerWidth >= FRAME_BP;
+const rem = () => isDesk() ? innerWidth / ARTBOARD_W : innerWidth / 390;
+const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+const lerp = (a, b, t) => a + (b - a) * t;
+const easeIO = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+
+const PRODUCTS = [
+  { id: 'puffer', anchor: 'card-puffer', name: 'LACQUER PUFFER<br>JACKET', label: 'Lacquer Puffer Jacket', price: '€540', tags: ['HIGH-GLOSS LACQUER', '650 FILL DOWN'],
+    colours: [['SAGE LACQUER', '#5f634c', 'sage'], ['DUNE LACQUER', '#837d5b', 'dune'], ['BONE LACQUER', '#cdc4b0', 'bone'], ['SOOT LACQUER', '#0f0f0f', 'soot']] },
+  { id: 'hoodie', anchor: 'card-hoodie', name: 'HEAVY BOXY<br>HOODIE', label: 'Heavy Boxy Hoodie', price: '€190', tags: ['500 GSM FLEECE', 'BOXY FIT'],
+    colours: [['OAT', '#cbc1ad', 'oat'], ['SAGE', '#7f8569', 'sage'], ['WASHED BLACK', '#2b2a29', 'washed-black'], ['UMBER', '#5b4636', 'umber']] },
+  { id: 'jogger', anchor: 'card-jogger', name: 'OPEN LEG<br>JOGGER', label: 'Open Leg Jogger', price: '€160', tags: ['600 GSM JERSEY', 'RAW-CUT HEM'],
+    colours: [['WHITE', '#ebe9e3', 'white'], ['OAT', '#cbc1ad', 'oat'], ['GREY MELANGE', '#9e9d99', 'grey-melange'], ['WASHED BLACK', '#2b2a29', 'washed-black']] },
+];
+const LAYERS = [
+  ['LACQUER OUTER SHELL', 'HIGH-GLOSS COATED NYLON WITH A DWR FINISH. SHEDS RAIN, WIND AND STREET GRIME.'],
+  ['DOWNPROOF RIPSTOP', 'TIGHT-WOVEN GRID THAT KEEPS EVERY FEATHER INSIDE AND STOPS TEARS FROM RUNNING.'],
+  ['650 FILL DOWN', 'RESPONSIBLY SOURCED DOWN IN 14 CM BOX BAFFLES. HOLDS ITS LOFT, NOT ITS WEIGHT.'],
+  ['BREATHABLE MEMBRANE', 'MICRO-PERFORATED FILM THAT LETS MOISTURE OUT AND KEEPS THE WARMTH CLOSE.'],
+  ['TAFFETA LINING', 'SMOOTH INNER LAYER THAT SLIDES OVER A HEAVY HOODIE WITHOUT CATCHING.'],
+];
+
+/* ---------- v3: product detail content ---------- */
+const SLUG = { puffer: 'jacket', hoodie: 'hoodie', jogger: 'jogger' }, BYSLUG = { jacket: 'puffer', hoodie: 'hoodie', jogger: 'jogger' };
+const SIZES = ['XS', 'S', 'M', 'L', 'XL'];
+const PRICE = { puffer: 540, hoodie: 190, jogger: 160 };
+const DETAIL = {
+  puffer: { copy: 'AN OVERSIZED PUFFER CUT SHORT AND WIDE. 650 FILL DOWN IN 14 CM BOX BAFFLES, SEALED IN A HIGH-GLOSS LACQUER SHELL WITH A TALL FUNNEL COLLAR AND THE TONAL 09 MARK ON THE LEFT CHEST.',
+    acc: [['MATERIAL', 'SHELL: LACQUER-COATED NYLON RIPSTOP WITH DWR. FILL: 650 FP RESPONSIBLY SOURCED DOWN (90/10). LINING: 100 % POLYAMIDE TAFFETA. TRIMS: TWO-WAY METAL ZIP, RIB CUFFS AND HEM.'],
+      ['CARE', 'WIPE THE LACQUER CLEAN WITH A DAMP CLOTH. MACHINE WASH COLD ON A DOWN CYCLE, TUMBLE LOW WITH DRYER BALLS. DO NOT IRON, DO NOT DRY CLEAN.'],
+      ['FIT', 'OVERSIZED AND CROPPED, ENDS AT THE HIP. TAKE YOUR USUAL SIZE; SIZE DOWN FOR A CLOSER FIT. MODEL WEARS SIZE M.'],
+      ['SHIPPING & RETURNS', 'EU-WIDE IN 2–4 WORKING DAYS, TRACKED AND INSURED, FREE ABOVE €150. FREE RETURNS WITHIN 30 DAYS.']] },
+  hoodie: { copy: 'A HEAVY BOXY HOODIE IN 500 GSM LOOPBACK COTTON, BRUSHED INSIDE. DROPPED SHOULDER, DOUBLE-LAYER HOOD, RIB CUFFS AND HEM, AND THE TONAL 09 MARK CENTRED ON THE CHEST.',
+    acc: [['MATERIAL', '100 % ORGANIC COTTON LOOPBACK, 500 GSM, GARMENT-DYED AND PRE-SHRUNK. 2×2 RIB CUFFS AND HEM WITH 5 % ELASTANE. DOUBLE-LAYER HOOD, NO DRAWCORD.'],
+      ['CARE', 'WASH AT 30 °C INSIDE OUT WITH SIMILAR COLOURS. DO NOT TUMBLE DRY. DO NOT IRON THE PRINT. DRY FLAT TO KEEP THE BOX SHAPE.'],
+      ['FIT', 'BOXY, WIDE BODY WITH A DROPPED SHOULDER AND SHORTER LENGTH. TAKE YOUR USUAL SIZE. MODEL WEARS SIZE M.'],
+      ['SHIPPING & RETURNS', 'EU-WIDE IN 2–4 WORKING DAYS, TRACKED AND INSURED, FREE ABOVE €150. FREE RETURNS WITHIN 30 DAYS.']] },
+  jogger: { copy: 'AN OPEN LEG JOGGER IN 600 GSM COTTON JERSEY. WIDE RIB WAISTBAND WITH A FLAT DRAWCORD, DEEP SEAM POCKETS, A RAW-CUT OPEN HEM AND THE TONAL 09 MARK ON THE LEFT LEG BELOW THE POCKET.',
+    acc: [['MATERIAL', '100 % COTTON JERSEY, 600 GSM, BRUSHED BACK. RIB WAISTBAND WITH 5 % ELASTANE AND A FLAT COTTON DRAWCORD THROUGH METAL EYELETS. TWILL POCKET BAGS.'],
+      ['CARE', 'WASH AT 30 °C INSIDE OUT. DO NOT TUMBLE DRY. THE RAW HEM SOFTENS AND FRAYS SLIGHTLY OVER TIME, BY DESIGN.'],
+      ['FIT', 'TRUE TO WAIST WITH A RELAXED, STRAIGHT OPEN LEG THAT STACKS OVER THE SHOE. MODEL WEARS SIZE M.'],
+      ['SHIPPING & RETURNS', 'EU-WIDE IN 2–4 WORKING DAYS, TRACKED AND INSURED, FREE ABOVE €150. FREE RETURNS WITHIN 30 DAYS.']] },
+};
+const TECH = {
+  puffer: { tab: 'JACKET', copy: 'EVERY LAYER HAS A PURPOSE.<br>FROM THE LACQUER OUTER SHELL<br>TO THE DOWN INSIDE,<br>THE PUFFER KEEPS ITS VOLUME<br>WITHOUT ADDING WEIGHT.',
+    aria: 'Exploded view of the Lacquer Puffer\'s five layers: lacquer outer shell, downproof ripstop, 650 fill down, breathable membrane and taffeta lining.',
+    layers: LAYERS.map((l, i) => [l[0], l[1], `technology-icon-0${i + 1}`]) },
+  hoodie: { tab: 'HOODIE', copy: 'EVERY LAYER HAS A PURPOSE.<br>500 GSM LOOPBACK COTTON,<br>BRUSHED INSIDE, RIBBED AT THE EDGES,<br>CUT BOXY ON A DROPPED SHOULDER,<br>PRINTED TONE ON TONE.',
+    aria: 'Exploded view of the Heavy Boxy Hoodie\'s five components: tonal 09 print, 500 gsm loopback face, brushed loop back, rib-knit cuffs and hem, dropped-shoulder sleeve panel.',
+    layers: [['TONAL 09 PRINT', 'WATER-BASED INK ONE SHADE DARKER THAN THE COTTON. SITS IN THE FABRIC, NOT ON IT.', 'tech-print'],
+      ['500 GSM LOOPBACK', 'HEAVYWEIGHT ORGANIC COTTON, TIGHT JERSEY FACE. HOLDS THE BOX SHAPE WASH AFTER WASH.', 'tech-knit'],
+      ['BRUSHED LOOP BACK', 'THE INNER LOOPS ARE BRUSHED INTO A SOFT FLEECE THAT TRAPS AIR AND WARMTH.', 'tech-loop'],
+      ['RIB-KNIT CUFFS & HEM', '2×2 RIB WITH 5 % ELASTANE. SNAPS BACK AND STACKS THE SLEEVE AT THE WRIST.', 'tech-rib'],
+      ['DROPPED SHOULDER', 'THE SLEEVE SEAM SITS 9 CM BELOW THE SHOULDER POINT FOR THE WIDE, BOXY DRAPE.', 'tech-shoulder']] },
+  jogger: { tab: 'JOGGER', copy: 'EVERY LAYER HAS A PURPOSE.<br>600 GSM JERSEY, A RIB WAISTBAND<br>WITH A FLAT DRAWCORD,<br>DEEP SEAM POCKETS<br>AND A RAW-CUT OPEN HEM.',
+    aria: 'Exploded view of the Open Leg Jogger\'s five components: tonal 09 print, 600 gsm jersey, seam pocket bag, rib waistband with drawcord, raw-cut open hem.',
+    layers: [['TONAL 09 PRINT', 'THE GOTHIC MARK ON THE LEFT LEG BELOW THE POCKET, ONE SHADE DARKER THAN THE JERSEY.', 'tech-print'],
+      ['600 GSM JERSEY', 'DENSE COTTON JERSEY WITH A BRUSHED BACK. HEAVY ENOUGH TO HANG STRAIGHT, NOT CLING.', 'tech-knit'],
+      ['SEAM POCKET', 'DEEP TWILL POCKET BAGS HIDDEN IN THE SIDE SEAM. NO BULK, NOTHING FALLS OUT.', 'tech-pocket'],
+      ['RIB WAISTBAND & DRAWCORD', '6 CM RIB WAISTBAND WITH A FLAT COTTON DRAWCORD THROUGH TWO METAL EYELETS.', 'tech-cord'],
+      ['OPEN RAW-CUT HEM', 'NO CUFF, NO STITCH: THE LEG IS CUT RAW AND FALLS OPEN OVER THE SHOE.', 'tech-hem']] },
+};
+const INFO = {
+  privacy: ['PRIVACY POLICY', '<p>THIS IS A CONCEPT DEMO FOR A FICTIONAL BRAND. THE SITE SETS NO TRACKING COOKIES AND SENDS NO FORM DATA ANYWHERE.</p><p>YOUR CART IS KEPT ONLY IN THIS BROWSER (LOCAL STORAGE) SO IT SURVIVES A RELOAD. CLEAR YOUR BROWSER DATA TO REMOVE IT.</p>'],
+  terms: ['TERMS & CONDITIONS', '<p>KYRZEN IS NOT A REAL BRAND. NOTHING ON THIS SITE IS FOR SALE, NO ORDERS ARE TAKEN AND NOTHING IS CHARGED.</p><p>PRICES, MATERIALS AND DELIVERY TIMES ARE ILLUSTRATIVE.</p>'],
+  size: ['SIZE GUIDE', '<table><tr><th>SIZE</th><th>CHEST CM</th><th>WAIST CM</th><th>INSEAM CM</th></tr><tr><td>XS</td><td>84–88</td><td>68–72</td><td>78</td></tr><tr><td>S</td><td>88–94</td><td>72–78</td><td>79</td></tr><tr><td>M</td><td>94–100</td><td>78–84</td><td>80</td></tr><tr><td>L</td><td>100–106</td><td>84–90</td><td>81</td></tr><tr><td>XL</td><td>106–112</td><td>90–96</td><td>82</td></tr></table><p>PUFFER AND HOODIE ARE CUT OVERSIZED: TAKE YOUR USUAL SIZE. THE JOGGER RUNS TRUE TO WAIST.</p>'],
+};
+const eur = n => '€' + n.toLocaleString('en-GB');
+
+/* ---------- failure banner ---------- */
+const errBox = $('#loadErrors');
+function fail(url, err) {
+  console.warn('Asset failed:', url, err);
+  if ([...errBox.children].some(p => p.dataset.url === url)) return;
+  const p = document.createElement('p'); p.dataset.url = url;
+  p.textContent = 'Failed to load: ' + url; errBox.append(p);
+}
+
+/* ---------- shared ticker ---------- */
+const subs = new Set();
+const ticker = { add: f => subs.add(f), remove: f => subs.delete(f) };
+let lastT = performance.now();
+function loop(t) { const dt = Math.min(.05, (t - lastT) / 1000); lastT = t; for (const f of subs) f(t, dt); requestAnimationFrame(loop); }
+requestAnimationFrame(loop);
+
+/* ---------- smooth scroll ---------- */
+let lenis = null;
+if (!reduced) { lenis = new Lenis({ autoRaf: false, lerp: .1, smoothWheel: true }); ticker.add(t => lenis.raf(t)); }
+
+
+/* ---------- scramble decoder ---------- */
+const active = new Map();
+function textNodes(el) { const w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT); const out = []; while (w.nextNode()) if (w.currentNode.nodeValue.trim()) out.push(w.currentNode); return out; }
+function scramble(el, dur = 650) {
+  if (reduced || !el) return;
+  if (!el._sc) el._sc = textNodes(el).map(n => ({ n, t: n.nodeValue }));
+  if (!el.hasAttribute('aria-label') && !el.closest('[aria-hidden="true"]')) el.setAttribute('aria-label', el._sc.map(x => x.t).join(' ').replace(/\s+/g, ' ').trim());
+  active.set(el, { t0: performance.now(), dur, f: 0 });
+}
+ticker.add(t => {
+  for (const [el, s] of active) {
+    const p = clamp((t - s.t0) / s.dur); s.f++;
+    const total = el._sc.reduce((a, x) => a + x.t.length, 0);
+    let rev = Math.floor(p * p * total * 1.05), k = 0;
+    if (s.f % 2 === 0 || p >= 1) for (const x of el._sc) {
+      let out = '';
+      for (const ch of x.t) { out += (k < rev || ch === ' ' || ch === '\n' || p >= 1) ? ch : GLYPHS[(Math.random() * GLYPHS.length) | 0]; k++; }
+      x.n.nodeValue = out;
+    }
+    if (p >= 1) active.delete(el);
+  }
+});
+function hoverScramble(root = document) {
+  $$('[data-scramble]', root).forEach(el => {
+    const host = el.closest('a,button') || el;
+    if (host._hs) return; host._hs = true;
+    const run = () => $$('[data-scramble]', host).concat(host.matches('[data-scramble]') ? [host] : []).forEach(x => scramble(x, 450));
+    if (host !== el || host.matches('a,button')) { host.addEventListener('pointerenter', run); host.addEventListener('focus', run); }
+  });
+}
+
+/* ---------- reveal observers ---------- */
+let ready = false;
+const arrival = new IntersectionObserver(es => es.forEach(e => {
+  if (!e.isIntersecting || !ready) return;
+  const el = e.target; arrival.unobserve(el);
+  el.classList.add('in');
+  if (el.matches('[data-scramble]')) scramble(el, 700);
+  $$('[data-scramble]', el).forEach(x => scramble(x, 700));
+}), { threshold: .15 });
+function observeArrivals() { $$('[data-reveal],main [data-scramble],footer [data-scramble]').forEach(el => { if (!el.closest('[data-reveal]') || el.matches('[data-reveal]')) arrival.observe(el); }); }
+
+/* ---------- menus ---------- */
+const subT = $('.sub-toggle'), subM = $('#submenu'), burger = $('.burger'), mob = $('#mobileMenu');
+function closeMenus() { subT.setAttribute('aria-expanded', 'false'); subM.classList.remove('open'); burger.setAttribute('aria-expanded', 'false'); mob.hidden = true; document.documentElement.style.overflow = ''; }
+subT.addEventListener('click', () => { const o = subT.getAttribute('aria-expanded') !== 'true'; subT.setAttribute('aria-expanded', o); subM.classList.toggle('open', o); if (o) $$('[data-scramble]', subM).forEach(x => scramble(x, 400)); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { const wasOpen = subM.classList.contains('open'); closeMenus(); if (wasOpen) subT.focus(); } });
+document.addEventListener('pointerdown', e => { if (!e.target.closest('.primary')) { subT.setAttribute('aria-expanded', 'false'); subM.classList.remove('open'); } });
+burger.addEventListener('click', () => { const o = burger.getAttribute('aria-expanded') !== 'true'; burger.setAttribute('aria-expanded', o); mob.hidden = !o; });
+
+/* ---------- cart: items, qty, remove, drawer (no real checkout) ---------- */
+const CART_KEY = 'kyrzen-demo-cart';
+let cartItems = []; try { cartItems = JSON.parse(localStorage.getItem(CART_KEY) || '[]').filter(x => PRICE[x.id] && SIZES.includes(x.size)); } catch { cartItems = []; }
+const prodOf = id => PRODUCTS.find(p => p.id === id);
+function saveCart() { try { localStorage.setItem(CART_KEY, JSON.stringify(cartItems)); } catch {} }
+function cartCount() { return cartItems.reduce((a, x) => a + x.qty, 0); }
+function renderCart() {
+  const n = cartCount(), sub = cartItems.reduce((a, x) => a + x.qty * PRICE[x.id], 0);
+  $('#cartCount').textContent = n; $$('.cartMirror').forEach(x => x.textContent = n); $('#cartN').textContent = n;
+  $('#cartBtn').setAttribute('aria-label', `Open cart, ${n} item${n === 1 ? '' : 's'}`);
+  $('#cartSub').textContent = eur(sub); $('#cartShip').textContent = sub >= 150 || !sub ? 'FREE' : '€9 (FREE ABOVE €150)';
+  $('#cartEmpty').hidden = n > 0; $('#cartFoot').hidden = n === 0;
+  $('#cartItems').innerHTML = cartItems.map((x, i) => { const p = prodOf(x.id), c = p.colours[x.k];
+    return `<li class="ci" data-i="${i}"><img src="${ASSET_BASE_URL}/products/${p.id}-${c[2]}.webp" alt="" width="76" height="76"><div><h3>${p.label.toUpperCase()}</h3>
+      <div class="meta"><span>${c[0]}</span><label><span class="sr-only">Size</span><select data-act="size" aria-label="Size for ${p.label}">${SIZES.map(s => `<option${s === x.size ? ' selected' : ''}>${s}</option>`).join('')}</select></label></div>
+      <div class="qty"><button type="button" data-act="dec" aria-label="One less ${p.label}">−</button><output aria-label="Quantity">${x.qty}</output><button type="button" data-act="inc" aria-label="One more ${p.label}">+</button></div></div>
+      <div><span class="lp">${eur(x.qty * PRICE[x.id])}</span><button type="button" class="rm" data-act="rm">REMOVE</button></div></li>`; }).join('');
+}
+function cartAdd(id, k, size) {
+  const hit = cartItems.find(x => x.id === id && x.k === k && x.size === size);
+  if (hit) hit.qty = Math.min(9, hit.qty + 1); else cartItems.push({ id, k, size, qty: 1 });
+  saveCart(); renderCart(); openCart();
+  $('#cartMsg').textContent = `ADDED: ${prodOf(id).label.toUpperCase()}, ${prodOf(id).colours[k][0]}, SIZE ${size}.`;
+}
+$('#cartItems').addEventListener('click', e => {
+  const b = e.target.closest('button[data-act]'); if (!b) return; const i = +b.closest('.ci').dataset.i, x = cartItems[i];
+  if (b.dataset.act === 'inc') x.qty = Math.min(9, x.qty + 1);
+  if (b.dataset.act === 'dec') { x.qty--; if (!x.qty) cartItems.splice(i, 1); }
+  if (b.dataset.act === 'rm') cartItems.splice(i, 1);
+  const keep = b.dataset.act; saveCart(); renderCart(); $('#cartMsg').textContent = '';
+  const row = $(`.ci[data-i="${i}"] [data-act="${keep}"]`) || $('#cartItems button') || $('#cartEmpty a'); row && row.focus();
+});
+$('#cartItems').addEventListener('change', e => {
+  const s = e.target.closest('select[data-act="size"]'); if (!s) return; const i = +s.closest('.ci').dataset.i, x = cartItems[i];
+  const dup = cartItems.findIndex((y, j) => j !== i && y.id === x.id && y.k === x.k && y.size === s.value);
+  if (dup >= 0) { cartItems[dup].qty = Math.min(9, cartItems[dup].qty + x.qty); cartItems.splice(i, 1); } else x.size = s.value;
+  saveCart(); renderCart();
+});
+$('#checkout').addEventListener('click', () => { $('#cartMsg').textContent = 'CONCEPT DEMO: CHECKOUT IS SWITCHED OFF. NO ORDER IS PLACED, NOTHING IS CHARGED.'; });
+const drawer = $('#cart'); let lastFocus = null;
+function openCart() {
+  if (!drawer.hidden) return; closeMenus(); lastFocus = document.activeElement;
+  drawer.hidden = false; requestAnimationFrame(() => drawer.classList.add('open'));
+  document.documentElement.style.overflow = 'hidden'; lenis && lenis.stop();
+  setTimeout(() => $('.x', drawer).focus(), 30);
+}
+function closeCart() {
+  if (drawer.hidden) return; drawer.classList.remove('open'); document.documentElement.style.overflow = ''; lenis && lenis.start();
+  setTimeout(() => { drawer.hidden = true; }, reduced ? 0 : 420); lastFocus && lastFocus.focus && lastFocus.focus({ preventScroll: true });
+}
+drawer.addEventListener('click', e => { if (e.target.closest('[data-close]')) { const a = e.target.closest('a'); closeCart(); if (a) { e.preventDefault(); goTo('#collection'); } } });
+drawer.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { e.stopPropagation(); closeCart(); }
+  if (e.key !== 'Tab') return; const f = $$('button,select,a[href]', drawer).filter(x => x.offsetParent); if (!f.length) return;
+  if (e.shiftKey && document.activeElement === f[0]) { e.preventDefault(); f.at(-1).focus(); } else if (!e.shiftKey && document.activeElement === f.at(-1)) { e.preventDefault(); f[0].focus(); }
+});
+$('#cartBtn').addEventListener('click', openCart);
+$$('.cart-open').forEach(b => b.addEventListener('click', openCart));
+function addToCart(_, id, k) { cartAdd(id, k, 'M'); }
+
+/* ---------- info dialogs + toast ---------- */
+const dlg = $('#infoDlg');
+function openInfo(key) { const d = INFO[key]; if (!d) return; $('#dlgTitle').textContent = d[0]; $('#dlgBody').innerHTML = d[1]; lenis && lenis.stop(); dlg.showModal(); }
+dlg.addEventListener('close', () => { lenis && drawer.hidden && lenis.start(); });
+dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); });
+let toastT = 0;
+function toast(msg) { const t = $('#toast'); t.textContent = msg; t.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('on'), 2600); }
+
+/* ---------- collection cards ---------- */
+const state = { colour: { puffer: 0, hoodie: 0, jogger: 0 } };
+const cardsEl = $('#cards');
+PRODUCTS.forEach((p, i) => {
+  const li = document.createElement('li'); li.className = 'card'; li.id = p.anchor; li.setAttribute('data-reveal', '');
+  li.innerHTML = `
+    <div class="card-top"><span aria-hidden="true">0${i + 1}</span><button class="add" type="button" aria-label="Quick add ${p.label}, size M, to cart"><img src="${ASSET_BASE_URL}/ui/collections-corner.svg" alt=""></button></div>
+    <div class="card-head"><a class="card-name" href="#/product/${SLUG[p.id]}"><h3 data-scramble>${p.name}</h3></a><span class="price">${p.price}</span></div>
+    <div class="card-stage">
+      <div class="card-media"><img src="${ASSET_BASE_URL}/products/${p.id}-${p.colours[0][2]}.webp" alt="${p.label} in ${p.colours[0][0].toLowerCase()}, rendered from the 3D model" width="900" height="900" loading="lazy" decoding="async"></div>
+      <div class="swatches" role="group" aria-label="${p.label} colour">${p.colours.map((c, k) => `<button class="sw" type="button" style="--c:${c[1]}" aria-pressed="${k === 0}" aria-label="${c[0].toLowerCase()}" data-k="${k}"><i></i></button>`).join('')}</div>
+      <span class="drag-hint" aria-hidden="true">DRAG TO ROTATE · TAP TO OPEN</span>
+      <span class="colour-name" aria-live="polite">${p.colours[0][0]}</span>
+    </div>
+    <div class="card-foot"><ul class="tags">${p.tags.map(t => `<li>${t}</li>`).join('')}</ul>
+      <a class="shop-now" href="#/product/${SLUG[p.id]}" aria-label="Shop the ${p.label}"><span data-scramble>SHOP NOW</span><img src="${ASSET_BASE_URL}/ui/arrow-right.svg" alt=""></a></div>`;
+  cardsEl.append(li);
+  li.querySelector('.add').addEventListener('click', () => addToCart(0, p.id, state.colour[p.id]));
+  li.querySelectorAll('.sw').forEach(b => b.addEventListener('click', () => selectColour(p.id, +b.dataset.k)));
+  // drag to rotate the live model
+  const media = li.querySelector('.card-media'); const drag = { yaw: 0, v: 0, down: false, x: 0 }; media._drag = drag;
+  media.addEventListener('pointerdown', e => { drag.down = true; drag.x = e.clientX; drag.moved = 0; media.setPointerCapture(e.pointerId); });
+  media.addEventListener('pointermove', e => { if (!drag.down) return; const dx = e.clientX - drag.x; drag.x = e.clientX; drag.moved += Math.abs(dx); drag.v = dx * .012; drag.yaw += drag.v; });
+  const up = () => { drag.down = false; media._kick = 1; }; media.addEventListener('pointerenter', () => { media._kick = .7; }); media.addEventListener('pointerup', up); media.addEventListener('pointercancel', up);
+  media.tabIndex = 0; media.setAttribute('role', 'link'); media.setAttribute('aria-label', `${p.label} in 3D. Enter opens the product, arrow keys rotate.`);
+  media.addEventListener('click', () => { if ((drag.moved || 0) < 6) location.hash = '#/product/' + SLUG[p.id]; });
+  media.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); location.hash = '#/product/' + SLUG[p.id]; } if (e.key === 'ArrowLeft') { drag.yaw -= .3; e.preventDefault(); } if (e.key === 'ArrowRight') { drag.yaw += .3; e.preventDefault(); } });
+  // card tilt towards the cursor
+  const tilt = { x: 0, y: 0, tx: 0, ty: 0 }; li._tilt = tilt;
+  if (finePointer && !reduced) {
+    li.addEventListener('pointermove', e => { const r = li.getBoundingClientRect(); tilt.ty = ((e.clientX - r.left) / r.width - .5) * 10; tilt.tx = -((e.clientY - r.top) / r.height - .5) * 8; });
+    li.addEventListener('pointerleave', () => { tilt.tx = 0; tilt.ty = 0; });
+    ticker.add(() => { tilt.x = lerp(tilt.x, tilt.tx, .12); tilt.y = lerp(tilt.y, tilt.ty, .12); li.style.transform = `rotateX(${tilt.x.toFixed(2)}deg) rotateY(${tilt.y.toFixed(2)}deg)`; });
+  }
+});
+
+/* ---------- colour: one state, shared by cards, product view and 3D ---------- */
+function selectColour(id, k) {
+  const p = prodOf(id); state.colour[id] = k;
+  const li = $('#' + p.anchor);
+  li.querySelectorAll('.sw').forEach(x => x.setAttribute('aria-pressed', +x.dataset.k === k));
+  const cn = li.querySelector('.colour-name'); cn.textContent = p.colours[k][0]; scramble(cn, 350);
+  const im = li.querySelector('.card-media img'); im.src = `${ASSET_BASE_URL}/products/${p.id}-${p.colours[k][2]}.webp`; im.alt = `${p.label} in ${p.colours[k][0].toLowerCase()}, rendered from the 3D model`;
+  setColour(id, p.colours[k][1]);
+  if (pdp.id === id) paintPdpColour();
+  $$(`#related [data-id="${id}"] img`).forEach(x => x.src = `${ASSET_BASE_URL}/products/${p.id}-${p.colours[k][2]}.webp`);
+}
+
+/* ---------- product view: hash routes #/product/{jacket|hoodie|jogger} ---------- */
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+const pdp = { id: null, size: null, fromHome: false };
+let route = 'home', homeY = 0, techHome = null, techTab = 'puffer';
+const pdpEl = $('#product');
+function parseRoute() { const m = location.hash.match(/^#\/product\/(jacket|hoodie|jogger)\/?$/); return m ? BYSLUG[m[1]] : null; }
+function jump(y) { if (lenis) { lenis.resize(); lenis.scrollTo(y, { immediate: true, force: true }); } else scrollTo(0, y); }
+function paintPdpColour() {
+  const p = prodOf(pdp.id), k = state.colour[pdp.id];
+  $$('#pdpSw .sw').forEach(x => x.setAttribute('aria-pressed', +x.dataset.k === k));
+  $('#pdpColour').textContent = p.colours[k][0];
+  $('#pdpStage').setAttribute('aria-label', `${p.label} in ${p.colours[k][0].toLowerCase()}, worn by a faceless 3D mannequin. Drag or use the arrow keys to turn.`);
+}
+function fillPdp(id) {
+  const p = prodOf(id), d = DETAIL[id], i = PRODUCTS.indexOf(p);
+  pdp.id = id; pdp.size = null;
+  const nm = $('#pdpName'); nm.innerHTML = p.name; nm._sc = null; nm.removeAttribute('aria-label');
+  $('#pdpIdx').textContent = `0${i + 1} / 03`; $('#pdpCrumb').textContent = p.label.toUpperCase();
+  $('#pdpPrice').textContent = eur(PRICE[id]); $('#pdpAddPrice').textContent = eur(PRICE[id]); $('#pdpCopy').textContent = d.copy;
+  $('#pdpSw').innerHTML = p.colours.map((c, k) => `<button class="sw" type="button" style="--c:${c[1]}" aria-pressed="false" aria-label="${c[0].toLowerCase()}" data-k="${k}"><i></i></button>`).join('');
+  $('#pdpSizes').innerHTML = SIZES.map(s => `<button type="button" aria-pressed="false" data-s="${s}">${s}</button>`).join(''); $('#pdpSizes').classList.remove('need');
+  $('#pdpMsg').textContent = '';
+  $('#pdpAcc').innerHTML = d.acc.map((a, k) => `<details${k === 0 ? ' open' : ''}><summary>${a[0]}</summary><div class="acc-b">${a[1]}</div></details>`).join('');
+  $('#related').innerHTML = PRODUCTS.filter(q => q.id !== id).map(q => `<li><a href="#/product/${SLUG[q.id]}" data-id="${q.id}"><img src="${ASSET_BASE_URL}/products/${q.id}-${q.colours[state.colour[q.id]][2]}.webp" alt="" width="200" height="200" loading="lazy"><div><h3>${q.name}</h3><p>${eur(PRICE[q.id])} · ${q.tags.join(' · ')}</p><span class="go">VIEW PIECE <img src="${ASSET_BASE_URL}/ui/arrow-right.svg" alt=""></span></div></a></li>`).join('');
+  paintPdpColour(); document.title = `${p.label} — KYRZEN`;
+  if (window.__look) window.__look.show(id);
+}
+$('#pdpSw').addEventListener('click', e => { const b = e.target.closest('.sw'); if (b) selectColour(pdp.id, +b.dataset.k); });
+$('#pdpSizes').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; pdp.size = b.dataset.s; $$('#pdpSizes button').forEach(x => x.setAttribute('aria-pressed', x === b)); $('#pdpSizes').classList.remove('need'); $('#pdpMsg').textContent = `SIZE ${pdp.size} SELECTED.`; });
+$('#pdpAdd').addEventListener('click', () => {
+  if (!pdp.size) { $('#pdpSizes').classList.add('need'); $('#pdpMsg').textContent = 'PICK A SIZE FIRST.'; $('#pdpSizes button').focus(); return; }
+  cartAdd(pdp.id, state.colour[pdp.id], pdp.size);
+});
+function showPdp(id) {
+  if (route === 'home') { homeY = scrollY; }
+  route = 'pdp'; closeMenus(); closeCart();
+  document.documentElement.classList.add('is-pdp'); pdpEl.hidden = false;
+  fillPdp(id); placeTech(true, id);
+  jump(0);
+  requestAnimationFrame(() => { $('#pdp-title').focus({ preventScroll: true }); if (ready) scramble($('#pdpName'), 600); });
+}
+function showHome(y) {
+  const was = route; route = 'home';
+  document.documentElement.classList.remove('is-pdp'); pdpEl.hidden = true; placeTech(false);
+  document.title = HOME_TITLE; if (window.__look) window.__look.show(null);
+  if (was === 'pdp') jump(y == null ? homeY : y);
+}
+const HOME_TITLE = document.title;
+function applyRoute() { const id = parseRoute(); if (id) { pdp.fromHome = route === 'home' && ready; showPdp(id); } else if (route === 'pdp') showHome(); }
+addEventListener('hashchange', applyRoute);
+
+/* in-page anchors scroll with Lenis; from a product view they first return home */
+function scrollToId(id) {
+  const el = id === '#top' ? document.body : $(id); if (!el) return;
+  if (lenis) lenis.scrollTo(el === document.body ? 0 : el, { offset: id.startsWith('#card') ? -90 : 0, duration: 1.2 });
+  else (el === document.body ? scrollTo(0, 0) : el.scrollIntoView());
+  if (el.focus && el !== document.body) { el.setAttribute('tabindex', '-1'); el.focus({ preventScroll: true }); }
+}
+function goTo(id) {
+  if (route === 'pdp') { history.pushState(null, '', location.pathname + location.search); showHome(id === '#top' ? 0 : homeY); requestAnimationFrame(() => { const el = id === '#top' ? null : $(id); if (el) jump(el.getBoundingClientRect().top + scrollY + (id.startsWith('#card') ? -90 : 0)); else jump(0); }); return; }
+  scrollToId(id);
+}
+document.addEventListener('click', e => {
+  const a = e.target.closest('a[href^="#"]'); if (!a || a.closest('#cart')) return;
+  const id = a.getAttribute('href');
+  if (a.dataset.dialog) { e.preventDefault(); closeMenus(); openInfo(a.dataset.dialog); return; }
+  if (a.dataset.toast) { e.preventDefault(); toast(a.dataset.toast); return; }
+  if (id.startsWith('#/')) { closeMenus(); if (id === location.hash) { e.preventDefault(); applyRoute(); } return; }
+  e.preventDefault(); closeMenus();
+  if (a.hasAttribute('data-back') && pdp.fromHome) { history.back(); return; }
+  goTo(id);
+});
+
+/* ---------- technology: one pinned explode, three products ---------- */
+const techSec = $('#technology');
+const tabs = document.createElement('div'); tabs.className = 'tech-tabs'; tabs.setAttribute('role', 'tablist'); tabs.setAttribute('aria-label', 'Technology by product');
+tabs.innerHTML = PRODUCTS.map(p => `<button type="button" role="tab" id="tab-${p.id}" aria-controls="reel" aria-selected="${p.id === 'puffer'}" tabindex="${p.id === 'puffer' ? 0 : -1}" data-id="${p.id}">${TECH[p.id].tab}</button>`).join('');
+$('#techStage .tech-copy').before(tabs);
+tabs.addEventListener('click', e => { const b = e.target.closest('button'); if (b) { techTab = b.dataset.id; setTech(b.dataset.id); } });
+tabs.addEventListener('keydown', e => { if (!['ArrowLeft', 'ArrowRight'].includes(e.key)) return; const bs = $$('button', tabs), i = bs.indexOf(document.activeElement); const n = bs[(i + (e.key === 'ArrowRight' ? 1 : 2)) % 3]; n.focus(); n.click(); e.preventDefault(); });
+function placeTech(onPdp, id) {
+  if (!techHome) techHome = { parent: techSec.parentNode, next: techSec.nextElementSibling };
+  if (onPdp) { $('#pdpTech').append(techSec); setTech(id); tabs.hidden = true; }
+  else { techHome.parent.insertBefore(techSec, techHome.next); setTech(techTab); tabs.hidden = false; }
+}
+
+/* ---------- technology layer list (mobile + screen readers) ---------- */
+$('#layerList').innerHTML = LAYERS.map((l, i) => `<li class="layer" data-reveal><span class="idx" aria-hidden="true">0${i + 1}</span><img src="${ASSET_BASE_URL}/ui/technology-icon-0${i + 1}.svg" alt=""><h3 data-scramble>${l[0]}</h3><p data-scramble>${l[1]}</p></li>`).join('');
+$('#layerCard p').textContent = LAYERS[0][1];
+
+/* ---------- newsletter form ---------- */
+$('#newsForm').addEventListener('submit', e => {
+  e.preventDefault(); const f = e.currentTarget, msg = $('#newsMsg');
+  if (!f.email.checkValidity()) { msg.textContent = 'PLEASE ENTER A VALID E-MAIL.'; f.email.focus(); return; }
+  if (!f.consent.checked) { msg.textContent = 'PLEASE TICK THE BOX TO AGREE.'; f.consent.focus(); return; }
+  msg.textContent = 'THANK YOU. YOU ARE ON THE LIST.'; f.reset();
+});
+
+/* ---------- pointer field: lattice squares brighten under the cursor ---------- */
+const field = $('#field'), fctx = field.getContext('2d');
+const cells = new Map(); let pointer = { x: -999, y: -999, nx: 0, ny: 0, moved: false };
+addEventListener('pointermove', e => { pointer.x = e.clientX; pointer.y = e.clientY; pointer.nx = e.clientX / innerWidth * 2 - 1; pointer.ny = e.clientY / innerHeight * 2 - 1; pointer.moved = true; }, { passive: true });
+function sizeField() { field.width = innerWidth; field.height = innerHeight; }
+sizeField();
+if (finePointer && !reduced) ticker.add(() => {
+  const sy = scrollY;
+  if (pointer.moved) {
+    const R = 6, cx = Math.floor(pointer.x / 10), cy = Math.floor((pointer.y + sy) / 10);
+    for (let i = -R; i <= R; i++) for (let j = -R; j <= R; j++) { const d = Math.hypot(i, j); if (d > R) continue; const k = (cx + i) + ',' + (cy + j); const v = (1 - d / R) ** 1.6; cells.set(k, Math.max(cells.get(k) || 0, v)); }
+    pointer.moved = false;
+  }
+  fctx.clearRect(0, 0, field.width, field.height);
+  for (const [k, v] of cells) {
+    const nv = v * .93; if (nv < .02) { cells.delete(k); continue; } cells.set(k, nv);
+    const [c, r] = k.split(',').map(Number); const y = r * 10 - sy; if (y < -10 || y > innerHeight) continue;
+    fctx.fillStyle = `rgba(255,255,255,${(nv * .085).toFixed(3)})`; fctx.fillRect(c * 10 + 1, y + 1, 9, 9);
+  }
+});
+
+/* ---------- preloader gate ---------- */
+const tasks = []; let done = 0;
+const preBar = $('.preloader-bar i'), preCount = $('#preCount');
+function track(p) { tasks.push(p); p.finally(() => { done++; const v = done / tasks.length; preBar.style.setProperty('--p', v); preCount.textContent = String(Math.round(v * 100)).padStart(3, '0') + '%'; }); return p; }
+const fontUrl = `${ASSET_BASE_URL}/fonts/3270-Regular.otf`;
+track(document.fonts.load('16px F3270').then(f => { if (!f.length) throw new Error('font'); }).catch(e => fail(fontUrl, e)));
+track(new Promise(res => { const i = $('.hero-plate'); if (i.complete && i.naturalWidth) res(); else { i.onload = res; i.onerror = () => { fail(i.src); res(); }; } }));
+
+/* ---------- WebGL: one canvas, one context (viewport + scissor per DOM anchor) ---------- */
+const canvas = $('#garment');
+let renderer;
+try { renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance' }); }
+catch (e) { fail('WebGL context', e); }
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(24, 1, .05, 50);
+const instances = [];
+// the lighting rig from 3D models v4 (single source of truth)
+const LIGHT = { exposure: .9, envIntensity: .32, key: [0xfff7ee, 1.15, [-2.5, 3, 4]], fill: [0xeef0f2, .35, [3, .5, 3]], rim: [0xffffff, 1.5, [2.5, 2.5, -3.5]], hemi: [0xf4f2ee, 0x101010, .22] };
+if (renderer) {
+  renderer.setPixelRatio(Math.min(devicePixelRatio, isDesk() ? 2 : 1.75));
+  renderer.setSize(innerWidth, innerHeight, false);
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
+  renderer.toneMapping = THREE.NeutralToneMapping; renderer.toneMappingExposure = LIGHT.exposure;
+  renderer.setClearColor(0x000000, 0); renderer.autoClear = false;
+  scene.environment = new THREE.PMREMGenerator(renderer).fromScene(new RoomEnvironment(), .04).texture; scene.environmentIntensity = LIGHT.envIntensity;
+  for (const k of ['key', 'fill', 'rim']) { const [c, i, p] = LIGHT[k]; const l = new THREE.DirectionalLight(c, i); l.position.set(...p); scene.add(l); }
+  scene.add(new THREE.HemisphereLight(...LIGHT.hemi));
+}
+const ITEMS = {
+  hoodie: { colours: PRODUCTS[1].colours, mat: { rough: .95, sheen: .7 }, logo: { x: 0, y: .38, w: .34 }, big: { x: 0, y: .18, w: 1.2, side: -1 }, rig: 'top' },
+  jogger: { colours: PRODUCTS[2].colours, mat: { rough: .95, sheen: .65 }, logo: { x: .50, y: .26, w: .28 }, big: { x: .48, y: -.3, w: 1.0, side: 1, rot: 1 }, rig: 'legs' },
+};
+const JACKET = { colours: PRODUCTS[0].colours, mat: { lacquer: true }, logo: { x: .30, y: .30, w: .24 }, big: { x: 0, y: .12, w: 1.15, side: -1 }, rig: 'top' };
+const LOGO_ASP = 1139 / 2048;
+const STYLES = [{ k: .66, a: .62, bump: .25 }];   // TONAL DARK: ~18 % darker ink at ~60 % opacity, fabric shows through
+const jacketMats = [];
+const cardMats = { puffer: [], hoodie: [], jogger: [] };
+function setColour(id, hex) {
+  const mel = PRODUCTS.find(p => p.id === id).colours[state.colour[id]][2] === 'grey-melange';
+  cardMats[id].forEach(m => m.setColour(hex, mel));
+  if (id !== 'puffer') return;
+  canvas.setAttribute('aria-label', canvas.getAttribute('aria-label').replace(/in [a-z ]+ lacquer/, `in ${PRODUCTS[0].colours[state.colour.puffer][0].toLowerCase()}`));
+}
+function meanLum(img) {   // fabric "white point": 80th percentile of the atlas luminance (atlas has lots of dark filler)
+  try { const c = document.createElement('canvas'); c.width = c.height = 128; const x = c.getContext('2d'); x.drawImage(img, 0, 0, 128, 128);
+    const d = x.getImageData(0, 0, 128, 128).data, lin = v => (v /= 255) <= .04045 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4, a = [];
+    for (let i = 0; i < d.length; i += 4) { const l = .2126 * lin(d[i]) + .7152 * lin(d[i + 1]) + .0722 * lin(d[i + 2]); if (l > .03) a.push(l); }
+    a.sort((p, q) => p - q); return a.length ? a[Math.floor(a.length * .8)] : .5; } catch { return .5; }
+}
+
+
+/* the wobble, shared by the garments and anything attached to them (hands, feet): spring lag + jelly squash + ripple */
+const WOB_VS = `
+        float wSide = smoothstep(.28, 1.0, abs(u.x));
+        float wHem = smoothstep(-.1, -1.0, u.y);
+        float wTop = smoothstep(.55, 1.0, u.y) * .55;
+        float wLeg = smoothstep(.75, -1.0, u.y);
+        float w = mix(max(max(wSide, wHem * .55), wTop), wLeg, uLegs);
+        p.xz = rot2(uYaw * w) * p.xz;
+        float wp = mix(clamp(abs(u.y), 0.0, 1.0), wLeg, uLegs);
+        p.yz = rot2(uPitch * wp * sign(u.y + 1e-3)) * p.yz;
+        // jelly: squash and stretch hanging from the top edge (collar / waistband), then a ripple through the cloth
+        float hang = clamp((1.0 - u.y) * .5, 0.0, 1.0);
+        p.y = (p.y - uH.y) * (1.0 + uSq * .07) + uH.y;
+        p.xz *= 1.0 - uSq * .05 * hang;
+        float mv = clamp(abs(uYaw) * 3.0 + abs(uPitch) * 3.0 + abs(uBounce) * 4.0 + abs(uSq) * 2.5, 0.0, 1.0);
+        float rip = (.0035 + .012 * uRip) * mv;
+        p.x += sin(u.y * 6.0 - uTime * 10.0) * rip * uH.x * (w + .35 * uRip * hang);
+        p.z += cos(u.y * 5.0 - uTime * 9.0 + u.x * 2.0) * rip * uH.z * (w + .35 * uRip * hang);
+        p.y *= 1.0 + uBounce * .6; p.xz *= 1.0 - uBounce * .25;`;
+const WOB_UNI = 'uniform vec3 uC, uH; uniform float uYaw, uPitch, uBounce, uTime, uLegs, uSq, uRip;\n      mat2 rot2(float a) { float c = cos(a), s = sin(a); return mat2(c, -s, s, c); }';
+
+function garmentMat(src, it, geo, logoTex) {
+  if (src.map) src.map.colorSpace = THREE.SRGBColorSpace;
+  const o = it.mat;
+  const m = o.lacquer
+    // lacquer: high-gloss clearcoat over a smooth base, faint iridescence, reflections from the RoomEnvironment
+    ? new THREE.MeshPhysicalMaterial({ map: src.map, roughness: .26, metalness: 0, clearcoat: 1, clearcoatRoughness: .035, iridescence: .22, iridescenceIOR: 1.32, iridescenceThicknessRange: [180, 420], specularIntensity: 1, envMap: scene.environment, envMapIntensity: 1.0, side: THREE.FrontSide })
+    : new THREE.MeshPhysicalMaterial({ map: src.map, roughness: o.rough, sheen: o.sheen, sheenRoughness: .75, sheenColor: new THREE.Color('#ffffff'), side: THREE.FrontSide });
+  geo.computeBoundingBox(); const bb = geo.boundingBox, C = bb.getCenter(new THREE.Vector3()), H = bb.getSize(new THREE.Vector3()).multiplyScalar(.5);
+  const U = {
+    uTint: { value: new THREE.Color(it.colours[0][1]) }, uMeanLum: { value: src.map ? meanLum(src.map.image) : .5 }, uMel: { value: 0 },
+    uLogo: { value: logoTex }, uLogoOn: { value: logoTex ? 1 : 0 }, uLogoAsp: { value: LOGO_ASP }, uLogoP: { value: new THREE.Vector3() }, uLogoS: { value: new THREE.Vector2(1, 0) }, uTexMix: { value: o.lacquer ? .55 : 1 },
+    uInkK: { value: .66 }, uInkA: { value: .6 }, uBump: { value: .25 }, uWash: { value: 0 }, uCrack: { value: 0 }, uHD: { value: 0 }, uLacq: { value: o.lacquer ? 1 : 0 },
+    uC: { value: C }, uH: { value: H }, uYaw: { value: 0 }, uPitch: { value: 0 }, uBounce: { value: 0 }, uTime: { value: 0 }, uLegs: { value: it.rig === 'legs' ? 1 : 0 }, uSq: { value: 0 }, uRip: { value: .35 }, uInner: { value: 1 },
+  };
+  if (location.search.includes('dbg')) m.defines = { DBG: '' };
+  m.onBeforeCompile = sh => {
+    Object.assign(sh.uniforms, U);
+    sh.vertexShader = sh.vertexShader.replace('#include <common>', `#include <common>
+      ${WOB_UNI} varying vec3 vObj; varying vec3 vObjN;`)
+      .replace('#include <begin_vertex>', `#include <begin_vertex>
+        vObj = (position - uC) / uH; vObjN = normal;
+        vec3 u = vObj;
+        vec3 p = transformed - uC;
+        ${WOB_VS}
+        transformed = p + uC;`);
+    sh.fragmentShader = sh.fragmentShader.replace('#include <common>', `#include <common>
+      uniform float uInner; uniform vec3 uTint; uniform float uMeanLum, uMel, uLogoOn, uLogoAsp, uTexMix, uInkK, uInkA, uBump, uWash, uCrack, uHD, uLacq; uniform sampler2D uLogo; uniform vec3 uLogoP, uH; uniform vec2 uLogoS; varying vec3 vObj; varying vec3 vObjN;
+      float h21(vec2 p) { p = fract(p * vec2(234.34, 435.345)); p += dot(p, p + 34.23); return fract(p.x * p.y); }
+      float vn(vec2 p) { vec2 i = floor(p), f = fract(p); f = f * f * (3.0 - 2.0 * f); return mix(mix(h21(i), h21(i + vec2(1, 0)), f.x), mix(h21(i + vec2(0, 1)), h21(i + 1.0), f.x), f.y); }
+      float fbm(vec2 p) { return .5 * vn(p) + .25 * vn(p * 2.1) + .125 * vn(p * 4.3) + .125 * vn(p * 8.7); }
+      // crack lines: distance to voronoi cell borders
+      float cracks(vec2 p) { vec2 i = floor(p), f = fract(p); float d1 = 8.0, d2 = 8.0;
+        for (int y = -1; y <= 1; y++) for (int x = -1; x <= 1; x++) { vec2 g = vec2(x, y), o = vec2(h21(i + g), h21(i + g + 17.3)); float d = length(g + o - f); if (d < d1) { d2 = d1; d1 = d; } else if (d < d2) d2 = d; }
+        return d2 - d1; }`)
+      .replace('void main() {', `void main() { float lA = 0.0; vec2 lUv = vec2(-1.0); vec3 lNrm = vec3(.5, .5, 1.0);`)
+      .replace('#include <dithering_fragment>', '#include <dithering_fragment>\n if (!gl_FrontFacing) gl_FragColor.rgb *= uInner;')
+      .replace('#include <map_fragment>', `vec3 lCol = vec3(0.0);
+      #ifdef USE_MAP
+        vec4 sDC = texture2D(map, vMapUv); float lum = dot(sDC.rgb, vec3(.2126, .7152, .0722));
+        vec3 col = uTint * mix(1.0, clamp(lum / uMeanLum, 0.0, 1.25), uTexMix);
+        float sp = h21(floor(vObj.xy * vec2(900.0, 1400.0) + vObj.z * 300.0));
+        col *= mix(1.0, .82 + .36 * sp, uMel);
+        // printed artwork, planar projection onto the front (uLogoS.x = +1) or back (-1); uLogoS.y = 1 runs it up the leg
+        vec2 pp = vec2((vObj.x - uLogoP.x) * uH.x, (vObj.y - uLogoP.y) * uH.y); pp.x *= uLogoS.x;
+        if (uLogoS.y > .5) pp = vec2(pp.y, -pp.x);
+        float sc = uLogoP.z * (uLogoS.y > .5 ? uH.y : uH.x);
+        lUv = vec2(pp.x / sc + .5, pp.y / (sc * uLogoAsp) + .5);
+        float inR = step(0.0, lUv.x) * step(lUv.x, 1.0) * step(0.0, lUv.y) * step(lUv.y, 1.0);
+        float face = smoothstep(.2, .5, normalize(vObjN).z * uLogoS.x) * step(0.03, vObj.z * uLogoS.x);
+        vec4 lT = texture2D(uLogo, lUv); lNrm = vec3(lT.gb, 1.0);
+        float cov = lT.r * inR * face * uLogoOn;
+        // washed: ink worn away by soft noise; crackle: fine dry cracks through the ink
+        float wn = fbm(lUv * vec2(26.0, 14.0));
+        cov *= 1.0 - uWash * smoothstep(.35, .75, wn) * .7;
+        float cr = cracks(lUv * vec2(34.0, 19.0) + fbm(lUv * 40.0) * .6);
+        cov *= mix(1.0, smoothstep(.02, .07, cr), uCrack);
+        // ink colour from the fabric colour (keeps the weave/lacquer texture underneath); very dark fabric gets a lighter ink
+        float tl = dot(uTint, vec3(.2126, .7152, .0722));
+        float k = (tl < .05 && uInkK < 1.0) ? 1.0 / uInkK + .25 : uInkK;
+        vec3 ink = col * k + (k > 1.0 ? (k - 1.0) * .015 : 0.0);
+        if (uHD > .5) ink = mix(ink, vec3(dot(ink, vec3(.333))), .15);
+        lA = cov * uInkA;
+        diffuseColor.rgb = mix(col, ink, lA);
+      #endif`)
+      // print finish: plastisol sits slightly smoother on fleece; high-density = glossy rubber on fabric, matte on lacquer
+      .replace('#include <roughnessmap_fragment>', `#include <roughnessmap_fragment>
+        roughnessFactor = mix(roughnessFactor, mix(mix(.8, .55, uLacq), mix(.32, .85, uLacq), uHD), lA);`)
+      .replace('#include <lights_physical_fragment>', `#include <lights_physical_fragment>
+        #ifdef USE_CLEARCOAT
+          material.clearcoat *= 1.0 - lA * mix(.5, 1.0, uHD);
+        #endif`)
+      // raised print edge: normal from the artwork height, tangent frame from screen derivatives of the print uv
+      .replace('#include <normal_fragment_maps>', `#include <normal_fragment_maps>
+        if (lA > .001) {
+          vec3 q0 = dFdx(-vViewPosition), q1 = dFdy(-vViewPosition); vec2 s0 = dFdx(lUv), s1 = dFdy(lUv);
+          vec3 N = normal, q1p = cross(q1, N), q0p = cross(N, q0);
+          vec3 T = q1p * s0.x + q0p * s1.x, B = q1p * s0.y + q0p * s1.y; float det = max(dot(T, T), dot(B, B));
+          float sf = det == 0.0 ? 0.0 : inversesqrt(det);
+          vec2 d = (lNrm.xy * 2.0 - 1.0) * uBump * (lA / max(uInkA, .01));
+          normal = normalize(N + (T * d.x + B * d.y) * sf);
+        }`);
+  };
+  m.setLogo = (k) => { const s = STYLES[k], p = s.big ? it.big : it.logo;
+    U.uLogoP.value.set(p.x, p.y, p.w); U.uLogoS.value.set(p.side ?? 1, p.rot ?? 0);
+    U.uInkK.value = s.k; U.uInkA.value = s.a; U.uBump.value = s.bump; U.uWash.value = s.wash ?? 0; U.uCrack.value = s.crack ?? 0; U.uHD.value = s.hd ?? 0; };
+  m.setColour = (h, mel) => { U.uTint.value.set(h); U.uMel.value = mel ? 1 : 0; };
+  m.U = U; return m;
+}
+/* bottom fade into the lattice where the travelling jacket runs off a section */
+function hookFade(mat) {
+  mat.userData.fade = { value: new THREE.Vector2(-1e5, -1e5 + 1) };
+  const prev = mat.onBeforeCompile;
+  mat.onBeforeCompile = (sh, r) => {
+    prev && prev(sh, r);
+    sh.uniforms.uFade = mat.userData.fade;
+    sh.fragmentShader = sh.fragmentShader.replace('#include <common>', '#include <common>\nuniform vec2 uFade;')
+      .replace('#include <dithering_fragment>', '#include <dithering_fragment>\n gl_FragColor *= smoothstep(uFade.x, uFade.y, gl_FragCoord.y);');
+  };
+}
+/* normalise any model into a pivot: centred, height = 1 */
+function normalise(obj) {
+  obj.updateMatrixWorld(true);
+  const box = new THREE.Box3().setFromObject(obj, true), size = box.getSize(new THREE.Vector3()), ctr = box.getCenter(new THREE.Vector3());
+  const s = 1 / size.y; obj.scale.setScalar(s); obj.position.copy(ctr).multiplyScalar(-s);
+  const pivot = new THREE.Group(); const yaw = new THREE.Group(); yaw.add(obj); pivot.add(yaw);
+  pivot.userData.size = size.clone().multiplyScalar(s); pivot.userData.yaw = yaw;
+  return pivot;
+}
+/* wobble: sleeves, hem and hood trail the turn on springs (same constants as v4) */
+const SPR = { k: 70, c: 6.2, gain: .085, max: .3, pk: 90, pc: 7, pgain: .06, pmax: .15, jk: 48, jc: 3.0 };
+function kick(inst, v) { if (!reduced && inst && inst.spring) inst.spring.jelV += v; }
+function stepWobble(inst, yaw, pitch, dt, amp = 1) {
+  const s = inst.spring, U = inst.mat.U; U.uTime.value += dt;
+  if (reduced || dt <= 0) return;
+  if (s.jel === undefined) { s.jel = 0; s.jelV = 0; s.lw = 0; }
+  const wY = (yaw - s.py) / dt, wP = (pitch - s.pp) / dt; s.py = yaw; s.pp = pitch;
+  const aY = (wY - s.lw) / dt; s.lw = wY;
+  const ty = clamp(-wY * SPR.gain * 1.6 * amp, -SPR.max * amp, SPR.max * amp), tp = clamp(wP * SPR.pgain * amp, -SPR.pmax * amp, SPR.pmax * amp);
+  s.yawV += (SPR.k * (ty - s.yaw) - SPR.c * s.yawV) * dt; s.yaw += s.yawV * dt;
+  s.pitchV += (SPR.pk * (tp - s.pitch) - SPR.pc * s.pitchV) * dt; s.pitch += s.pitchV * dt;
+  s.yaw = clamp(s.yaw, -SPR.max * 1.3 * amp, SPR.max * 1.3 * amp); s.pitch = clamp(s.pitch, -SPR.pmax * 1.3 * amp, SPR.pmax * 1.3 * amp);
+  s.jelV += clamp(-aY * .0016 * amp, -.35, .35) + (-SPR.jk * s.jel - SPR.jc * s.jelV) * dt; s.jel = clamp(s.jel + s.jelV * dt, -1, 1);
+  U.uYaw.value = s.yaw; U.uPitch.value = s.pitch; U.uSq.value = s.jel * amp;
+  if (inst.onWob) inst.onWob(s);
+}
+function addInstance(o) { o.pivot.visible = false; scene.add(o.pivot); instances.push(o); return o; }
+const A = n => $(`[data-anchor="${n}"]`);
+const vec = { yaw: 0, pitch: 0 };
+let lastScroll = scrollY, scrollSpeed = 0;
+function heroRect() {
+  const r = A('hero').getBoundingClientRect(), u = rem();
+  if (!isDesk()) return { x: r.left, y: r.top, w: r.width, h: r.height };
+  const w = 870 * u, h = 600 * u, cx = r.left + 700 * u, cy = r.top + r.height * .45;
+  return { x: cx - w / 2, y: cy - h / 2, w, h };
+}
+function detailsRect() {
+  const r = A('details').parentElement.getBoundingClientRect(), u = rem();
+  const w = 1276 * u, h = 880 * u, cx = r.left + 560 * u, top = r.top + 140 * u;
+  return { x: cx - w / 2, y: top, w, h, fade: [r.top + 700 * u, r.top + 860 * u] };
+}
+function faqRect() {
+  const r = A('faq').parentElement.getBoundingClientRect(), u = rem();
+  const w = 1250 * u, h = 860 * u, cx = r.left + 250 * u, top = r.top + 70 * u;
+  return { x: cx - w / 2, y: top, w, h, fade: [r.top + 640 * u, r.top + 810 * u] };
+}
+function frameAndDraw(inst, rect, W, H, dpr) {
+  if (!rect || rect.w < 2 || rect.h < 2) return;
+  if (rect.x > W || rect.y > H || rect.x + rect.w < 0 || rect.y + rect.h < 0) return;
+  const aspect = rect.w / rect.h;
+  if (inst.frame) inst.frame(camera, aspect);
+  else {
+    const sz = inst.pivot.userData.size, m = inst.margin || 1.08;
+    const visH = Math.max(sz.y * m, (Math.max(sz.x, sz.z * .8) * m) / aspect);
+    camera.fov = 24; camera.aspect = aspect; camera.position.set(0, 0, visH / 2 / Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) + sz.z / 2); camera.lookAt(0, 0, 0); camera.updateProjectionMatrix();
+  }
+  const fy = rect.fade ? [(H - rect.fade[1]) * dpr, (H - rect.fade[0]) * dpr] : [-1e5, -1e5 + 1];
+  inst.mats.forEach(mm => mm.userData.fade && mm.userData.fade.value.set(fy[0], fy[1]));
+  const x0 = Math.max(0, rect.x), y0 = Math.max(0, rect.y), x1 = Math.min(W, rect.x + rect.w), y1 = Math.min(H, rect.y + rect.h);
+  renderer.setViewport(rect.x, H - rect.y - rect.h, rect.w, rect.h);
+  renderer.setScissor(x0, H - y1, x1 - x0, y1 - y0); renderer.setScissorTest(true);
+  inst.pivot.visible = true; renderer.clearDepth(); renderer.render(scene, camera); inst.pivot.visible = false;
+  inst.drawn = true;
+}
+function renderAll(t, dt) {
+  if (!renderer) return;
+  const W = innerWidth, H = innerHeight, dpr = renderer.getPixelRatio();
+  scrollSpeed = lerp(scrollSpeed, (scrollY - lastScroll) / Math.max(dt, .001), .2); lastScroll = scrollY;
+  vec.yaw = lerp(vec.yaw, reduced ? 0 : pointer.nx, .06); vec.pitch = lerp(vec.pitch, reduced ? 0 : pointer.ny, .06);
+  renderer.setScissorTest(false); renderer.clear();
+  for (const inst of instances) {
+    if (inst.route !== 'any' && (inst.route || 'home') !== route) continue;
+    const rect = inst.rect(); if (!rect) continue;
+    inst.update && inst.update(t, dt, rect);
+    frameAndDraw(inst, rect, W, H, dpr);
+  }
+}
+addEventListener('resize', () => { sizeField(); if (renderer) { renderer.setPixelRatio(Math.min(devicePixelRatio, isDesk() ? 2 : 1.75)); renderer.setSize(innerWidth, innerHeight, false); } });
+
+/* ---------- loaders ---------- */
+const draco = new DRACOLoader().setDecoderPath(DRACO_PATH);
+const gltfLoader = new GLTFLoader().setDRACOLoader(draco);
+function loadGLB(url) { return new Promise((res, rej) => gltfLoader.load(url, res, undefined, e => { fail(url, e); rej(e); })); }
+const GLB = Object.fromEntries(['puffer', 'hoodie', 'jogger'].map(id => [id, loadGLB(`${ASSET_BASE_URL}/models/${id}.glb`)]));
+const printURL = `${ASSET_BASE_URL}/ui/k09.webp`;
+const printP = new THREE.TextureLoader().loadAsync(printURL).then(t => { t.colorSpace = THREE.NoColorSpace; t.anisotropy = 8; return t; }).catch(e => { fail(printURL, e); return null; });
+const jacketURL = `${ASSET_BASE_URL}/models/puffer.glb`;
+track(Promise.all([GLB.puffer, printP]).then(([g, printTex]) => {
+  const mk = maker(g, JACKET, printTex, jacketMats);
+  // hero -> details traveller: grows, drops, slides left and turns 40°
+  const a = mk();
+  addInstance({ ...a, margin: 1.02, rect: () => {
+    const hr = heroRect(); if (!isDesk()) return hr;
+    const dr = detailsRect(); const dTop = A('details').parentElement.offsetTop;
+    const k = easeIO(clamp(scrollY / dTop)); a._k = k;
+    return { x: lerp(hr.x, dr.x, k), y: lerp(hr.y, dr.y, k), w: lerp(hr.w, dr.w, k), h: lerp(hr.h, dr.h, k), fade: dr.fade };
+  }, update: (t, dt) => {
+    const yawN = a.pivot.userData.yaw, k = a._k || 0;
+    const yaw = THREE.MathUtils.degToRad(40) * k + vec.yaw * .55 + (reduced ? 0 : Math.sin(t * .00035) * .06);
+    yawN.rotation.y = yaw; yawN.rotation.x = vec.pitch * .12; yawN.rotation.z = -vec.yaw * .04;
+    stepWobble(a, yaw, yawN.rotation.x + scrollSpeed * .00004, dt);
+  } });
+  // pinned second instance off the bottom-left of the FAQ (desktop)
+  const b = mk();
+  addInstance({ ...b, margin: 1.02, rect: () => isDesk() ? faqRect() : null, update: (t, dt) => {
+    const yawN = b.pivot.userData.yaw, yaw = THREE.MathUtils.degToRad(28) + vec.yaw * .45;
+    yawN.rotation.y = yaw; yawN.rotation.x = vec.pitch * .1; stepWobble(b, yaw, yawN.rotation.x, dt);
+  } });
+  addCardInstance('puffer', maker(g, JACKET, printTex, cardMats.puffer)(), -.35);
+  window.__models = 'ok';
+}).catch(() => { window.__models = 'fail'; }));
+function maker(g, it, printTex, list) {
+  const src = g.scene; let srcMesh; src.traverse(o => { if (o.isMesh) srcMesh = o; });
+  return () => {
+    const obj = src.clone(true); let mat;
+    obj.traverse(o => { if (!o.isMesh) return; o.frustumCulled = false; mat = garmentMat(srcMesh.material, it, o.geometry, printTex); mat.setLogo(0); hookFade(mat); o.material = mat; });
+    list.push(mat);
+    return { pivot: normalise(obj), mats: [mat], mat, spring: { yaw: 0, yawV: 0, pitch: 0, pitchV: 0, py: 0, pp: 0 } };
+  };
+}
+/* collection cards: the real models, idling in a slow turn, dragged by hand, sleeves/legs on springs */
+function addCardInstance(id, inst, base) {
+  const media = $(`#card-${id} .card-media`); const card = media.closest('.card');
+  const phase = { puffer: 0, hoodie: 2.1, jogger: 4.2 }[id];
+  addInstance({ ...inst, margin: 1.1, rect: () => { const r = media.getBoundingClientRect(); return { x: r.left, y: r.top, w: r.width, h: r.height }; },
+    update: (t, dt) => {
+      const d = media._drag; if (!d.down) { d.v *= .94; d.yaw += d.v; }
+      const tilt = card._tilt || { x: 0, y: 0 }; const yawN = inst.pivot.userData.yaw;
+      const yaw = base + d.yaw + (reduced ? 0 : Math.sin(t * .0005 + phase) * .55) + THREE.MathUtils.degToRad(tilt.y * 1.5);
+      yawN.rotation.y = yaw; yawN.rotation.x = THREE.MathUtils.degToRad(-tilt.x * 1.2);
+      if (media._kick) { kick(inst, media._kick); media._kick = 0; }
+      stepWobble(inst, yaw, yawN.rotation.x, dt, 1.4);
+      if (!media.classList.contains('live')) media.classList.add('live');
+    } });
+}
+for (const id of ['hoodie', 'jogger']) {
+  const url = `${ASSET_BASE_URL}/models/${id}.glb`;
+  track(Promise.all([GLB[id], printP]).then(([g, printTex]) => addCardInstance(id, maker(g, ITEMS[id], printTex, cardMats[id])(), -.35)).catch(() => {}));
+}
+/* ---------- product view: the worn look (variant a) ---------- */
+const VARIANT = 'a';   // a = ghost mannequin, b = own sculpted display form (head, hands, feet only), c = hanging on a chrome hanger
+const FIT = { puffer: { s: .82, sx: 1, sz: 1.15, y: 1.24, z: .005 }, hoodie: { s: .82, sx: 1.06, sz: 1.25, y: 1.22, z: .012 }, jogger: { s: .98, sx: .98, sz: 1.15, y: .57, z: 0 } };
+const LOOKS = VARIANT === 'c' ? { puffer: ['puffer'], hoodie: ['hoodie'], jogger: ['jogger'] } : { puffer: ['puffer', 'jogger*'], hoodie: ['hoodie', 'jogger*'], jogger: ['jogger', 'puffer*'] };
+const COMPANION = { jogger: '#2b2a29', puffer: '#0f0f0f' };
+const lookP = Promise.all([GLB.puffer, GLB.hoodie, GLB.jogger, printP]).then(([gp, gh, gj, printTex]) => {
+  const look = new THREE.Group();
+  const src = { puffer: [gp, JACKET], hoodie: [gh, ITEMS.hoodie], jogger: [gj, ITEMS.jogger] };
+  const skin = new THREE.MeshPhysicalMaterial({ color: 0xd9d4cc, roughness: .42, metalness: 0, clearcoat: .35, clearcoatRoughness: .4, sheen: .3, sheenColor: new THREE.Color(0xffffff), envMapIntensity: .9 });
+  const chrome = new THREE.MeshPhysicalMaterial({ color: 0xe6e6e6, metalness: 1, roughness: .12, envMapIntensity: 1.3 });
+  const pieces = {};
+  const meshOf = o => { let m; o.traverse(x => { if (x.isMesh && !m) m = x; }); return m; };
+  // parts that hang off the garment (hands in the cuffs, feet in the hem) run the garment's own wobble in its space
+  function wobblePart(mat, garmentMat, partMesh, mesh) {
+    const M = new THREE.Matrix4(), Mi = new THREE.Matrix4(); const m = mat.clone();
+    m.onBeforeCompile = sh => {
+      Object.assign(sh.uniforms, garmentMat.U, { uPM: { value: M }, uPMi: { value: Mi } });
+      sh.vertexShader = sh.vertexShader.replace('#include <common>', '#include <common>\n      ' + WOB_UNI + '\n      uniform mat4 uPM, uPMi;')
+        .replace('#include <begin_vertex>', `#include <begin_vertex>
+        vec3 gp = (uPM * vec4(transformed, 1.0)).xyz; vec3 u = (gp - uC) / uH; vec3 p = gp - uC;
+        ${WOB_VS}
+        transformed = (uPMi * vec4(p + uC, 1.0)).xyz;`);
+    };
+    partMesh.material = m; partMesh.frustumCulled = false;
+    return () => { mesh.updateMatrixWorld(true); partMesh.updateMatrixWorld(true); M.copy(mesh.matrixWorld).invert().multiply(partMesh.matrixWorld); Mi.copy(M).invert(); };
+  }
+  const worldPts = (mesh, pick) => { const pos = mesh.geometry.attributes.position, v = new THREE.Vector3(), out = []; mesh.updateMatrixWorld(true); for (let i = 0; i < pos.count; i += 2) { v.fromBufferAttribute(pos, i).applyMatrix4(mesh.matrixWorld); out.push(v.clone()); } return out; };
+  const centroid = a => a.reduce((s, v) => s.add(v), new THREE.Vector3()).multiplyScalar(1 / a.length);
+  function hand(side) {   // stylised display-mannequin hand: smooth mitten, no knuckles
+    const g = new THREE.Group(), m = s => new THREE.Mesh(new THREE.SphereGeometry(1, 40, 28), skin);
+    const wrist = new THREE.Mesh(new THREE.CylinderGeometry(.026, .029, .09, 32), skin); wrist.position.y = .0; g.add(wrist);
+    const palm = m(); palm.scale.set(.021, .055, .04); palm.position.set(0, -.075, .004); g.add(palm);
+    const fing = m(); fing.scale.set(.016, .05, .036); fing.position.set(side * .004, -.13, .012); fing.rotation.x = -.18; g.add(fing);
+    const th = new THREE.Mesh(new THREE.CapsuleGeometry(.0105, .03, 8, 16), skin); th.position.set(-side * .012, -.075, .04); th.rotation.set(.55, 0, side * .25); g.add(th);
+    g.rotation.z = side * .08; return g;
+  }
+  function foot() {
+    const g = new THREE.Group();
+    const ank = new THREE.Mesh(new THREE.CylinderGeometry(.034, .038, .16, 32), skin); ank.position.y = .1; g.add(ank);
+    const f = new THREE.Mesh(new THREE.SphereGeometry(1, 40, 28), skin); f.scale.set(.046, .034, .118); f.position.set(0, .034, .045); g.add(f);
+    return g;
+  }
+  const make = (id, companion) => {
+    const m = maker(src[id][0], src[id][1], printTex, companion ? [] : cardMats[id])();
+    const obj = m.pivot.userData.yaw.children[0], f = FIT[id];
+    obj.scale.set(f.s * f.sx, f.s, f.s * f.sz); obj.position.set(0, f.y, f.z); look.add(obj); obj.visible = false;
+    if (companion) m.mat.setColour(COMPANION[id], false); else { const c = prodOf(id).colours[state.colour[id]]; m.mat.setColour(c[1], c[2] === 'grey-melange'); }
+    m.mat.side = THREE.DoubleSide; m.mat.U.uInner.value = .42; m.mat.U.uRip.value = 1;
+    const mesh = meshOf(obj); const piece = { obj, inst: m, mesh, syncs: [] };
+    if (VARIANT === 'b') {
+      look.updateMatrixWorld(true); const pts = worldPts(mesh);
+      if (id === 'jogger') {
+        const minY = Math.min(...pts.map(v => v.y));
+        for (const sd of [-1, 1]) { const hem = pts.filter(v => v.y < minY + .03 && Math.sign(v.x) === sd); const c = centroid(hem);
+          const ft = foot(); ft.position.set(c.x * .96, 0, c.z - .01); look.add(ft); look.updateMatrixWorld(true); mesh.attach(ft);
+          ft.traverse(o => o.isMesh && piece.syncs.push(wobblePart(skin, m.mat, o, mesh))); }
+      } else {
+        const maxX = Math.max(...pts.map(v => Math.abs(v.x)));
+        for (const sd of [-1, 1]) { const arm = pts.filter(v => v.x * sd > maxX * .72); const minY = Math.min(...arm.map(v => v.y)); const cuff = arm.filter(v => v.y < minY + .025); const c = centroid(cuff);
+          const h = hand(sd); h.position.set(c.x - sd * .012, c.y + .02, c.z); look.add(h); look.updateMatrixWorld(true); mesh.attach(h);
+          h.traverse(o => o.isMesh && piece.syncs.push(wobblePart(skin, m.mat, o, mesh))); piece['cuff' + sd] = c; }
+      }
+      piece.syncs.forEach(s => s());
+    }
+    if (VARIANT === 'c') {
+      look.updateMatrixWorld(true); const pts = worldPts(mesh); const top = Math.max(...pts.map(v => v.y));
+      const topPts = pts.filter(v => v.y > top - .04), c = centroid(topPts);
+      const hookY = top + .11, z0 = id === 'hoodie' ? c.z + .07 : c.z;
+      const hang = new THREE.Group();
+      const tube = (pts3, r = .0055) => new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts3), 64, r, 12), chrome);
+      const V = (x, y, z) => new THREE.Vector3(x, y, z);
+      // hook
+      hang.add(tube([V(0, top - .05, z0), V(0, top + .06, z0), V(0, hookY - .02, z0), V(.03, hookY + .02, z0), V(.012, hookY + .05, z0), V(-.02, hookY + .035, z0)]));
+      if (id === 'jogger') {   // clip hanger: bar above the waistband, two clips biting into it
+        const half = Math.max(...topPts.map(v => Math.abs(v.x))) * .85, by = top + .05;
+        hang.add(tube([V(-half, by, z0), V(half, by, z0)], .006));
+        for (const sd of [-1, 1]) { const clip = new THREE.Mesh(new RoundedBoxGeometry(.05, .075, .03, 3, .006), chrome); clip.position.set(sd * half * .85, top + .005, z0); hang.add(clip); }
+      } else {               // shoulders of the hanger sit inside the garment; only the neck and hook show
+        // (the hanger's shoulders sit hidden inside the garment)
+      }
+      look.add(hang); hang.visible = false; piece.hang = hang; piece.pivotY = hookY + .04; piece.pivotZ = z0;
+      const bb = new THREE.Box3().setFromObject(obj); piece.frameY = (bb.min.y + piece.pivotY) / 2; piece.frameH = (piece.pivotY - bb.min.y) * 1.12;
+    }
+    return piece;
+  };
+  for (const id of ['puffer', 'hoodie', 'jogger']) pieces[id] = make(id, false);
+  if (VARIANT !== 'c') { pieces['jogger*'] = make('jogger', true); pieces['puffer*'] = make('puffer', true); }
+  if (VARIANT === 'b') {   // head and neck: an egg head on a slim neck, sitting in the collar / hood
+    const neck = new THREE.Mesh(new THREE.CylinderGeometry(.041, .046, .17, 40), skin); neck.position.set(0, 1.52, .0); look.add(neck);
+    const head = new THREE.Mesh(new THREE.SphereGeometry(1, 64, 48), skin); head.scale.set(.082, .112, .097); head.position.set(0, 1.69, .012); head.rotation.x = .12; look.add(head);
+  }
+  // floor: soft contact shadow (+ a rail for the hanger variant)
+  const sc = document.createElement('canvas'); sc.width = sc.height = 128; const sx = sc.getContext('2d'); const gr = sx.createRadialGradient(64, 64, 0, 64, 64, 64); gr.addColorStop(0, 'rgba(0,0,0,.55)'); gr.addColorStop(1, 'rgba(0,0,0,0)'); sx.fillStyle = gr; sx.fillRect(0, 0, 128, 128);
+  const shadow = new THREE.Mesh(new THREE.PlaneGeometry(.9, .55), new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(sc), transparent: true, depthWrite: false })); shadow.rotation.x = -Math.PI / 2; shadow.position.y = .002;
+  if (VARIANT !== 'c') look.add(shadow);
+  const pivot = new THREE.Group(), yawN = new THREE.Group(), swing = new THREE.Group(), lift = new THREE.Group();
+  pivot.add(lift); lift.add(swing); swing.add(yawN); yawN.add(look);
+  const rail = new THREE.Mesh(new THREE.CylinderGeometry(.008, .008, 3, 16), chrome); rail.rotation.z = Math.PI / 2;
+  if (VARIANT === 'c') lift.add(rail);
+  const stageEl = $('#pdpStage'), ctl = { yaw: -.35, v: 0, down: false, x: 0, spin: !reduced, view: 'full', cy: 0, ch: 2.02, last: 0, sweepA: 0, ph: 0, hy: 0, hp: 0, thY: 0, sw: { z: 0, vz: 0, x: 0, vx: 0 } };
+  let current = null, onNow = [];
+  const FOCUS = { full: { y: 0, h: 2.02 }, puffer: { y: .36, h: .95 }, hoodie: { y: .3, h: 1.02 }, jogger: { y: -.42, h: 1.12 } };
+  const kickAll = v => { onNow.forEach(p => kick(p.inst, v)); if (VARIANT === 'c') ctl.sw.vz += v * .22; };
+  const api = { show(id) {
+    current = id; onNow = id ? LOOKS[id].map(k => pieces[k]) : [];
+    Object.values(pieces).forEach(p => { p.obj.visible = false; if (p.hang) p.hang.visible = false; }); onNow.forEach(p => { p.obj.visible = true; if (p.hang) p.hang.visible = true; });
+    if (VARIANT === 'c' && id) { const p = pieces[id]; // hang from the hook: rotate about the hook point
+      swing.position.set(0, p.pivotY, p.pivotZ); yawN.position.set(0, -p.pivotY, -p.pivotZ); rail.position.set(0, p.pivotY + .02, p.pivotZ); }
+    ctl.yaw = -.35; ctl.v = 0; ctl.view = 'full'; $$('.pdp-views [data-view]').forEach(x => x.setAttribute('aria-pressed', x.dataset.view === 'full')); stageEl.classList.toggle('live', !!id);
+    setTimeout(() => kickAll(1.1), 120);
+  }, kick: kickAll };
+  api.ctl = ctl; window.__look = api;
+  stageEl.addEventListener('pointerdown', e => { if (e.target.closest('button')) return; ctl.down = true; ctl.x = e.clientX; ctl.last = performance.now(); stageEl.setPointerCapture(e.pointerId); });
+  stageEl.addEventListener('pointermove', e => {
+    const r = stageEl.getBoundingClientRect(); ctl.hy = ((e.clientX - r.left) / r.width - .5) * .5; ctl.hp = ((e.clientY - r.top) / r.height - .5) * .22;
+    if (!ctl.down) return; const dx = e.clientX - ctl.x; ctl.x = e.clientX; ctl.v = dx * .011; ctl.yaw += ctl.v; ctl.last = performance.now(); if (VARIANT === 'c') ctl.sw.vz += dx * .0016; });
+  stageEl.addEventListener('pointerenter', () => kickAll(.6));
+  stageEl.addEventListener('pointerleave', () => { ctl.hy = 0; ctl.hp = 0; });
+  const up = () => { if (ctl.down) kickAll(.5); ctl.down = false; }; stageEl.addEventListener('pointerup', up); stageEl.addEventListener('pointercancel', up);
+  stageEl.addEventListener('keydown', e => { if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') { ctl.v = (e.key === 'ArrowLeft' ? -1 : 1) * .09; ctl.last = performance.now(); e.preventDefault(); } });
+  $$('.pdp-views [data-view]').forEach(b => b.addEventListener('click', () => { ctl.view = b.dataset.view; $$('.pdp-views [data-view]').forEach(x => x.setAttribute('aria-pressed', x === b)); kickAll(.5); }));
+  const spinB = $('.pdp-views [data-spin]'); spinB.setAttribute('aria-pressed', ctl.spin);
+  spinB.addEventListener('click', () => { ctl.spin = !ctl.spin; spinB.setAttribute('aria-pressed', ctl.spin); });
+  $('#pdpSw').addEventListener('click', e => { if (e.target.closest('.sw')) kickAll(1.4); });
+  $('#pdpSizes').addEventListener('click', () => kickAll(.5));
+  $('#pdpAdd').addEventListener('click', () => kickAll(1));
+  addInstance({ pivot, mats: [], route: 'pdp', rect: () => { const r = stageEl.getBoundingClientRect(); return { x: r.left, y: r.top, w: r.width, h: r.height }; },
+    frame: (cam, aspect) => {
+      let f = ctl.view === 'close' && current ? FOCUS[current] : FOCUS.full;
+      if (VARIANT === 'c' && current) { const p = pieces[current]; f = ctl.view === 'close' ? { y: p.frameY - p.frameH * .08, h: p.frameH * .62 } : { y: p.frameY, h: p.frameH }; }
+      else f = { y: f.y + .9, h: f.h };
+      ctl.cy = lerp(ctl.cy, f.y, .08); ctl.ch = lerp(ctl.ch, f.h, .08);
+      const visH = Math.max(ctl.ch, ctl.ch * .52 / aspect);
+      cam.fov = 24; cam.aspect = aspect; const d = visH / 2 / Math.tan(THREE.MathUtils.degToRad(12)) + .25;
+      cam.position.set(0, ctl.cy + .06, d); cam.lookAt(0, ctl.cy, 0); cam.updateProjectionMatrix();
+    },
+    update: (t, dt) => {
+      if (!ctl.down) { ctl.v *= .93; ctl.yaw += ctl.v; }
+      const idle = ctl.spin && !ctl.down && performance.now() - ctl.last > 1400;
+      ctl.sweepA = lerp(ctl.sweepA, idle ? .75 : 0, .02); if (idle) { const c0 = Math.cos(ctl.ph); ctl.ph += dt * .62; if (Math.sign(Math.cos(ctl.ph)) !== Math.sign(c0)) kickAll(.45); }
+      ctl.thY = lerp(ctl.thY, reduced ? 0 : ctl.hy, .06);
+      const yaw = ctl.yaw + Math.sin(ctl.ph) * ctl.sweepA + ctl.thY; yawN.rotation.y = yaw;
+      const pitch = lerp(yawN.rotation.x, reduced ? 0 : ctl.hp * .25, .08); yawN.rotation.x = VARIANT === 'c' ? 0 : pitch;
+      if (VARIANT === 'c' && !reduced) { const s = ctl.sw; s.vz += (-14 * s.z - 1.1 * s.vz) * dt + (ctl.hp - s.x) * 0; s.z += s.vz * dt; s.vx += (-16 * s.x - 1.3 * s.vx + ctl.hp * 3) * dt; s.x += s.vx * dt; s.z = clamp(s.z, -.35, .35); swing.rotation.z = s.z; swing.rotation.x = s.x * .5; }
+      onNow.forEach(p => stepWobble(p.inst, yaw, pitch * 4, dt, 2));
+    } });
+  if (route === 'pdp') api.show(pdp.id);
+}).catch(e => { console.warn('look', e); $('#pdpStage .pdp-loading').textContent = '3D VIEW UNAVAILABLE'; });
+if (parseRoute()) track(lookP);
+
+
+ticker.add(renderAll);
+
+/* ---------- technology: the five layers of the jacket as real geometry, exploded by scroll ---------- */
+const reel = $('#reel'), stage = $('#techStage'), card = $('#layerCard'), dot = $('#reelDot'), line = $('#leader line');
+const stack = new THREE.Group(), stackPivot = new THREE.Group(); stackPivot.add(stack); stackPivot.userData.size = new THREE.Vector3(1.6, 1.6, 1.6);
+function quilt(w, d, segX, segZ, fn) {
+  const g = new THREE.PlaneGeometry(w, d, segX, segZ); g.rotateX(-Math.PI / 2);
+  const p = g.attributes.position;
+  for (let i = 0; i < p.count; i++) {
+    const x = p.getX(i), z = p.getZ(i), u = (x + w / 2) / w, v = (z + d / 2) / d;
+    const edge = Math.min(1, Math.min(u, 1 - u) * w / .05) * Math.min(1, Math.min(v, 1 - v) * d / .05);
+    p.setY(i, fn(u, v, x, z) * Math.sqrt(Math.max(0, edge)));
+  }
+  g.computeVertexNormals(); return g;
+}
+function patternTex(draw, rep, srgb = true) {
+  const c = document.createElement('canvas'); c.width = c.height = 512; const x = c.getContext('2d'); draw(x, 512);
+  const t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(rep, rep * .63); t.anisotropy = 8; t.colorSpace = srgb ? THREE.SRGBColorSpace : THREE.NoColorSpace; return t;
+}
+// ripstop: fine plain weave with a heavier reinforcement grid
+const weave = (x, n, base, thread, grid) => { x.fillStyle = base; x.fillRect(0, 0, n, n); x.fillStyle = thread; for (let i = 0; i < n; i += 4) { x.fillRect(i, 0, 1, n); x.fillRect(0, i + 2, n, 1); } x.fillStyle = grid; for (let i = 0; i < n; i += 64) { x.fillRect(i, 0, 3, n); x.fillRect(0, i, n, 3); } };
+const ripTex = patternTex((x, n) => weave(x, n, '#a7ab98', 'rgba(60,64,52,.18)', 'rgba(40,44,34,.55)'), 4);
+const ripBump = patternTex((x, n) => weave(x, n, '#808080', 'rgba(255,255,255,.25)', 'rgba(255,255,255,.9)'), 4, false);
+// membrane: micro-perforation
+const memTex = patternTex((x, n) => { x.fillStyle = '#fff'; x.fillRect(0, 0, n, n); x.fillStyle = '#000'; for (let i = 8; i < n; i += 16) for (let j = 8; j < n; j += 16) { x.beginPath(); x.arc(i + ((j / 16) % 2) * 8, j, 1.6, 0, 7); x.fill(); } }, 5, false);
+// down: soft clusters
+const fluff = patternTex((x, n) => { x.fillStyle = '#808080'; x.fillRect(0, 0, n, n); for (let k = 0; k < 2600; k++) { const r = 2 + Math.random() * 9, a = Math.random() * .16; x.fillStyle = `rgba(${Math.random() < .5 ? 255 : 0},${Math.random() < .5 ? 255 : 0},${Math.random() < .5 ? 255 : 0},${a})`; x.fillStyle = Math.random() < .5 ? `rgba(255,255,255,${a})` : `rgba(0,0,0,${a})`; x.beginPath(); x.arc(Math.random() * n, Math.random() * n, r, 0, 7); x.fill(); } }, 3, false);
+const W0 = 1.5, D0 = .95, CH = 6.5;   // 6.5 channels across the panel, like the jacket's wide baffles
+const chan = (v, amp) => amp * Math.pow(Math.max(0, Math.sin(Math.PI * ((v * CH) % 1))), .42);
+const LAYER_MATS = [
+  new THREE.MeshPhysicalMaterial({ color: PRODUCTS[0].colours[0][1], roughness: .26, clearcoat: 1, clearcoatRoughness: .035, iridescence: .22, iridescenceIOR: 1.32, iridescenceThicknessRange: [180, 420], envMapIntensity: 1.1, side: THREE.DoubleSide }),
+  new THREE.MeshPhysicalMaterial({ map: ripTex, bumpMap: ripBump, bumpScale: 1.4, roughness: .62, sheen: .5, sheenRoughness: .5, sheenColor: new THREE.Color('#ffffff'), side: THREE.DoubleSide }),
+  new THREE.MeshPhysicalMaterial({ color: '#f1eee6', roughness: 1, bumpMap: fluff, bumpScale: 3, sheen: 1, sheenRoughness: .9, sheenColor: new THREE.Color('#ffffff'), side: THREE.DoubleSide }),
+  new THREE.MeshPhysicalMaterial({ color: '#dfe3d6', roughness: .12, transparent: true, opacity: .62, alphaMap: memTex, iridescence: .6, iridescenceIOR: 1.4, clearcoat: .6, side: THREE.DoubleSide, depthWrite: false }),
+  new THREE.MeshPhysicalMaterial({ color: '#30342b', roughness: .3, anisotropy: .85, anisotropyRotation: .4, sheen: .8, sheenRoughness: .35, sheenColor: new THREE.Color('#b9c2ac'), side: THREE.DoubleSide }),
+];
+const LAYER_GEO = [
+  quilt(W0, D0, 220, 200, (u, v) => .012 + chan(v, .085) * (1 - .06 * Math.sin(u * 40))),                       // lacquer shell: puffed channels, stitched valleys
+  quilt(W0, D0, 8, 8, () => .004),
+  quilt(W0 * .985, D0 * .985, 200, 180, (u, v) => .01 + chan(v, .12) * (.82 + .18 * Math.pow(Math.abs(Math.sin(u * Math.PI * 9)), .6))), // down: lofted clusters
+  quilt(W0, D0, 8, 8, () => .002),
+  quilt(W0, D0, 160, 110, (u, v) => .004 + .006 * Math.abs(Math.sin(Math.PI * (u * 9 + v * 6))) * Math.abs(Math.sin(Math.PI * (u * 9 - v * 6)))),   // taffeta: fine diamond quilting
+];
+// every layer sits on a thin rounded slab so it reads as material with an edge, not a sheet
+const SLAB = [.018, .006, .02, .004, .01];
+LAYER_GEO.forEach((g, i) => { const sl = new RoundedBoxGeometry(W0 * (i === 2 ? .985 : 1), SLAB[i], D0 * (i === 2 ? .985 : 1), 3, Math.min(.008, SLAB[i] / 2)); sl.translate(0, -SLAB[i] / 2 + .001, 0); LAYER_GEO[i] = [g, sl]; });
+let layerMeshes = LAYER_GEO.map(([g, sl], i) => { const m = new THREE.Group(); const a = new THREE.Mesh(g, LAYER_MATS[i]), b2 = new THREE.Mesh(sl, LAYER_MATS[i]); a.renderOrder = b2.renderOrder = i === 3 ? 2 : 1; m.add(a, b2); stack.add(m); return m; });
+stack.rotation.set(.0, -.62, 0); stackPivot.rotation.x = .52;
+/* ---------- v3: hoodie and jogger layer sets (real geometry, same explode) ---------- */
+const knitPat = (base, line) => (x, n) => { x.fillStyle = base; x.fillRect(0, 0, n, n); x.strokeStyle = line; x.lineWidth = 1.6; for (let i = 0; i < n; i += 8) for (let j = 0; j < n; j += 8) { x.beginPath(); x.moveTo(i, j); x.lineTo(i + 4, j + 7); x.lineTo(i + 8, j); x.stroke(); } };
+const knitMap = c => patternTex(knitPat(c, 'rgba(0,0,0,.16)'), 5);
+const knitBump = patternTex(knitPat('#808080', 'rgba(255,255,255,.8)'), 5, false);
+const loopBump = patternTex((x, n) => { x.fillStyle = '#808080'; x.fillRect(0, 0, n, n); x.strokeStyle = 'rgba(255,255,255,.75)'; x.lineWidth = 2; for (let j = 6; j < n; j += 12) for (let i = (j / 12 % 2) * 6; i < n; i += 12) { x.beginPath(); x.arc(i, j, 4, Math.PI, 0); x.stroke(); } for (let k = 0; k < 1800; k++) { x.fillStyle = `rgba(255,255,255,${Math.random() * .12})`; x.beginPath(); x.arc(Math.random() * n, Math.random() * n, 1 + Math.random() * 5, 0, 7); x.fill(); } }, 5, false);
+// raw hem: an uneven cut edge with loose threads, as alpha
+const hemAlpha = (() => { const c = document.createElement('canvas'); c.width = 1024; c.height = 512; const x = c.getContext('2d'); x.fillStyle = '#000'; x.fillRect(0, 0, 1024, 512); x.fillStyle = '#fff'; x.beginPath(); x.moveTo(0, 0); x.lineTo(1024, 0);
+  for (let i = 1024; i >= 0; i -= 8) x.lineTo(i, 440 + Math.sin(i * .05) * 6 + (Math.random() - .5) * 10); x.closePath(); x.fill();
+  x.strokeStyle = '#fff'; x.lineWidth = 1.4; for (let i = 0; i < 1024; i += 3 + Math.random() * 6) { const y0 = 438 + (Math.random() - .5) * 8; x.beginPath(); x.moveTo(i, y0); x.quadraticCurveTo(i + (Math.random() - .5) * 8, y0 + 18, i + (Math.random() - .5) * 14, y0 + 16 + Math.random() * 40); x.stroke(); }
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.NoColorSpace; return t; })();
+// tonal print: the 09 mark as an ink film
+function printFilm(ink) {
+  const c = document.createElement('canvas'); c.width = 1024; c.height = 650; const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 8;
+  const im = new Image(); im.onload = () => { const x = c.getContext('2d'); x.drawImage(im, 112, 50, 800, 445); x.globalCompositeOperation = 'source-in'; x.fillStyle = ink; x.fillRect(0, 0, 1024, 650); t.needsUpdate = true; }; im.src = `${ASSET_BASE_URL}/ui/logo-mark.svg`;
+  return t;
+}
+const filmGeo = new THREE.PlaneGeometry(W0 * .62, W0 * .62 * 650 / 1024); filmGeo.rotateX(-Math.PI / 2);
+const filmMat = ink => new THREE.MeshPhysicalMaterial({ map: printFilm(ink), transparent: true, alphaTest: .25, roughness: .55, sheen: .3, side: THREE.DoubleSide, depthWrite: false });
+const fabric = (c, o = {}) => new THREE.MeshPhysicalMaterial({ color: '#ffffff', map: knitMap(c), bumpMap: o.bump || knitBump, bumpScale: o.bs || 1.6, roughness: .92, sheen: .7, sheenRoughness: .6, sheenColor: new THREE.Color('#ffffff'), side: THREE.DoubleSide, ...o.extra });
+function slabbed(g, mat, h, w = W0, d = D0) { const m = new THREE.Group(); const a = new THREE.Mesh(g, mat); m.add(a); if (h) { const sl = new RoundedBoxGeometry(w, h, d, 3, Math.min(.008, h / 2)); sl.translate(0, -h / 2 + .001, 0); m.add(new THREE.Mesh(sl, mat)); } return m; }
+function flatShape(shape, h, mat) { const g = new THREE.ExtrudeGeometry(shape, { depth: h, bevelEnabled: true, bevelThickness: .004, bevelSize: .006, bevelSegments: 2, curveSegments: 24 }); g.rotateX(Math.PI / 2); g.translate(0, .002, 0); const m = new THREE.Group(); m.add(new THREE.Mesh(g, mat)); return m; }
+const ribGeo = (d, amp) => quilt(W0, d, 360, 20, u => .006 + amp * Math.pow(Math.abs(Math.sin(Math.PI * u * 48)), .6));
+// hoodie
+const hoodSet = [];
+hoodSet.push((() => { const m = new THREE.Group(); m.add(new THREE.Mesh(filmGeo, filmMat('#a79d89'))); return m; })());
+hoodSet.push(slabbed(quilt(W0, D0, 8, 8, () => .004), fabric('#cbc1ad'), .014));
+hoodSet.push(slabbed(quilt(W0, D0, 8, 8, () => .004), fabric('#ddd5c5', { bump: loopBump, bs: 3, extra: { sheen: 1, sheenRoughness: .9 } }), .018));
+hoodSet.push(slabbed(ribGeo(D0 * .42, .012), fabric('#b9ae98', { bs: .6 }), .016, W0, D0 * .42));
+hoodSet.push((() => { const s = new THREE.Shape(); const w = W0 * .9, d = D0 * .9; s.moveTo(-w / 2, -d / 2); s.lineTo(w / 2, -d / 2); s.lineTo(w / 2, d * .05); s.bezierCurveTo(w * .32, d * .5, -w * .32, d * .5, -w / 2, d * .05); s.closePath(); return flatShape(s, .012, fabric('#c4b9a4')); })());
+// jogger
+const jogSet = [];
+jogSet.push((() => { const m = new THREE.Group(); m.add(new THREE.Mesh(filmGeo, filmMat('#c9c6bf'))); return m; })());
+jogSet.push(slabbed(quilt(W0, D0, 8, 8, () => .004), fabric('#ebe9e3'), .016));
+jogSet.push((() => { const s = new THREE.Shape(); const w = W0 * .5, d = D0 * .8; s.moveTo(-w / 2, d / 2); s.lineTo(w / 2, d / 2); s.lineTo(w / 2, -d * .1); s.quadraticCurveTo(w / 2, -d / 2, 0, -d / 2); s.quadraticCurveTo(-w / 2, -d / 2, -w / 2, -d * .1); s.closePath();
+  return flatShape(s, .008, new THREE.MeshPhysicalMaterial({ color: '#d8d3c8', roughness: .8, sheen: .4, side: THREE.DoubleSide })); })());
+jogSet.push((() => { const m = slabbed(ribGeo(D0 * .34, .01), fabric('#e2dfd8', { bs: .6 }), .02, W0, D0 * .34);
+  const metal = new THREE.MeshPhysicalMaterial({ color: '#c8c4bc', metalness: 1, roughness: .22 });
+  const cordM = new THREE.MeshPhysicalMaterial({ color: '#f4f2ec', roughness: .85, sheen: .6 });
+  for (const sx of [-1, 1]) { const e = new THREE.Mesh(new THREE.TorusGeometry(.03, .009, 12, 32), metal); e.rotation.x = Math.PI / 2; e.position.set(sx * .12, .02, .02); m.add(e);
+    const cv = new THREE.CatmullRomCurve3([new THREE.Vector3(sx * .12, .025, .02), new THREE.Vector3(sx * .16, .04, .18), new THREE.Vector3(sx * .1, .03, .34), new THREE.Vector3(sx * .2, .02, .5)]);
+    const tg = new THREE.TubeGeometry(cv, 48, .012, 8); tg.scale(1, .45, 1); m.add(new THREE.Mesh(tg, cordM)); }
+  return m; })());
+jogSet.push((() => { const g = quilt(W0, D0, 160, 100, (u, v) => .004 + .03 * Math.pow(Math.max(0, v - .7) / .3, 2) * (.6 + .4 * Math.sin(u * 30)));
+  const mt = fabric('#e4e1da', { extra: { alphaMap: hemAlpha, alphaTest: .4 } }); return slabbed(g, mt, 0); })());
+const SETS = { puffer: layerMeshes, hoodie: hoodSet, jogger: jogSet };
+for (const id of ['hoodie', 'jogger']) SETS[id].forEach(m => { m.visible = false; m.traverse(o => o.isMesh && (o.renderOrder = 1)); stack.add(m); });
+let curL = TECH.puffer.layers, curSet = 'puffer';
+function setTech(id) {
+  if (!SETS[id]) return;
+  curSet = id; curL = TECH[id].layers; layerMeshes = SETS[id];
+  for (const k in SETS) SETS[k].forEach(m => m.visible = k === id);
+  $$('.tech-tabs button').forEach(b => { const on = b.dataset.id === id; b.setAttribute('aria-selected', on); b.tabIndex = on ? 0 : -1; });
+  const tc = $('.tech-copy'); tc.innerHTML = TECH[id].copy; tc._sc = null; tc.removeAttribute('aria-label'); ready && scramble(tc, 500);
+  reel.setAttribute('aria-label', TECH[id].aria);
+  $('#layerList').innerHTML = curL.map((l, i) => `<li class="layer in"><span class="idx" aria-hidden="true">0${i + 1}</span><img src="${ASSET_BASE_URL}/ui/${l[2]}.svg" alt=""><h3>${l[0]}</h3><p>${l[1]}</p></li>`).join('');
+  layerIdx = -1; setLayer(0);
+}
+
+const techP = { p: 0 };
+let layerIdx = -1;
+function setLayer(i) {
+  if (i === layerIdx) return; layerIdx = i;
+  card.querySelector('.idx').textContent = '0' + (i + 1);
+  card.querySelector('img').src = `${ASSET_BASE_URL}/ui/${curL[i][2]}.svg`;
+  card.querySelector('h3').textContent = curL[i][0]; card.querySelector('p').textContent = curL[i][1];
+  card.querySelector('h3')._sc = null; card.querySelector('p')._sc = null;
+  scramble(card.querySelector('h3'), 450); scramble(card.querySelector('p'), 650);
+}
+const _v = new THREE.Vector3();
+addInstance({ pivot: stackPivot, mats: [], route: 'any', rect: () => { const r = reel.getBoundingClientRect(); return { x: r.left, y: r.top, w: r.width, h: r.height }; },
+  frame: (cam, aspect) => { cam.fov = 30; cam.aspect = aspect; cam.position.set(0, 0, 4.9); cam.lookAt(0, 0, 0); cam.updateProjectionMatrix(); },
+  update: (t, dt, rect) => {
+    const sec = $('#technology'); let p;
+    if (isDesk()) { const r = sec.getBoundingClientRect(); p = clamp(-r.top / (r.height - innerHeight)); }
+    else { const r = reel.getBoundingClientRect(); p = clamp((innerHeight - r.top) / (innerHeight + r.height)); }
+    techP.p = p; const e = easeIO(clamp(p / .85));
+    layerMeshes.forEach((m, i) => { m.position.y = (2 - i) * lerp(.045, .36, e); });
+    stack.rotation.y = -.62 + e * .22 + (reduced ? 0 : vec.yaw * .06);
+    if (!isDesk()) return;
+    setLayer(Math.min(4, Math.floor(clamp(p / .92) * 5)));
+    // leader: from the named layer's right corner to the card
+    stackPivot.updateMatrixWorld(true);
+    _v.set(W0 / 2 * .86, 0, -D0 / 2 * .2); layerMeshes[layerIdx].localToWorld(_v);
+    frameAndDraw.__cam = true;
+    rect && (() => { camera.aspect = rect.w / rect.h; camera.fov = 30; camera.position.set(0, 0, 4.9); camera.lookAt(0, 0, 0); camera.updateProjectionMatrix(); })();
+    _v.project(camera);
+    const rr = reel.getBoundingClientRect(), sr = stage.getBoundingClientRect(), u = rem();
+    const dx = rr.left + (_v.x * .5 + .5) * rr.width - sr.left, dy = rr.top + (-_v.y * .5 + .5) * rr.height - sr.top;
+    dot.style.left = (dx - (rr.left - sr.left)) + 'px'; dot.style.top = (dy - (rr.top - sr.top)) + 'px';
+    const top = clamp(dy - 40 * u, 100 * u, sr.height - 160 * u);
+    card.style.transform = `translateY(${top.toFixed(1)}px)`;
+    const cr = card.getBoundingClientRect();
+    line.setAttribute('x1', dx); line.setAttribute('y1', dy); line.setAttribute('x2', cr.left - sr.left); line.setAttribute('y2', cr.top - sr.top + cr.height / 2);
+  } });
+renderCart(); placeTech(false); applyRoute();
+
+/* ---------- lift the curtain on real readiness ---------- */
+const minWait = new Promise(r => setTimeout(r, 700));
+const gate = Promise.race([Promise.allSettled([...tasks, minWait]), new Promise(r => setTimeout(r, 15000))]);
+gate.then(() => {
+  ready = true; document.documentElement.classList.add('is-ready');
+  setTimeout(() => document.documentElement.classList.add('is-gone'), 1100);
+  $$('.hero [data-scramble], .site-header [data-scramble]').forEach((el, i) => setTimeout(() => scramble(el, 800), 250 + i * 40));
+  hoverScramble(); observeArrivals();
+  window.__ready = true;
+});
+</script>
+</body>
+</html>
