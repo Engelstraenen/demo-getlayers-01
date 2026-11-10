@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="googlebot" content="noindex, nofollow">
+<title>MOSSVAR — 3D models v1</title>
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.185.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.185.0/examples/jsm/"
+} }
+</script>
+<style>
+@font-face{font-family:"F3270";src:url("https://storage.getlayers.ai/assets/artefakt-5f7a0c9962/fonts/3270-Regular.otf") format("opentype");font-display:swap}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{background-color:#0d0d0d;background-image:linear-gradient(90deg,#000 0 1px,transparent 1px),linear-gradient(#000 0 1px,transparent 1px);background-size:10px 10px;
+  color:#fff;font-family:"F3270",ui-monospace,Menlo,monospace;text-transform:uppercase;letter-spacing:.02em;display:grid;grid-template-rows:auto 1fr auto;min-height:100svh;overflow:hidden}
+header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 20px;border-bottom:1px solid rgba(255,255,255,.18);flex-wrap:wrap}
+header img{width:84px;height:auto;display:block}
+.ver{font-size:12px;color:rgba(255,255,255,.55)}
+[role=tablist]{display:flex;gap:8px;flex-wrap:wrap}
+[role=tab]{font:inherit;color:#fff;background:none;border:1px solid rgba(255,255,255,.3);padding:9px 14px;cursor:pointer;font-size:13px;letter-spacing:inherit}
+[role=tab][aria-selected=true]{border-color:#fff;box-shadow:inset 0 0 0 1px #fff}
+[role=tab]:focus-visible,button:focus-visible{outline:2px solid #fff;outline-offset:2px}
+main{position:relative;min-height:0}
+canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;cursor:grab}
+canvas:active{cursor:grabbing}
+.panel{position:absolute;left:20px;bottom:20px;z-index:2;display:grid;gap:10px;max-width:min(420px,calc(100% - 40px))}
+.panel h1{font-size:22px;font-weight:400;margin:0;line-height:1.1}
+.panel p{margin:0;font-size:12px;color:rgba(255,255,255,.6);line-height:1.4}
+.sw{display:flex;gap:10px;flex-wrap:wrap}
+.sw button{font:inherit;font-size:11px;color:#fff;background:none;border:1px solid rgba(255,255,255,.3);padding:6px 10px 6px 6px;display:flex;align-items:center;gap:8px;cursor:pointer;letter-spacing:inherit}
+.sw button i{width:16px;height:16px;display:block;background:var(--c);border:1px solid rgba(255,255,255,.4)}
+.sw button[aria-pressed=true]{border-color:#fff;box-shadow:inset 0 0 0 1px #fff}
+.status{position:absolute;right:20px;top:16px;z-index:2;font-size:11px;color:rgba(255,255,255,.5)}
+.err{color:#ffb3ab;text-transform:none}
+footer{padding:10px 20px;font-size:11px;color:rgba(255,255,255,.4);border-top:1px solid rgba(255,255,255,.18)}
+</style>
+</head>
+<body>
+<header>
+  <div style="display:flex;align-items:center;gap:14px"><img src="assets/logo-mark.webp" alt="MOSSVAR"><span class="ver">3D MODELS V1 · PREVIEW</span></div>
+  <div role="tablist" aria-label="Garments">
+    <button role="tab" id="t-puffer" aria-selected="true" aria-controls="stage">01 MOSS PUFFER</button>
+    <button role="tab" id="t-hoodie" aria-selected="false" aria-controls="stage" tabindex="-1">02 HEAVY HOODIE</button>
+    <button role="tab" id="t-denim" aria-selected="false" aria-controls="stage" tabindex="-1">03 WIDE DENIM</button>
+  </div>
+</header>
+<main id="stage" role="tabpanel" aria-labelledby="t-puffer">
+  <canvas id="c" role="img" aria-label="3D model, drag to rotate, scroll or pinch to zoom"></canvas>
+  <div class="status" id="status" aria-live="polite">LOADING…</div>
+  <div class="panel">
+    <h1 id="name">MOSS PUFFER JACKET</h1>
+    <p id="desc"></p>
+    <div class="sw" id="sw" role="group" aria-label="Colour"></div>
+  </div>
+</main>
+<footer>DRAG TO ROTATE · SCROLL / PINCH TO ZOOM · RIGHT-DRAG TO PAN · CONCEPT DEMO, NOT A REAL BRAND</footer>
+<script type="module">
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+
+const ASSET_BASE_URL = 'https://storage.getlayers.ai/assets/artefakt-5f7a0c9962';
+// chest-logo UV frame, measured once by raycasting the jacket's bind pose (hardcoded constant)
+const LOGO_M = [20.709380219648676,12.796975733548544,0,4.997043914554779,-109.12535009965777,0,-5.476936138780309,102.23441948657101,1];
+const ITEMS = {
+  puffer: { name: 'MOSS PUFFER JACKET', url: `${ASSET_BASE_URL}/hero/hero-jacket.glb`, desc: 'OVERSIZED CROP, SATIN NYLON SHELL, WIDE BAFFLES, TALL STAND COLLAR, RIB CUFFS. SMALL MOSSVAR WORDMARK ON THE CHEST.',
+    colours: [['SAGE', '#7d8a6c'], ['OLIVE', '#4e5233'], ['BONE', '#cfc8b8'], ['GRAPHITE', '#2e3032']] },
+  hoodie: { name: 'HEAVY BOXY HOODIE', url: './assets/models/hoodie.glb', desc: 'BOXY, OVERSIZED, 500 GSM FLEECE LOOK, DOUBLE-LAYER HOOD, KANGAROO POCKET, RIB CUFFS AND HEM.',
+    colours: [['OAT', '#b9ae9b'], ['SAGE', '#7c8870'], ['WASHED BLACK', '#1d1d1e'], ['CLAY', '#74472f']] },
+  denim: { name: 'WIDE STRAIGHT DENIM', url: './assets/models/jeans.glb', desc: 'WIDE, STRAIGHT, HEAVY 14 OZ DENIM LOOK, FIVE POCKETS, MOSSVAR WAISTBAND PATCH.',
+    colours: [['RAW INDIGO', '#141d36'], ['VINTAGE BLUE', '#4a6690'], ['WASHED BLACK', '#1f2023'], ['ECRU', '#d9d1bf']] },
+};
+const statusEl = document.getElementById('status');
+const fail = (u, e) => { console.warn(u, e); statusEl.innerHTML = `<span class="err">Failed to load: ${u}</span>`; };
+
+const canvas = document.getElementById('c');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.outputColorSpace = THREE.SRGBColorSpace; renderer.toneMapping = THREE.NeutralToneMapping; renderer.toneMappingExposure = .95;
+renderer.setClearColor(0, 0);
+const scene = new THREE.Scene();
+scene.environment = new THREE.PMREMGenerator(renderer).fromScene(new RoomEnvironment(), .04).texture; scene.environmentIntensity = .45;
+const key = new THREE.DirectionalLight(0xfff6ea, 1.7); key.position.set(-2.5, 3, 4); scene.add(key);
+const rim = new THREE.DirectionalLight(0xdfe8d2, 2.2); rim.position.set(3, 2, -3.5); scene.add(rim);
+scene.add(new THREE.HemisphereLight(0xe8eee0, 0x141414, .45));
+const camera = new THREE.PerspectiveCamera(28, 1, .05, 50); camera.position.set(0, .05, 3.2);
+const controls = new OrbitControls(camera, canvas);
+controls.enableDamping = true; controls.minDistance = 1.2; controls.maxDistance = 6; controls.autoRotate = !matchMedia('(prefers-reduced-motion: reduce)').matches; controls.autoRotateSpeed = 1.2;
+canvas.addEventListener('pointerdown', () => controls.autoRotate = false);
+
+function makeLogo() {
+  const c = document.createElement('canvas'); c.width = 512; c.height = 112; const x = c.getContext('2d');
+  x.fillStyle = '#fff'; x.font = '600 74px "Helvetica Neue", Helvetica, Arial, sans-serif'; x.textAlign = 'center'; x.textBaseline = 'middle';
+  if ('letterSpacing' in x) x.letterSpacing = '6px'; x.fillText('MOSSVAR', 256, 60);
+  const t = new THREE.CanvasTexture(c); t.anisotropy = 8; return t;
+}
+function jacketMat(hex) {
+  const m = new THREE.MeshPhysicalMaterial({ color: hex, roughness: .52, sheen: .55, sheenRoughness: .45, sheenColor: new THREE.Color('#dfe6d2'), clearcoat: .18, clearcoatRoughness: .55, side: THREE.DoubleSide });
+  m.defines = { USE_UV: '' };
+  const logo = { value: makeLogo() }, M = { value: new THREE.Matrix3().fromArray(LOGO_M) };
+  m.onBeforeCompile = sh => {
+    sh.uniforms.uLogo = logo; sh.uniforms.uLogoM = M;
+    sh.fragmentShader = sh.fragmentShader.replace('#include <common>', '#include <common>\nuniform sampler2D uLogo; uniform mat3 uLogoM;')
+      .replace('#include <map_fragment>', `#include <map_fragment>
+        vec2 lUv = (uLogoM * vec3(vUv, 1.0)).xy;
+        float lIn = step(0.0, lUv.x) * step(lUv.x, 1.0) * step(0.0, lUv.y) * step(lUv.y, 1.0);
+        float lA = texture2D(uLogo, clamp(lUv, 0.0, 1.0)).a * lIn * float(gl_FrontFacing);
+        diffuseColor.rgb = mix(diffuseColor.rgb, diffuseColor.rgb * 0.6, lA);`);
+  };
+  m.setColour = h => m.color.set(h); return m;
+}
+function meanLum(img) {
+  try { const c = document.createElement('canvas'); c.width = c.height = 64; const x = c.getContext('2d'); x.drawImage(img, 0, 0, 64, 64);
+    const d = x.getImageData(0, 0, 64, 64).data, lin = v => (v /= 255) <= .04045 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4; let s = 0, n = 0;
+    for (let i = 0; i < d.length; i += 4) { const l = .2126 * lin(d[i]) + .7152 * lin(d[i + 1]) + .0722 * lin(d[i + 2]); if (l > .02) { s += l; n++; } } return n ? s / n : .5; } catch { return .5; }
+}
+// textured scan: keep its shading/fabric detail as luminance, recolour by multiplying with the swatch colour
+function tintMat(src, hex, rough, sheen) {
+  if (src.map) src.map.colorSpace = THREE.SRGBColorSpace;
+  const m = new THREE.MeshPhysicalMaterial({ map: src.map, roughness: rough, sheen, sheenRoughness: .8, sheenColor: new THREE.Color('#ffffff'), side: THREE.DoubleSide });
+  const tint = { value: new THREE.Color(hex) }, ml = { value: src.map ? meanLum(src.map.image) : .5 };
+  m.onBeforeCompile = sh => {
+    sh.uniforms.uTint = tint; sh.uniforms.uMeanLum = ml;
+    sh.fragmentShader = sh.fragmentShader.replace('#include <common>', '#include <common>\nuniform vec3 uTint; uniform float uMeanLum;')
+      .replace('#include <map_fragment>', `#ifdef USE_MAP
+        vec4 sDC = texture2D(map, vMapUv); float lum = dot(sDC.rgb, vec3(.2126, .7152, .0722));
+        diffuseColor.rgb = uTint * clamp(lum / uMeanLum, 0.0, 1.7);
+      #endif`);
+  };
+  m.setColour = h => tint.value.set(h); return m;
+}
+const loader = new GLTFLoader().setDRACOLoader(new DRACOLoader().setDecoderPath('https://cdn.jsdelivr.net/npm/three@0.185.0/examples/jsm/libs/draco/gltf/'));
+const loaded = {}; let current = null;
+const state = { puffer: 0, hoodie: 0, denim: 0 };
+function load(id) {
+  if (loaded[id]) return loaded[id];
+  const it = ITEMS[id];
+  return loaded[id] = new Promise((res, rej) => loader.load(it.url, g => {
+    const obj = g.scene; let mat;
+    obj.traverse(o => { if (!o.isMesh) return; o.frustumCulled = false;
+      mat = id === 'puffer' ? jacketMat(it.colours[0][1]) : tintMat(o.material, it.colours[0][1], id === 'hoodie' ? .92 : .8, id === 'hoodie' ? .6 : .25);
+      o.material = mat; });
+    obj.updateMatrixWorld(true);
+    const box = new THREE.Box3().setFromObject(obj, true), size = box.getSize(new THREE.Vector3()), ctr = box.getCenter(new THREE.Vector3());
+    const s = (id === 'denim' ? 1.25 : 1.1) / Math.max(size.x, size.y); obj.scale.setScalar(s); obj.position.copy(ctr).multiplyScalar(-s);
+    const g2 = new THREE.Group(); g2.add(obj); g2.userData.mat = mat; g2.visible = false; scene.add(g2); res(g2);
+  }, undefined, e => { fail(it.url, e); rej(e); }));
+}
+async function show(id) {
+  document.querySelectorAll('[role=tab]').forEach(t => { const on = t.id === 't-' + id; t.setAttribute('aria-selected', on); t.tabIndex = on ? 0 : -1; });
+  document.getElementById('stage').setAttribute('aria-labelledby', 't-' + id);
+  const it = ITEMS[id]; document.getElementById('name').textContent = it.name; document.getElementById('desc').textContent = it.desc;
+  const sw = document.getElementById('sw');
+  sw.innerHTML = it.colours.map((c, k) => `<button type="button" aria-pressed="${k === state[id]}" data-k="${k}" style="--c:${c[1]}"><i></i>${c[0]}</button>`).join('');
+  statusEl.textContent = 'LOADING…';
+  try {
+    const g = await load(id);
+    if (current) current.visible = false; current = g; g.visible = true;
+    g.userData.mat.setColour(it.colours[state[id]][1]);
+    controls.target.set(0, 0, 0); camera.position.set(.6, .1, 3); controls.update();
+    statusEl.textContent = 'READY'; window.__shown = id;
+  } catch (e) {}
+  sw.querySelectorAll('button').forEach(b => b.onclick = () => { state[id] = +b.dataset.k; sw.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b)); loaded[id].then(g => g.userData.mat.setColour(it.colours[state[id]][1])); });
+}
+const tabs = [...document.querySelectorAll('[role=tab]')];
+tabs.forEach((t, i) => { t.onclick = () => show(t.id.slice(2)); t.onkeydown = e => { if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { const n = tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length]; n.focus(); n.click(); } }; });
+function resize() { const r = canvas.getBoundingClientRect(); renderer.setSize(r.width, r.height, false); camera.aspect = r.width / r.height; camera.updateProjectionMatrix(); }
+addEventListener('resize', resize); resize();
+renderer.setAnimationLoop(() => { controls.update(); renderer.render(scene, camera); });
+show('puffer'); load('hoodie'); load('denim');
+Promise.allSettled(['puffer', 'hoodie', 'denim'].map(load)).then(r => { window.__allLoaded = r.map(x => x.status); });
+</script>
+</body>
+</html>
