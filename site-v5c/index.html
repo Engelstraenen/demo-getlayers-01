@@ -1066,7 +1066,7 @@ function garmentMat(src, it, geo, logoTex) {
     uTint: { value: new THREE.Color(it.colours[0][1]) }, uMeanLum: { value: src.map ? meanLum(src.map.image) : .5 }, uMel: { value: 0 },
     uLogo: { value: logoTex }, uLogoOn: { value: logoTex ? 1 : 0 }, uLogoAsp: { value: LOGO_ASP }, uLogoP: { value: new THREE.Vector3() }, uLogoS: { value: new THREE.Vector2(1, 0) }, uTexMix: { value: o.lacquer ? .55 : 1 },
     uInkK: { value: .66 }, uInkA: { value: .6 }, uBump: { value: .25 }, uWash: { value: 0 }, uCrack: { value: 0 }, uHD: { value: 0 }, uLacq: { value: o.lacquer ? 1 : 0 },
-    uC: { value: C }, uH: { value: H }, uYaw: { value: 0 }, uPitch: { value: 0 }, uBounce: { value: 0 }, uTime: { value: 0 }, uLegs: { value: it.rig === 'legs' ? 1 : 0 }, uSq: { value: 0 }, uRip: { value: .35 }, uInner: { value: 1 },
+    uC: { value: C }, uH: { value: H }, uYaw: { value: 0 }, uPitch: { value: 0 }, uBounce: { value: 0 }, uTime: { value: 0 }, uLegs: { value: it.rig === 'legs' ? 1 : 0 }, uSq: { value: 0 }, uRip: { value: .35 }, uInner: { value: 1 }, uClip: { value: 9 },
   };
   if (location.search.includes('dbg')) m.defines = { DBG: '' };
   m.onBeforeCompile = sh => {
@@ -1080,7 +1080,7 @@ function garmentMat(src, it, geo, logoTex) {
         ${WOB_VS}
         transformed = p + uC;`);
     sh.fragmentShader = sh.fragmentShader.replace('#include <common>', `#include <common>
-      uniform float uInner; uniform vec3 uTint; uniform float uMeanLum, uMel, uLogoOn, uLogoAsp, uTexMix, uInkK, uInkA, uBump, uWash, uCrack, uHD, uLacq; uniform sampler2D uLogo; uniform vec3 uLogoP, uH; uniform vec2 uLogoS; varying vec3 vObj; varying vec3 vObjN;
+      uniform float uInner, uClip; uniform vec3 uTint; uniform float uMeanLum, uMel, uLogoOn, uLogoAsp, uTexMix, uInkK, uInkA, uBump, uWash, uCrack, uHD, uLacq; uniform sampler2D uLogo; uniform vec3 uLogoP, uH; uniform vec2 uLogoS; varying vec3 vObj; varying vec3 vObjN;
       float h21(vec2 p) { p = fract(p * vec2(234.34, 435.345)); p += dot(p, p + 34.23); return fract(p.x * p.y); }
       float vn(vec2 p) { vec2 i = floor(p), f = fract(p); f = f * f * (3.0 - 2.0 * f); return mix(mix(h21(i), h21(i + vec2(1, 0)), f.x), mix(h21(i + vec2(0, 1)), h21(i + 1.0), f.x), f.y); }
       float fbm(vec2 p) { return .5 * vn(p) + .25 * vn(p * 2.1) + .125 * vn(p * 4.3) + .125 * vn(p * 8.7); }
@@ -1088,6 +1088,7 @@ function garmentMat(src, it, geo, logoTex) {
       float cracks(vec2 p) { vec2 i = floor(p), f = fract(p); float d1 = 8.0, d2 = 8.0;
         for (int y = -1; y <= 1; y++) for (int x = -1; x <= 1; x++) { vec2 g = vec2(x, y), o = vec2(h21(i + g), h21(i + g + 17.3)); float d = length(g + o - f); if (d < d1) { d2 = d1; d1 = d; } else if (d < d2) d2 = d; }
         return d2 - d1; }`)
+      .replace('#include <clipping_planes_fragment>', '#include <clipping_planes_fragment>\n if (vObj.y > uClip) discard;')
       .replace('void main() {', `void main() { float lA = 0.0; vec2 lUv = vec2(-1.0); vec3 lNrm = vec3(.5, .5, 1.0);`)
       .replace('#include <dithering_fragment>', '#include <dithering_fragment>\n if (!gl_FrontFacing) gl_FragColor.rgb *= uInner;')
       .replace('#include <map_fragment>', `vec3 lCol = vec3(0.0);
@@ -1139,7 +1140,7 @@ function garmentMat(src, it, geo, logoTex) {
   m.setLogo = (k) => { const s = STYLES[k], p = s.big ? it.big : it.logo;
     U.uLogoP.value.set(p.x, p.y, p.w); U.uLogoS.value.set(p.side ?? 1, p.rot ?? 0);
     U.uInkK.value = s.k; U.uInkA.value = s.a; U.uBump.value = s.bump; U.uWash.value = s.wash ?? 0; U.uCrack.value = s.crack ?? 0; U.uHD.value = s.hd ?? 0; };
-  m.setColour = (h, mel) => { U.uTint.value.set(h); U.uMel.value = mel ? 1 : 0; };
+  m.setColour = (h, mel) => { U.uTint.value.set(h); U.uMel.value = mel ? 1 : 0; if (!o.lacquer) { const t = new THREE.Color(h), l = t.r * .2126 + t.g * .7152 + t.b * .0722; m.sheenColor.copy(t).lerp(new THREE.Color('#ffffff'), .25 + .6 * Math.min(1, l * 2)); } };
   m.U = U; return m;
 }
 /* bottom fade into the lattice where the travelling jacket runs off a section */
@@ -1236,10 +1237,10 @@ addEventListener('resize', () => { sizeField(); if (renderer) { renderer.setPixe
 const draco = new DRACOLoader().setDecoderPath(DRACO_PATH);
 const gltfLoader = new GLTFLoader().setDRACOLoader(draco);
 function loadGLB(url) { return new Promise((res, rej) => gltfLoader.load(url, res, undefined, e => { fail(url, e); rej(e); })); }
-const GLB = Object.fromEntries(['puffer', 'hoodie', 'jogger'].map(id => [id, loadGLB(`${ASSET_BASE_URL}/models/${id}.glb`)]));
+const GLB = Object.fromEntries(['puffer', 'hoodie', 'jogger'].map(id => [id, loadGLB(`${ASSET_BASE_URL}/models/${id}.glb?v=6`)]));
 const printURL = `${ASSET_BASE_URL}/ui/k09.webp`;
 const printP = new THREE.TextureLoader().loadAsync(printURL).then(t => { t.colorSpace = THREE.NoColorSpace; t.anisotropy = 8; return t; }).catch(e => { fail(printURL, e); return null; });
-const jacketURL = `${ASSET_BASE_URL}/models/puffer.glb`;
+const jacketURL = `${ASSET_BASE_URL}/models/puffer.glb?v=6`;
 track(Promise.all([GLB.puffer, printP]).then(([g, printTex]) => {
   const mk = maker(g, JACKET, printTex, jacketMats);
   // hero -> details traveller: grows, drops, slides left and turns 40°
@@ -1289,7 +1290,7 @@ function addCardInstance(id, inst, base) {
     } });
 }
 for (const id of ['hoodie', 'jogger']) {
-  const url = `${ASSET_BASE_URL}/models/${id}.glb`;
+  const url = `${ASSET_BASE_URL}/models/${id}.glb?v=6`;
   track(Promise.all([GLB[id], printP]).then(([g, printTex]) => addCardInstance(id, maker(g, ITEMS[id], printTex, cardMats[id])(), -.35)).catch(() => {}));
 }
 /* materials: (1) matte black with a cool rim, (2) cast stone, (3) graphite satin metal */
@@ -1327,7 +1328,7 @@ const VARIANT = 'b', MQ = 3;   // a = ghost mannequin, b = own sculpted display 
 const FIT = { puffer: { s: .9, sx: 1, sz: 1.15, y: 1.198, z: .005 }, hoodie: { s: .9, sx: 1.06, sz: 1.25, y: 1.177, z: .012 }, jogger: { s: .98, sx: .98, sz: 1.15, y: .57, z: 0 } };
 const LOOKS = VARIANT === 'c' ? { puffer: ['puffer'], hoodie: ['hoodie'], jogger: ['jogger'] } : { puffer: ['puffer', 'jogger*'], hoodie: ['hoodie', 'jogger*'], jogger: ['jogger', 'puffer*'] };
 const COMPANION = { jogger: '#2b2a29', puffer: '#0f0f0f' };
-const PARTS = loadGLB(`${ASSET_BASE_URL}/models/mannequin-parts.glb`);
+const PARTS = loadGLB(`${ASSET_BASE_URL}/models/mannequin-parts.glb?v=6`);
 const lookP = Promise.all([GLB.puffer, GLB.hoodie, GLB.jogger, printP, PARTS]).then(([gp, gh, gj, printTex, gparts]) => {
   const PG = n => { let g; gparts.scene.getObjectByName(n).traverse(x => { if (x.isMesh && !g) g = x.geometry; }); return g; };
   const look = new THREE.Group();
@@ -1398,6 +1399,10 @@ const lookP = Promise.all([GLB.puffer, GLB.hoodie, GLB.jogger, printP, PARTS]).t
       look.add(hang); hang.visible = false; piece.hang = hang; piece.pivotY = hookY + .04; piece.pivotZ = z0;
       const bb = new THREE.Box3().setFromObject(obj); piece.frameY = (bb.min.y + piece.pivotY) / 2; piece.frameH = (piece.pivotY - bb.min.y) * 1.12;
     }
+    look.updateMatrixWorld(true);
+    { const pts = worldPts(mesh); const maxX = Math.max(...pts.map(v => Math.abs(v.x)));
+      if (id !== 'jogger') piece.hem = Math.min(...pts.filter(v => Math.abs(v.x) < maxX * .4).map(v => v.y));
+      else piece.clipAt = wy => { const lp = mesh.worldToLocal(new THREE.Vector3(0, wy, 0)); return (lp.y - m.mat.U.uC.value.y) / m.mat.U.uH.value.y; }; }
     return piece;
   };
   for (const id of ['puffer', 'hoodie', 'jogger']) pieces[id] = make(id, false);
@@ -1423,6 +1428,7 @@ const lookP = Promise.all([GLB.puffer, GLB.hoodie, GLB.jogger, printP, PARTS]).t
   const api = { show(id) {
     current = id; onNow = id ? LOOKS[id].map(k => pieces[k]) : [];
     Object.values(pieces).forEach(p => { p.obj.visible = false; if (p.hang) p.hang.visible = false; }); onNow.forEach(p => { p.obj.visible = true; if (p.hang) p.hang.visible = true; });
+    { const top = onNow.find(p => p.hem !== undefined), bot = onNow.find(p => p.clipAt); Object.values(pieces).forEach(p => p.clipAt && (p.inst.mat.U.uClip.value = 9)); if (top && bot) bot.inst.mat.U.uClip.value = bot.clipAt(top.hem + .08); }
     if (VARIANT === 'c' && id) { const p = pieces[id]; // hang from the hook: rotate about the hook point
       swing.position.set(0, p.pivotY, p.pivotZ); yawN.position.set(0, -p.pivotY, -p.pivotZ); rail.position.set(0, p.pivotY + .02, p.pivotZ); }
     ctl.yaw = -.35; ctl.v = 0; ctl.view = 'full'; $$('.pdp-views [data-view]').forEach(x => x.setAttribute('aria-pressed', x.dataset.view === 'full')); stageEl.classList.toggle('live', !!id);
