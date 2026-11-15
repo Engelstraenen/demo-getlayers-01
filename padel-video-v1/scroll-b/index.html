@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Scroll-Test v1-B — Abend, LED, grüne Courts</title>
+  <style>
+@font-face {
+  font-family: "Source Sans 3";
+  src: url("../fonts/source-sans-latin.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Source Sans 3";
+  src: url("../fonts/source-sans-latinext.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+    :root {
+      --bg: #0E1013;
+      --ink: #F1EDE4;
+      --muted: #C4BFB4;
+      --bar: #F1EDE4;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { background: var(--bg); color: var(--ink); font-family: "Source Sans 3", system-ui, sans-serif; }
+    body { font-size: 1.0625rem; line-height: 1.5; }
+    a { color: var(--ink); }
+    .stage {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      height: 100dvh;
+      overflow: hidden;
+      background: #0B0D10;
+    }
+    video {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      background: #0B0D10;
+    }
+    .hud {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 1.25rem 1.4rem 1.1rem;
+      background: linear-gradient(180deg, rgba(14,16,19,0.55) 0%, rgba(14,16,19,0) 28%, rgba(14,16,19,0) 72%, rgba(14,16,19,0.62) 100%);
+    }
+    .top, .bottom { pointer-events: auto; }
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+    .back {
+      color: var(--ink);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9375rem;
+      min-height: 2.4rem;
+      display: inline-flex;
+      align-items: center;
+      padding: 0 0.15rem;
+    }
+    .back:active { transform: scale(0.97); }
+    h1 {
+      font-size: clamp(1.15rem, 2.4vw, 1.5rem);
+      font-weight: 650;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      max-width: 22rem;
+    }
+    .hint {
+      color: var(--muted);
+      font-size: 0.9375rem;
+      margin-top: 0.25rem;
+    }
+    .progress {
+      height: 3px;
+      background: rgba(241,237,228,0.22);
+      border-radius: 2px;
+      overflow: hidden;
+      margin-top: 0.85rem;
+    }
+    .progress > span {
+      display: block;
+      height: 100%;
+      width: 0%;
+      background: var(--bar);
+    }
+    .track { height: 420vh; }
+    @media (prefers-reduced-motion: reduce) {
+      .track { height: 0; }
+      .stage { position: relative; }
+      video { object-fit: contain; }
+      .hint { display: none; }
+      .controls { display: block; }
+    }
+
+  </style>
+</head>
+<body>
+  <div class="stage">
+    <video id="flight" playsinline muted preload="auto" poster="../poster-v1-b.jpg" src="../video/padel-drone-v1-b.mp4"></video>
+    <div class="hud">
+      <div class="top">
+        <a class="back" href="../">Zurück zur Übersicht</a>
+        <div>
+          <h1>v1-B — Abend, LED, grüne Courts</h1>
+          <p class="hint" id="hint">Scrollen steuert die Drohnenfahrt.</p>
+        </div>
+      </div>
+      <div class="bottom">
+        <div class="progress" aria-hidden="true"><span id="bar"></span></div>
+      </div>
+    </div>
+  </div>
+  <div class="track" aria-hidden="true"></div>
+  <script>
+    const video = document.getElementById("flight");
+    const bar = document.getElementById("bar");
+    const hint = document.getElementById("hint");
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    function progress() {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      return max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+    }
+
+    function scrub() {
+      if (!video.duration) return;
+      const p = progress();
+      video.currentTime = p * Math.max(0, video.duration - 0.04);
+      bar.style.width = (p * 100).toFixed(2) + "%";
+    }
+
+    if (reduce) {
+      hint.textContent = "Bewegung reduziert: das Video läuft mit Steuerung.";
+      video.controls = true;
+      video.muted = true;
+    } else {
+      const tick = () => { video.pause(); scrub(); };
+      window.addEventListener("scroll", tick, { passive: true });
+      window.addEventListener("resize", tick);
+      video.addEventListener("loadedmetadata", tick);
+      video.pause();
+      tick();
+    }
+  </script>
+</body>
+</html>

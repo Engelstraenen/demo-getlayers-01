@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Padel Drohnenvideos v1</title>
+  <style>
+@font-face {
+  font-family: "Source Sans 3";
+  src: url("fonts/source-sans-latin.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Source Sans 3";
+  src: url("fonts/source-sans-latinext.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+    :root {
+      --bg: #14171B;
+      --paper: #1C2026;
+      --ink: #F1EDE4;
+      --muted: #B8B3A8;
+      --line: #2A3038;
+      --btn: #F1EDE4;
+      --btn-ink: #14171B;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { background: var(--bg); color: var(--ink); font-family: "Source Sans 3", system-ui, sans-serif; }
+    body {
+      min-height: 100vh;
+      font-size: 1.0625rem;
+      line-height: 1.55;
+      font-weight: 430;
+    }
+    a { color: var(--ink); }
+    .wrap {
+      width: min(1120px, calc(100% - 2.5rem));
+      margin: 0 auto;
+      padding: 3.25rem 0 5rem;
+    }
+    header {
+      max-width: 40rem;
+      margin-bottom: 3rem;
+    }
+    h1 {
+      font-size: clamp(2rem, 4.2vw, 3.25rem);
+      font-weight: 650;
+      letter-spacing: -0.03em;
+      line-height: 1.08;
+      margin-bottom: 0.9rem;
+    }
+    .lead {
+      color: var(--muted);
+      font-size: 1.125rem;
+      max-width: 38rem;
+    }
+    .lead strong { color: var(--ink); font-weight: 600; }
+    .grid {
+      display: grid;
+      gap: 2.25rem;
+    }
+    article {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .frame {
+      aspect-ratio: 16 / 9;
+      background: #0B0D10;
+    }
+    video {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      background: #0B0D10;
+    }
+    .copy {
+      padding: 1.35rem 1.4rem 1.5rem;
+      display: grid;
+      gap: 0.7rem;
+    }
+    h2 {
+      font-size: 1.375rem;
+      font-weight: 650;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+    .meta {
+      color: var(--muted);
+      font-size: 0.8125rem;
+      letter-spacing: 0.01em;
+    }
+    p { color: var(--muted); }
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.7rem;
+      margin-top: 0.35rem;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 2.6rem;
+      padding: 0 1rem;
+      background: var(--btn);
+      color: var(--btn-ink);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9375rem;
+      border-radius: 6px;
+      transition: transform 180ms ease-out, opacity 180ms ease-out;
+    }
+    .btn:hover { opacity: 0.92; }
+    .btn:active { transform: scale(0.97); }
+    .btn-ghost {
+      background: transparent;
+      color: var(--ink);
+      border: 1px solid var(--line);
+    }
+    footer {
+      margin-top: 2.5rem;
+      color: var(--muted);
+      font-size: 0.9375rem;
+    }
+    footer a { color: var(--ink); }
+    @media (prefers-reduced-motion: reduce) {
+      .btn { transition: none; }
+      .btn:active { transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Drei Drohnenfahrten durch die Halle</h1>
+      <p class="lead">KI-Muster für das spätere Scrollytelling, jeweils <strong>5 Sekunden in 480p</strong> — die kleinste Einstellung. Die Halle bleibt realistisch: groß, belebt und gepflegt. Ein echter Dreh vor Ort kommt erst, wenn eine Variante feststeht.</p>
+    </header>
+    <div class="grid">
+      <article>
+        <div class="frame">
+          <video controls playsinline preload="metadata" poster="poster-v1-a.jpg" src="video/padel-drone-v1-a.mp4" width="736" height="400"></video>
+        </div>
+        <div class="copy">
+          <h2>v1-A — Tageslicht, blaue Courts</h2>
+          <p class="meta">5 s · 480p · KI-Muster</p>
+          <p>Anflug durch die Mittelgasse einer großen Stahlhalle bei hellem Licht. Nach dem Aufschlag folgt die Kamera dem Ball und öffnet sich wieder über die volle, belebte Halle.</p>
+          <div class="actions">
+            <a class="btn" href="scroll-a/">Scroll-Test</a>
+          </div>
+        </div>
+      </article>
+      <article>
+        <div class="frame">
+          <video controls playsinline preload="metadata" poster="poster-v1-b.jpg" src="video/padel-drone-v1-b.mp4" width="848" height="480"></video>
+        </div>
+        <div class="copy">
+          <h2>v1-B — Abend, LED, grüne Courts</h2>
+          <p class="meta">5 s · 480p · KI-Muster</p>
+          <p>Abendstimmung mit Flutlicht und dunklen Fenstern. Die Drohne geht die Gasse hinab, verfolgt den Ball und schwingt dann über die grünen, voll belegten Bahnen.</p>
+          <div class="actions">
+            <a class="btn" href="scroll-b/">Scroll-Test</a>
+          </div>
+        </div>
+      </article>
+      <article>
+        <div class="frame">
+          <video controls playsinline preload="metadata" poster="poster-v1-c.jpg" src="video/padel-drone-v1-c.mp4" width="736" height="400"></video>
+        </div>
+        <div class="copy">
+          <h2>v1-C — Turnierstimmung, andere Kamerafahrt</h2>
+          <p class="meta">5 s · 480p · KI-Muster</p>
+          <p>Publikum auf der Empore und an der Bar. Die Kamera startet tiefer am Netz, folgt dem Ball und steigt dann in einer weiten Schleife über die volle Halle.</p>
+          <div class="actions">
+            <a class="btn" href="scroll-c/">Scroll-Test</a>
+          </div>
+        </div>
+      </article>
+    </div>
+    <footer>
+      <p>In fünf Sekunden ist der Looping eher ein geschwungener Öffnungsflug als ein echter Looping. Die First Frames v1 bleiben unter <a href="../padel-ff-v1/">padel-ff-v1</a> erreichbar.</p>
+    </footer>
+  </div>
+</body>
+</html>
