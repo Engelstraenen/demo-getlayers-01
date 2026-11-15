@@ -1,0 +1,68 @@
+# Deploy der statischen Website zu IONOS Webhosting per SFTP.
+# Läuft NUR manuell (workflow_dispatch) und nur nach Freigabe in der Umgebung "production".
+# Vorher in GitHub anlegen: Settings > Environments > production (Required reviewers: Eugen)
+# Secrets dort: IONOS_SFTP_HOST, IONOS_SFTP_USER, IONOS_SFTP_PASSWORD, IONOS_SFTP_PATH, IONOS_SFTP_KNOWN_HOSTS
+name: Deploy zu IONOS (projekt-ep.de)
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Nur anzeigen, nichts hochladen"
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-ionos
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Sicherheitschecks vor dem Upload
+        run: |
+          set -e
+          # keine Drittanbieter-Skripte / -Fonts ohne Einwilligung
+          ! grep -rIl --include=*.html -E "cdn\.jsdelivr|fonts\.googleapis|fonts\.gstatic|unpkg\.com|cdnjs" . | grep -v steak-seite
+          # CSP-Hashes aktuell?
+          python3 tools/csp.py > /dev/null && git diff --exit-code -- '*.html' .htaccess
+          # Menü darf den Eintrag Arbeiten nicht enthalten
+          python3 tools/check-menu-arbeiten.py
+          # Offene Platzhalter (span.ph) und ENTWURF-Hinweise meldet tools/launch_build.py als WARNUNG
+
+      - name: Paket bauen (nur öffentliche Dateien, Launch-Umstellung, Prüfungen)
+        # tools/launch_build.py: noindex raus, robots.txt Launch-Version, Vorschau-Pfade raus,
+        # Rechtstexte ohne nicht genutzte Dienste (Chat, Tracking). Bricht bei Fehlern ab.
+        run: python3 tools/launch_build.py --out "$RUNNER_TEMP/dist"
+
+      - name: Upload per SFTP (lftp mirror)
+        env:
+          HOST: ${{ secrets.IONOS_SFTP_HOST }}
+          USER: ${{ secrets.IONOS_SFTP_USER }}
+          PASS: ${{ secrets.IONOS_SFTP_PASSWORD }}
+          TARGET: ${{ secrets.IONOS_SFTP_PATH }}
+          KNOWN: ${{ secrets.IONOS_SFTP_KNOWN_HOSTS }}
+          DRY: ${{ inputs.dry_run }}
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq lftp
+          mkdir -p ~/.ssh && echo "$KNOWN" > ~/.ssh/known_hosts && chmod 600 ~/.ssh/known_hosts
+          FLAGS="--reverse --delete --verbose --parallel=4"
+          [ "$DRY" = "true" ] && FLAGS="$FLAGS --dry-run"
+          lftp -e "set sftp:auto-confirm no; set net:max-retries 2; mirror $FLAGS $RUNNER_TEMP/dist/ $TARGET; bye" -u "$USER","$PASS" "sftp://$HOST"
+
+      - name: Prüfung nach dem Deploy
+        if: ${{ inputs.dry_run == false }}
+        run: |
+          sleep 10
+          curl -sSI https://projekt-ep.de/ | tee headers.txt
+          grep -qi "strict-transport-security" headers.txt
+          grep -qi "content-security-policy" headers.txt
+          curl -sSI http://projekt-ep.de/ | grep -q "301"
+          curl -sSI https://www.projekt-ep.de/ | grep -q "301"
