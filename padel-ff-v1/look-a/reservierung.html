@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1440">
+<title>Reservierung — SPEICHER 14 (Demo)</title>
+<style>
+@font-face {
+  font-family: "Big Shoulders Display";
+  src: url("../fonts/big-shoulders-latin.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Big Shoulders Display";
+  src: url("../fonts/big-shoulders-latinext.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Source Sans 3";
+  src: url("../fonts/source-sans-latin.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Source Sans 3";
+  src: url("../fonts/source-sans-latinext.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+img { display: block; max-width: 100%; }
+button, a { font: inherit; color: inherit; }
+a { text-decoration: none; }
+button { border: 0; background: none; cursor: pointer; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
+::selection { background: var(--sel-bg); color: var(--sel-fg); }
+@media (hover: hover) and (pointer: fine) {
+  .btn:hover { filter: brightness(1.06); }
+}
+.btn:active { transform: scale(0.97); }
+.btn { transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1), filter 160ms ease; display: inline-flex; align-items: center; justify-content: center; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .btn:active { transform: none; }
+}
+
+:root {
+  --ink: #E8DFD2;
+  --ink-dim: #C9BBA8;
+  --ground: #161310;
+  --panel: #201C18;
+  --line: #3A342C;
+  --sodium: #E0B26A;
+  --court: #3A6BFF;
+  --frei: #3D9A5A;
+  --wenig: #D4A017;
+  --belegt: #B33A32;
+  --focus: #E0B26A;
+  --sel-bg: #E0B26A;
+  --sel-fg: #1A1410;
+}
+body { background: #000; color: var(--ink); font-family: "Source Sans 3", sans-serif; }
+.stage {
+  width: 1440px; height: 900px; overflow: hidden;
+  background: var(--ground);
+  position: relative;
+  display: grid;
+  grid-template-rows: 28px 76px 1fr;
+}
+.demo {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 40px; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: #D7C7B0; background: #0C0A08;
+}
+nav {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 40px; border-bottom: 1px solid var(--line);
+}
+.logo {
+  font-family: "Big Shoulders Display", sans-serif;
+  font-weight: 800; font-size: 28px; letter-spacing: 0.06em;
+}
+.logo span { color: var(--sodium); }
+.links { display: flex; gap: 28px; align-items: center; font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+.links a { color: var(--ink-dim); }
+    .links a.cta-nav, a.cta-nav { color: #1A1410; }
+@media (hover: hover) and (pointer: fine) { .links a:hover { color: var(--ink); } }
+.cta-nav { background: var(--sodium); color: #1A1410 !important; padding: 10px 18px; font-weight: 700; }
+.main {
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  gap: 28px;
+  padding: 22px 40px 24px;
+  min-height: 0;
+  align-items: stretch;
+}
+.main > section {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+h1 {
+  font-family: "Big Shoulders Display", sans-serif;
+  font-weight: 800; font-size: 48px; letter-spacing: -0.02em;
+  text-transform: uppercase; line-height: 1;
+}
+.lead { color: var(--ink-dim); margin-top: 8px; font-size: 16px; }
+.legend {
+  display: flex; gap: 18px; margin: 22px 0 18px; font-size: 12px;
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-dim);
+}
+.legend i { display: inline-block; width: 9px; height: 9px; margin-right: 6px; vertical-align: middle; }
+.board {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  padding: 18px 18px 14px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+.row {
+  display: grid;
+  grid-template-columns: 86px 1fr;
+  gap: 10px;
+  align-items: center;
+  padding: 8px 0;
+  border-top: 1px solid var(--line);
+}
+.row:first-child { border-top: 0; }
+.court-name {
+  font-family: "Big Shoulders Display", sans-serif;
+  font-weight: 700; font-size: 22px; letter-spacing: 0.04em;
+}
+.slots { display: flex; flex-wrap: wrap; gap: 6px; }
+.slot {
+  width: 78px; height: 48px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 600; letter-spacing: 0.04em;
+  border: 1px solid var(--line);
+  background: #191612;
+  color: var(--ink);
+}
+.slot time { font-size: 14px; font-variant-numeric: tabular-nums; }
+.slot.frei { border-color: #2E7A46; box-shadow: inset 0 -4px 0 var(--frei); }
+.slot.wenig { border-color: #8A6A10; box-shadow: inset 0 -4px 0 var(--wenig); }
+.slot.belegt { color: #8A8074; box-shadow: inset 0 -4px 0 var(--belegt); cursor: default; }
+.note { margin-top: 12px; font-size: 12px; color: var(--ink-dim); }
+.reviews { display: flex; flex-direction: column; gap: 14px; min-height: 0; }
+.rev-head {
+  font-family: "Big Shoulders Display", sans-serif;
+  font-size: 22px; letter-spacing: 0.04em; text-transform: uppercase;
+}
+.card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  padding: 20px 20px;
+  flex: 1;
+}
+.card.search { background: #F4EFE6; color: #1C1814; }
+.card.trust { background: #1A2A22; border-color: #2C4A38; }
+.who { font-size: 13px; font-weight: 700; }
+.meta-r { font-size: 12px; color: #8A7E6E; margin-top: 2px; }
+.card.trust .meta-r { color: #A9C4B2; }
+.card.search .meta-r { color: #6A5E50; }
+.quote { margin-top: 8px; font-size: 14px; line-height: 1.4; }
+.stars { display: inline-flex; gap: 1px; vertical-align: middle; }
+.star { width: 14px; height: 14px; }
+.star.on path { fill: #E0A21A; }
+.star.off path { fill: #C9C0B2; }
+.card.trust .star.on path { fill: #3DCC6F; }
+.card.trust .star.off path { fill: #2A4A36; }
+.tag {
+  display: inline-block; font-size: 11px; letter-spacing: 0.12em;
+  text-transform: uppercase; margin-bottom: 8px; color: #53483E;
+}
+.card.trust .tag { color: #A9C4B2; }
+.score { font-family: "Big Shoulders Display", sans-serif; font-size: 28px; float: right; line-height: 1; }
+</style>
+</head>
+<body>
+  <div class="stage">
+    <div class="demo"><span>Muster-Website · fiktive Halle · Demo von PROJEKT EX</span><span>Look A · Reservierung · v1</span></div>
+    <nav>
+      <a class="logo" href="index.html">SPEICHER <span>14</span></a>
+      <div class="links">
+        <a href="reservierung.html">Plätze</a>
+        <a href="reservierung.html">Reservierung</a>
+        <a href="index.html">Halle</a>
+        <a href="reservierung.html">Bewertungen</a>
+        <a class="btn cta-nav" href="reservierung.html">Platz buchen</a>
+      </div>
+    </nav>
+    <div class="main">
+      <section>
+        <h1>Belegung, heute</h1>
+        <p class="lead">Sonntag, 15. November 2026 · vier Bahnen · keine festen Preise in der Demo</p>
+        <div class="legend">
+          <span><i style="background:var(--frei)"></i>Frei</span>
+          <span><i style="background:var(--wenig)"></i>Wenige Plätze</span>
+          <span><i style="background:var(--belegt)"></i>Belegt</span>
+        </div>
+        <div class="board">
+          <div class="row"><div class="court-name">Bahn 1</div><div class="slots"><span class="slot belegt" title="Belegt"><time>17:00</time></span><span class="slot belegt" title="Belegt"><time>17:30</time></span><span class="slot frei" title="Frei"><time>18:00</time></span><span class="slot frei" title="Frei"><time>18:30</time></span><span class="slot wenig" title="Wenige"><time>19:00</time></span><span class="slot frei" title="Frei"><time>19:30</time></span><span class="slot frei" title="Frei"><time>20:00</time></span><span class="slot belegt" title="Belegt"><time>20:30</time></span><span class="slot frei" title="Frei"><time>21:00</time></span></div></div>
+<div class="row"><div class="court-name">Bahn 2</div><div class="slots"><span class="slot frei" title="Frei"><time>17:00</time></span><span class="slot wenig" title="Wenige"><time>17:30</time></span><span class="slot belegt" title="Belegt"><time>18:00</time></span><span class="slot belegt" title="Belegt"><time>18:30</time></span><span class="slot frei" title="Frei"><time>19:00</time></span><span class="slot frei" title="Frei"><time>19:30</time></span><span class="slot wenig" title="Wenige"><time>20:00</time></span><span class="slot frei" title="Frei"><time>20:30</time></span><span class="slot frei" title="Frei"><time>21:00</time></span></div></div>
+<div class="row"><div class="court-name">Bahn 3</div><div class="slots"><span class="slot wenig" title="Wenige"><time>17:00</time></span><span class="slot frei" title="Frei"><time>17:30</time></span><span class="slot frei" title="Frei"><time>18:00</time></span><span class="slot belegt" title="Belegt"><time>18:30</time></span><span class="slot belegt" title="Belegt"><time>19:00</time></span><span class="slot belegt" title="Belegt"><time>19:30</time></span><span class="slot frei" title="Frei"><time>20:00</time></span><span class="slot frei" title="Frei"><time>20:30</time></span><span class="slot wenig" title="Wenige"><time>21:00</time></span></div></div>
+<div class="row"><div class="court-name">Bahn 4</div><div class="slots"><span class="slot frei" title="Frei"><time>17:00</time></span><span class="slot frei" title="Frei"><time>17:30</time></span><span class="slot wenig" title="Wenige"><time>18:00</time></span><span class="slot frei" title="Frei"><time>18:30</time></span><span class="slot frei" title="Frei"><time>19:00</time></span><span class="slot belegt" title="Belegt"><time>19:30</time></span><span class="slot belegt" title="Belegt"><time>20:00</time></span><span class="slot frei" title="Frei"><time>20:30</time></span><span class="slot frei" title="Frei"><time>21:00</time></span></div></div>
+        </div>
+        <p class="note">Ampel zeigt die freie Kapazität je Zeitslot. Buchung und App werden später verbunden. Alle Angaben sind Demo.</p>
+      </section>
+      <aside class="reviews">
+        <div class="rev-head">Bewertungen (Demo)</div>
+        <article class="card search">
+          <div class="tag">Suche-Stil · Demo, kein echtes Logo</div>
+          <div class="who">Lena M.</div>
+          <div class="meta-r"><span class="stars" aria-hidden="true"><svg class="star on" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2l2.62 6.28 6.88.74-5.16 4.72 1.46 6.76L12 17.98 6.2 20.7l1.46-6.76L2.5 9.22l6.88-.74z"/></svg><svg class="star on" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2l2.62 6.28 6.88.74-5.16 4.72 1.46 6.76L12 17.98 6.2 20.7l1.46-6.76L2.5 9.22l6.88-.74z"/></svg><svg class="star on" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2l2.62 6.28 6.88.74-5.16 4.72 1.46 6.76L12 17.98 6.2 20.7l1.46-6.76L2.5 9.22l6.88-.74z"/></svg><svg class="star on" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2l2.62 6.28 6.88.74-5.16 4.72 1.46 6.76L12 17.98 6.2 20.7l1.46-6.76L2.5 9.22l6.88-.74z"/></svg><svg class="star on" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2l2.62 6.28 6.88.74-5.16 4.72 1.46 6.76L12 17.98 6.2 20.7l1.46-6.76L2.5 9.22l6.88-.74z"/></svg></span> · vor 3 Tagen · Hamburg</div>
+          <p class="quote">Endlich eine Halle, in der man abends noch einen Platz bekommt. Die Buchung war in zwei Minuten erledigt.</p>
+        </article>
+        <article class="card trust">
+          <div class="tag">Vertrauens-Stil · Demo, kein echtes Logo</div>
+          <span class="score">4,7</span>
+          <div class="who">Jonas K.</div>
+          <div class="meta-r"><span class="stars" aria-hidden="true"><svg class="star on" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2l2.62 6.28 6.88.74-5.16 4.72 1.46 6.76L12 17.98 6.2 20.7l1.46-6.76L2.5 9.22l6.88-.74z"/></svg><svg class="star on" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2l2.62 6.28 6.88.74-5.16 4.72 1.46 6.76L12 17.98 6.2 20.7l1.46-6.76L2.5 9.22l6.88-.74z"/></svg><svg class="star on" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2l2.62 6.28 6.88.74-5.16 4.72 1.46 6.76L12 17.98 6.2 20.7l1.46-6.76L2.5 9.22l6.88-.74z"/></svg><svg class="star on" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2l2.62 6.28 6.88.74-5.16 4.72 1.46 6.76L12 17.98 6.2 20.7l1.46-6.76L2.5 9.22l6.88-.74z"/></svg><svg class="star on" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2l2.62 6.28 6.88.74-5.16 4.72 1.46 6.76L12 17.98 6.2 20.7l1.46-6.76L2.5 9.22l6.88-.74z"/></svg></span> · vor einer Woche</div>
+          <p class="quote">Gute Böden, ehrliche Zeiten, nette Theke im alten Speicher. Wir kommen jede Woche.</p>
+        </article>
+        <article class="card search">
+          <div class="tag">Suche-Stil · Demo</div>
+          <div class="who">Aylin S.</div>
+          <div class="meta-r"><span class="stars" aria-hidden="true"><svg class="star on" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2l2.62 6.28 6.88.74-5.16 4.72 1.46 6.76L12 17.98 6.2 20.7l1.46-6.76L2.5 9.22l6.88-.74z"/></svg><svg class="star on" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2l2.62 6.28 6.88.74-5.16 4.72 1.46 6.76L12 17.98 6.2 20.7l1.46-6.76L2.5 9.22l6.88-.74z"/></svg><svg class="star on" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2l2.62 6.28 6.88.74-5.16 4.72 1.46 6.76L12 17.98 6.2 20.7l1.46-6.76L2.5 9.22l6.88-.74z"/></svg><svg class="star on" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2l2.62 6.28 6.88.74-5.16 4.72 1.46 6.76L12 17.98 6.2 20.7l1.46-6.76L2.5 9.22l6.88-.74z"/></svg><svg class="star off" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2l2.62 6.28 6.88.74-5.16 4.72 1.46 6.76L12 17.98 6.2 20.7l1.46-6.76L2.5 9.22l6.88-.74z"/></svg></span> · vor 12 Tagen</div>
+          <p class="quote">Übersichtlich, und das Team schreibt schnell, wenn ein Slot frei wird. Vier Bahnen reichen uns.</p>
+        </article>
+      </aside>
+    </div>
+  </div>
+</body>
+</html>

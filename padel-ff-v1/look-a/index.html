@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1440">
+<title>SPEICHER 14 — Padel im Speicher (Demo)</title>
+<style>
+@font-face {
+  font-family: "Big Shoulders Display";
+  src: url("../fonts/big-shoulders-latin.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Big Shoulders Display";
+  src: url("../fonts/big-shoulders-latinext.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Source Sans 3";
+  src: url("../fonts/source-sans-latin.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Source Sans 3";
+  src: url("../fonts/source-sans-latinext.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+img { display: block; max-width: 100%; }
+button, a { font: inherit; color: inherit; }
+a { text-decoration: none; }
+button { border: 0; background: none; cursor: pointer; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
+::selection { background: var(--sel-bg); color: var(--sel-fg); }
+@media (hover: hover) and (pointer: fine) {
+  .btn:hover { filter: brightness(1.06); }
+}
+.btn:active { transform: scale(0.97); }
+.btn { transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1), filter 160ms ease; display: inline-flex; align-items: center; justify-content: center; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .btn:active { transform: none; }
+}
+
+:root {
+  --ink: #E8DFD2;
+  --ink-dim: #C9BBA8;
+  --ground: #100E0C;
+  --brick: #8E3D32;
+  --sodium: #E0B26A;
+  --court: #2B5BFF;
+  --focus: #E0B26A;
+  --sel-bg: #E0B26A;
+  --sel-fg: #1A1410;
+}
+body {
+  background: #000;
+  color: var(--ink);
+  font-family: "Source Sans 3", sans-serif;
+  font-weight: 400;
+}
+.stage {
+  width: 1440px;
+  height: 900px;
+  position: relative;
+  overflow: hidden;
+  background: var(--ground);
+}
+.bg {
+  position: absolute;
+  inset: 0;
+}
+.bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 68% 50%;
+}
+.veil {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(12,10,8,0.88) 0%, rgba(12,10,8,0.72) 28%, rgba(12,10,8,0.28) 52%, rgba(12,10,8,0.08) 68%, rgba(12,10,8,0.22) 100%),
+    linear-gradient(180deg, rgba(12,10,8,0.35) 0%, rgba(12,10,8,0) 22%, rgba(12,10,8,0) 78%, rgba(12,10,8,0.55) 100%);
+  pointer-events: none;
+}
+.demo {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #D7C7B0;
+  background: rgba(8,7,6,0.72);
+  z-index: 4;
+}
+nav {
+  position: absolute;
+  top: 28px; left: 0; right: 0;
+  height: 88px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  z-index: 4;
+}
+.logo {
+  font-family: "Big Shoulders Display", sans-serif;
+  font-weight: 800;
+  font-size: 32px;
+  letter-spacing: 0.06em;
+  line-height: 1;
+}
+.logo span { color: var(--sodium); }
+.links {
+  display: flex;
+  gap: 32px;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.links a { color: var(--ink-dim); }
+@media (hover: hover) and (pointer: fine) {
+  .links a:hover { color: var(--ink); }
+}
+.cta-nav {
+  margin-left: 12px;
+  background: var(--ink);
+  color: #1A1410 !important;
+  padding: 12px 20px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 13px;
+}
+.copy {
+  position: absolute;
+  left: 40px;
+  top: 260px;
+  width: 620px;
+  z-index: 3;
+}
+h1 {
+  font-family: "Big Shoulders Display", sans-serif;
+  font-weight: 800;
+  font-size: 96px;
+  line-height: 0.86;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  max-width: 10ch;
+}
+.sub {
+  margin-top: 28px;
+  font-size: 20px;
+  line-height: 1.4;
+  color: var(--ink-dim);
+  max-width: 34ch;
+  font-weight: 400;
+}
+.cta {
+  margin-top: 36px;
+  background: var(--sodium);
+  color: #1A1410;
+  padding: 16px 28px;
+  font-family: "Source Sans 3", sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.meta {
+  position: absolute;
+  left: 40px;
+  right: 40px;
+  bottom: 36px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  z-index: 3;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+.live {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.dot {
+  width: 8px; height: 8px;
+  background: #E24B3A;
+  border-radius: 50%;
+}
+</style>
+</head>
+<body>
+  <div class="stage">
+    <div class="bg"><img src="../img/a-drone.jpg" alt="Drohnenblick in die Padelhalle SPEICHER 14: vier blaue Bahnen unter Stahlbindern und Backstein, Dämmerung hinter den Bogenfenstern."></div>
+    <div class="veil" aria-hidden="true"></div>
+    <div class="demo"><span>Muster-Website · fiktive Halle · Demo von PROJEKT EX</span><span>Look A · v1</span></div>
+    <nav>
+      <a class="logo" href="index.html">SPEICHER <span>14</span></a>
+      <div class="links">
+        <a href="reservierung.html">Plätze</a>
+        <a href="reservierung.html">Reservierung</a>
+        <a href="index.html">Halle</a>
+        <a href="reservierung.html">Bewertungen</a>
+        <a class="btn cta-nav" href="reservierung.html">Platz buchen</a>
+      </div>
+    </nav>
+    <div class="copy">
+      <h1>Padel im Speicher.</h1>
+      <p class="sub">Indoor-Padel an der Elbe. Vier Bahnen unter Stahl und Backstein. Plätze in Echtzeit buchen.</p>
+      <a class="btn cta" href="reservierung.html">Platz buchen</a>
+    </div>
+    <div class="meta">
+      <div class="live"><span class="dot" aria-hidden="true"></span> Live aus der Halle · Drohnenblick · 18 m</div>
+      <div>Hamburg · 4 Bahnen</div>
+    </div>
+  </div>
+</body>
+</html>

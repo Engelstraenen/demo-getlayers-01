@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1440">
+<title>FLUTLICHT 27 — Heute Abend ist frei (Demo)</title>
+<style>
+@font-face {
+  font-family: "Staatliches";
+  src: url("../fonts/staatliches-latin.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Staatliches";
+  src: url("../fonts/staatliches-latinext.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Karla";
+  src: url("../fonts/karla-latin.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Karla";
+  src: url("../fonts/karla-latinext.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+img { display: block; max-width: 100%; }
+button, a { font: inherit; color: inherit; }
+a { text-decoration: none; }
+button { border: 0; background: none; cursor: pointer; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
+::selection { background: var(--sel-bg); color: var(--sel-fg); }
+@media (hover: hover) and (pointer: fine) {
+  .btn:hover { filter: brightness(1.06); }
+}
+.btn:active { transform: scale(0.97); }
+.btn { transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1), filter 160ms ease; display: inline-flex; align-items: center; justify-content: center; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .btn:active { transform: none; }
+}
+
+:root {
+  --ink: #F3EBD8;
+  --ink-dim: #D4C3A4;
+  --ground: #120E0B;
+  --panel: #1A1510;
+  --orange: #E85C1C;
+  --amber: #F0B429;
+  --focus: #F0B429;
+  --sel-bg: #E85C1C;
+  --sel-fg: #1A100A;
+}
+body { background: #000; color: var(--ink); font-family: "Karla", sans-serif; }
+.stage {
+  width: 1440px; height: 900px; overflow: hidden;
+  position: relative; background: var(--ground);
+}
+.bg { position: absolute; inset: 0; }
+.bg img { width: 100%; height: 100%; object-fit: cover; object-position: 62% 50%; }
+.shade {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(90deg, rgba(14,10,8,0.94) 0%, rgba(14,10,8,0.88) 34%, rgba(14,10,8,0.28) 58%, rgba(14,10,8,0.12) 100%),
+    linear-gradient(180deg, rgba(14,10,8,0.35) 0%, transparent 24%, transparent 80%, rgba(14,10,8,0.5) 100%);
+  pointer-events: none;
+}
+.demo {
+  position: absolute; top: 0; left: 0; right: 0; height: 28px; z-index: 4;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 36px; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: #E8D7B8; background: rgba(10,8,6,0.78);
+}
+nav {
+  position: absolute; top: 28px; left: 0; width: 560px; height: 72px; z-index: 4;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 36px;
+}
+.logo {
+  font-family: "Staatliches", sans-serif;
+  font-size: 28px; letter-spacing: 0.06em;
+}
+.logo em { font-style: normal; color: var(--orange); }
+.links { display: flex; gap: 16px; font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-dim); }
+@media (hover: hover) and (pointer: fine) { .links a:hover { color: var(--ink); } }
+.copy {
+  position: absolute; left: 36px; top: 130px; width: 500px; z-index: 3;
+}
+h1 {
+  font-family: "Staatliches", sans-serif;
+  font-weight: 400;
+  font-size: 96px;
+  line-height: 0.82;
+  letter-spacing: 0.01em;
+}
+.sub {
+  margin-top: 22px;
+  font-size: 18px;
+  line-height: 1.4;
+  color: var(--ink-dim);
+  max-width: 32ch;
+}
+.cta {
+  margin-top: 28px;
+  background: var(--orange);
+  color: #1A100A;
+  padding: 16px 26px;
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.tonight {
+  position: absolute;
+  left: 36px; bottom: 36px; z-index: 3;
+  width: 500px;
+}
+.tonight h2 {
+  font-family: "Staatliches", sans-serif;
+  font-size: 20px; letter-spacing: 0.08em;
+  margin-bottom: 10px; color: var(--amber);
+}
+.strip { display: flex; gap: 8px; flex-wrap: wrap; }
+.pill {
+  background: #241C16;
+  border: 1px solid #3A2E24;
+  padding: 8px 10px;
+  min-width: 86px;
+  font-size: 12px; font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.pill b { display: block; font-size: 14px; }
+.pill.frei { box-shadow: inset 0 -3px 0 #3D9A5A; }
+.pill.wenig { box-shadow: inset 0 -3px 0 #E0A21A; }
+.pill.belegt { color: #A89680; box-shadow: inset 0 -3px 0 #A33A32; }
+.cam {
+  position: absolute; right: 28px; bottom: 28px; z-index: 3;
+  font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--ink);
+  background: rgba(14,10,8,0.62);
+  padding: 8px 12px;
+}
+.cam i {
+  display: inline-block; width: 8px; height: 8px; background: #E24B3A;
+  border-radius: 50%; margin-right: 8px; vertical-align: middle;
+}
+</style>
+</head>
+<body>
+  <div class="stage">
+    <div class="bg"><img src="../img/c-drone.jpg" alt="Nächtlicher Drohnenblick auf FLUTLICHT 27: zwei orangefarbene Padelbahnen unter Flutlicht neben einem holzverkleideten Clubhaus."></div>
+    <div class="shade" aria-hidden="true"></div>
+    <div class="demo"><span>Muster-Website · fiktive Halle · Demo von PROJEKT EX</span><span>Look C · v1</span></div>
+    <nav>
+      <a class="logo" href="index.html">FLUTLICHT <em>27</em></a>
+      <div class="links">
+        <a href="reservierung.html">Plätze</a>
+        <a href="reservierung.html">Reservierung</a>
+        <a href="reservierung.html">Bewertungen</a>
+      </div>
+    </nav>
+    <div class="copy">
+      <h1>Heute Abend ist frei.</h1>
+      <p class="sub">Nachbarschaftshalle mit Flutlicht. Zwei Bahnen, kurze Wege, ehrliche Zeiten. Buchung in der Halle, später auch in der&nbsp;App.</p>
+      <a class="btn cta" href="reservierung.html">Platz buchen</a>
+    </div>
+    <div class="tonight">
+      <h2>Heute, 15. November</h2>
+      <div class="strip">
+        <div class="pill frei"><b>18:00</b>Bahn 1 frei</div>
+        <div class="pill wenig"><b>18:30</b>Bahn 2 wenige</div>
+        <div class="pill frei"><b>19:00</b>Bahn 1 frei</div>
+        <div class="pill belegt"><b>19:30</b>Bahn 2 belegt</div>
+        <div class="pill frei"><b>20:00</b>Beide frei</div>
+      </div>
+    </div>
+    <div class="cam"><i></i>Live aus der Halle · Leipzig</div>
+  </div>
+</body>
+</html>

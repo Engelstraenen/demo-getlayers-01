@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1440">
+<title>Glashalle Rhein — Eine Halle aus Licht (Demo)</title>
+<style>
+@font-face {
+  font-family: "Gloock";
+  src: url("../fonts/gloock-latin.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Gloock";
+  src: url("../fonts/gloock-latinext.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Sora";
+  src: url("../fonts/sora-latin.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Sora";
+  src: url("../fonts/sora-latinext.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+img { display: block; max-width: 100%; }
+button, a { font: inherit; color: inherit; }
+a { text-decoration: none; }
+button { border: 0; background: none; cursor: pointer; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
+::selection { background: var(--sel-bg); color: var(--sel-fg); }
+@media (hover: hover) and (pointer: fine) {
+  .btn:hover { filter: brightness(1.06); }
+}
+.btn:active { transform: scale(0.97); }
+.btn { transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1), filter 160ms ease; display: inline-flex; align-items: center; justify-content: center; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .btn:active { transform: none; }
+}
+
+:root {
+  --ink: #161A1E;
+  --ink-dim: #4A545C;
+  --ground: #E7EEF1;
+  --paper: #F5F7F8;
+  --line: #C5CED3;
+  --aqua: #0E7A76;
+  --aqua-soft: #7EB8B4;
+  --focus: #0E7A76;
+  --sel-bg: #0E7A76;
+  --sel-fg: #F5F7F8;
+}
+body { background: #D8E0E4; color: var(--ink); font-family: "Sora", sans-serif; font-weight: 400; }
+.stage {
+  width: 1440px; height: 900px; overflow: hidden;
+  background: var(--ground);
+  position: relative;
+  display: grid;
+  grid-template-rows: 28px 1fr;
+}
+.demo {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 56px; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: #5A656C; background: #DDE5E9;
+}
+.page {
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+  padding: 0 56px 28px;
+  min-height: 0;
+}
+nav {
+  display: flex; align-items: baseline; justify-content: space-between;
+  padding: 28px 0 8px;
+}
+.logo {
+  font-family: "Gloock", serif;
+  font-weight: 400;
+  font-size: 30px;
+  letter-spacing: -0.02em;
+}
+.links { display: flex; gap: 28px; align-items: center; font-size: 13px; font-weight: 500; color: var(--ink-dim); }
+@media (hover: hover) and (pointer: fine) { .links a:hover { color: var(--ink); } }
+.cta-nav {
+  color: var(--paper) !important;
+  background: var(--ink);
+  padding: 10px 18px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+.intro {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 40px;
+  align-items: end;
+  padding: 18px 0 22px;
+}
+h1 {
+  font-family: "Gloock", serif;
+  font-weight: 400;
+  font-size: 88px;
+  line-height: 0.94;
+  letter-spacing: -0.03em;
+  max-width: 10ch;
+}
+.side {
+  padding-bottom: 8px;
+}
+.sub {
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--ink-dim);
+  font-weight: 300;
+}
+.cta {
+  margin-top: 22px;
+  background: var(--aqua);
+  color: #F5F7F8;
+  padding: 14px 24px;
+  font-weight: 500;
+  font-size: 15px;
+  letter-spacing: 0.02em;
+}
+.visual {
+  position: relative;
+  min-height: 0;
+  overflow: hidden;
+  background: #C9D3D8;
+}
+.visual img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 40%;
+}
+.caption {
+  position: absolute;
+  left: 20px; bottom: 16px;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #F5F7F8;
+  background: rgba(20,24,28,0.55);
+  padding: 6px 10px;
+}
+</style>
+</head>
+<body>
+  <div class="stage">
+    <div class="demo"><span>Muster-Website · fiktive Halle · Demo von PROJEKT EX</span><span>Look B · v1</span></div>
+    <div class="page">
+      <nav>
+        <a class="logo" href="index.html">Glashalle Rhein</a>
+        <div class="links">
+          <a href="reservierung.html">Plätze</a>
+          <a href="reservierung.html">Reservierung</a>
+          <a href="index.html">Halle</a>
+          <a href="reservierung.html">Bewertungen</a>
+          <a class="btn cta-nav" href="reservierung.html">Platz buchen</a>
+        </div>
+      </nav>
+      <div class="intro">
+        <h1>Eine Halle aus Licht.</h1>
+        <div class="side">
+          <p class="sub">Padel in einer Glashalle am Rhein. Tageslicht, drei ruhige Bahnen, klare Zeiten. Die Aufnahme zeigt den Drohnenblick über das Dach.</p>
+          <a class="btn cta" href="reservierung.html">Platz buchen</a>
+        </div>
+      </div>
+      <figure class="visual">
+        <img src="../img/b-drone.jpg" alt="Drohnenaufnahme der Glashalle Rhein: drei aquafarbene Padelbahnen unter einem weißen Stahldach am Fluss, helles Tageslicht.">
+        <figcaption class="caption">Drohnenaufnahme · Glashalle am Rhein · 3 Bahnen</figcaption>
+      </figure>
+    </div>
+  </div>
+</body>
+</html>
