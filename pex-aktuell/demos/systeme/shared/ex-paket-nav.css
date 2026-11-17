@@ -1,0 +1,120 @@
+/* Eine fixe 6-Tab-Leiste für alle Paketstadt-Ansichten */
+:root{--ex-nav-h:52px;--ex-nav-top:calc(8px + env(safe-area-inset-top,0px))}
+#exPaketNav{position:fixed;top:var(--ex-nav-top);left:50%;transform:translateX(-50%);z-index:100;width:min(720px,calc(100vw - 16px));pointer-events:none}
+#exPaketNav .ex-nav-shell{pointer-events:auto;position:relative;display:flex;align-items:center;padding:3px;border-radius:999px;background:rgba(255,248,240,.96);border:1px solid rgba(255,255,255,.85);box-shadow:0 10px 28px rgba(40,24,10,.16);backdrop-filter:blur(18px) saturate(1.35);-webkit-backdrop-filter:blur(18px) saturate(1.35)}
+#exPaketNav .ex-nav-scroll{scroll-padding-inline:28px;display:flex;align-items:center;gap:2px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;width:100%;scroll-snap-type:x proximity;position:relative}
+#exPaketNav .ex-nav-scroll::-webkit-scrollbar{display:none}
+#exPaketNav a{position:relative;z-index:3;flex:0 0 auto;scroll-snap-align:center;display:inline-flex;align-items:center;justify-content:center;height:40px;padding:0 13px;border-radius:999px;font:600 12.5px/1 system-ui,-apple-system,sans-serif;line-height:1;color:#6a5646;text-decoration:none;white-space:nowrap;background:transparent;transition:color .15s ease}
+#exPaketNav a[aria-current="page"],#exPaketNav a.active{color:#a8452e;background:#fff;box-shadow:0 1px 0 #fff inset,0 4px 14px -4px rgba(112,76,50,.32)}
+#exPaketNav a:not(.active):hover{color:#2b231f}
+#exPaketNav a:focus-visible{outline:2px solid #d9735a;outline-offset:2px}
+#exPaketNav .ex-nav-fade{pointer-events:none;position:absolute;top:0;bottom:0;width:22px;z-index:2}
+#exPaketNav .ex-nav-fade.l{left:0;border-radius:999px 0 0 999px;background:linear-gradient(90deg,rgba(255,248,240,.98),transparent)}
+#exPaketNav .ex-nav-fade.r{right:0;border-radius:0 999px 999px 0;background:linear-gradient(270deg,rgba(255,248,240,.98),transparent)}
+@media(min-width:900px){
+  #exPaketNav{width:min(780px,72vw)}
+  #exPaketNav a{font-size:13.5px;padding:0 14px;height:42px}
+  #exPaketNav .ex-nav-fade{display:none}
+}
+
+/* Native Kopf-Switch und Ops-Chrome zugunsten unserer Leiste ausblenden/überdecken */
+body.ex-paket-nav-on{padding-top:calc(var(--ex-nav-h) + 18px)}
+body.ex-has-native-switch nav.switch,
+body.ex-has-native-switch .switch .thumb{display:none!important;visibility:hidden!important}
+body.ex-has-native-switch .top{z-index:40!important}
+body.ex-has-native-switch .top .brand{max-width:42vw}
+/* Ops / Problem-Center: unsere Leiste bleibt oben */
+body.ops-full #exPaketNav,body.ops-open #exPaketNav,body.sheet #exPaketNav{display:block!important;z-index:120}
+.ops-panel .ops-mode{opacity:.55}
+
+/* Social: Panel unter der Leiste, Leiste immer sichtbar */
+body.ex-social-open #exPaketNav{display:block!important;z-index:120}
+body.ex-social-open .top,
+body.ex-social-open #exZoomHelp,
+body.ex-social-open #exSocialFab,
+body.ex-social-open .hint-tg,
+body.ex-social-open .ep-bsp,
+body.ex-social-open #exSocialMarker{display:none!important}
+body.ex-social-open #exSocialPanel{
+  display:flex!important;align-items:stretch;justify-content:center;
+  top:calc(var(--ex-nav-top) + var(--ex-nav-h) + 6px)!important;
+  left:0!important;right:0!important;bottom:0!important;
+  padding:0!important;background:rgba(30,22,14,.22);z-index:90;backdrop-filter:blur(2px)
+}
+body.ex-social-open #exSocialPanel .sheet{
+  width:min(920px,100%)!important;height:100%;margin:0 auto;border-radius:20px 20px 0 0;
+  border-left:none;box-shadow:0 -8px 40px rgba(40,24,10,.18);overflow:auto;-webkit-overflow-scrolling:touch
+}
+
+/* Sibling demos: native Switches aus */
+body.ex-paket-nav-on .top .sw,
+body.ex-paket-nav-on header.top .sw,
+body.ex-paket-nav-on .mtop{display:none!important}
+body.ex-paket-nav-on .lg{background:#c47a4a!important;color:#fff!important;font-size:0!important}
+body.ex-paket-nav-on .lg::after{content:"P";font-size:12px;font-weight:800}
+
+#exSocialFab{left:auto!important;right:14px!important;bottom:calc(18px + env(safe-area-inset-bottom,0px))!important;z-index:45}
+@media(max-width:720px){#exSocialFab{right:10px!important;bottom:calc(72px + env(safe-area-inset-bottom,0px))!important}#exSocialFab button small{display:none}}
+#exZoomHelp{position:fixed;right:12px;top:50%;transform:translateY(-50%);z-index:46;display:flex;flex-direction:column;gap:8px}
+#exZoomHelp button{width:42px;height:42px;border-radius:14px;border:1px solid rgba(255,255,255,.75);background:rgba(255,248,240,.92);box-shadow:0 8px 20px rgba(40,24,10,.12);font:700 18px/1 system-ui,sans-serif;color:#3a2a1c;cursor:pointer}
+#exZoomHelp .ex-zoom-back{font-size:11px;width:auto;min-width:42px;padding:0 6px}
+@media(max-width:820px){#exZoomHelp{top:auto;bottom:calc(130px + env(safe-area-inset-bottom,0px));transform:none;right:8px}}
+
+/* v1: Problem-Center (Handy-Liste) beginnt unter der festen Leiste, damit Kopf + 3D/Liste-Umschalter sichtbar bleiben */
+body.ex-paket-nav-on .ops-panel{top:calc(var(--ex-nav-top) + var(--ex-nav-h) + 8px)!important}
+@media (max-width:720px){body.ex-paket-nav-on .ops-panel{top:calc(var(--ex-nav-top) + var(--ex-nav-h) + 4px)!important;border-radius:20px 20px 0 0!important}}
+/* Shop-Raum (= Paketstadt-Dashboard): eigener Bereichs-Umschalter weicht der festen Leiste, Inhalt bleibt original */
+body.ex-paket-nav-on #psNav,body.ex-paket-nav-on .ps-nav{display:none!important}
+#exSocialPin{position:fixed;z-index:11;transform:translate(-50%,-100%);cursor:pointer;font-family:inherit;color:#2b231f;border:1px solid rgba(255,255,255,.85);pointer-events:auto;transition:opacity .2s ease}
+#exSocialPin i{background:#d9735a;box-shadow:0 0 0 3px rgba(217,115,90,.22)}
+#exSocialPin.ex-off{opacity:0;pointer-events:none}
+#exSocialPin .go{opacity:.7;font-weight:600}
+/* Handy-Liste (Problem-Center voll): keine schwebenden 3D-Bedienelemente darüber */
+body.ops-full #exZoomHelp,body.ops-full .hint-tg,body.ops-full #exSocialPin{display:none!important}
+
+/* ---------- v2: Icons in der Leiste, auf schmalen Handys alle sechs Reiter ohne Wischen ---------- */
+#exPaketNav a{gap:7px}
+#exPaketNav a svg{width:17px;height:17px;flex:0 0 auto;opacity:.8}
+#exPaketNav a.active svg{opacity:1}
+@media(max-width:620px){
+  :root{--ex-nav-h:56px}
+  #exPaketNav{width:calc(100vw - 12px)}
+  #exPaketNav .ex-nav-fade{display:none}
+  #exPaketNav .ex-nav-scroll{overflow:visible;gap:1px;scroll-snap-type:none}
+  #exPaketNav a{flex:1 1 0;min-width:0;height:50px;padding:0 1px;flex-direction:column;gap:3px;font-size:10.5px;letter-spacing:-.01em;border-radius:16px}
+  #exPaketNav .ex-nav-shell{border-radius:20px}
+  #exPaketNav a span{max-width:100%;overflow:hidden;text-overflow:clip;white-space:nowrap}
+  #exPaketNav a svg{width:19px;height:19px}
+}
+@media(max-width:340px){#exPaketNav a{font-size:9.5px}}
+/* Social hat jetzt ein eigenes Gebäude: Pin am Laden + schwebender Knopf entfallen */
+body.ex-has-native-switch #exSocialPin,body.ex-has-native-switch #exSocialFab{display:none!important}
+/* Detailfenster offen: Zoom-Knöpfe weichen nach links */
+@media(min-width:721px){body.xf-open #exZoomHelp{right:424px}}
+
+/* ---------- v2: Tür-Überblendung („Rein-Gefühl“) ---------- */
+#exGate{position:fixed;inset:0;z-index:99;pointer-events:none;opacity:0;visibility:hidden;display:grid;place-items:center;
+  background:radial-gradient(120% 90% at 50% 58%,#fff8f0 0%,#f4e6d7 52%,#e4cbb4 100%);transition:opacity var(--gd,.4s) ease,visibility 0s linear var(--gd,.4s)}
+#exGate.on{opacity:1;visibility:visible;pointer-events:auto;transition:opacity var(--gd,.4s) ease}
+#exGate.instant{transition:none!important}
+#exGate .g-wing{position:absolute;top:0;bottom:0;width:50.5%;background:linear-gradient(180deg,#f6ebdf,#ead6c3);transition:transform .8s cubic-bezier(.7,0,.2,1)}
+#exGate .g-wing.l{left:0;box-shadow:inset -10px 0 24px -14px rgba(90,60,30,.35)}
+#exGate .g-wing.r{right:0;box-shadow:inset 10px 0 24px -14px rgba(90,60,30,.35)}
+#exGate .g-wing.l::after,#exGate .g-wing.r::after{content:"";position:absolute;top:50%;width:6px;height:46px;border-radius:6px;background:#c9a184;transform:translateY(-50%)}
+#exGate .g-wing.l::after{right:18px}#exGate .g-wing.r::after{left:18px}
+#exGate .g-c{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:10px;color:#3a2a1c;font-family:Inter,system-ui,sans-serif;transform:scale(.92);opacity:0;transition:transform .5s cubic-bezier(.2,.8,.2,1),opacity .35s ease}
+#exGate.on .g-c{transform:scale(1);opacity:1}
+#exGate .g-ic{width:68px;height:68px;border-radius:22px;display:grid;place-items:center;background:#d9735a;color:#fff;box-shadow:0 16px 34px -12px rgba(217,115,90,.8)}
+#exGate[data-id=bots] .g-ic{background:#8f9c84}
+#exGate[data-id=stadt] .g-ic{background:#b8794f}
+#exGate .g-ic svg{width:34px;height:34px}
+#exGate b{font-size:19px;font-weight:800;letter-spacing:-.01em}
+#exGate small{font-size:12px;font-weight:600;color:#8a7362}
+#exGate.open{opacity:0;transition:opacity .5s ease .35s,visibility 0s linear .9s}
+#exGate.open .g-wing.l{transform:translateX(-102%)}
+#exGate.open .g-wing.r{transform:translateX(102%)}
+#exGate.open .g-c{transform:scale(1.08);opacity:0;transition:transform .45s ease,opacity .3s ease}
+@media (prefers-reduced-motion:reduce){#exGate,#exGate *{transition:none!important}}
+
+/* v3: Bots-Seite – eigener Bereichs-Umschalter doppelt zur festen Leiste */
+body.ex-paket-nav-on nav.mainnav{display:none!important}
