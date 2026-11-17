@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' ; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; manifest-src 'self'; worker-src 'self' blob:; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kontakt: Projekt anfragen | PROJEKT EX</title>
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="PROJEKT EX">
+<meta property="og:locale" content="de_DE">
+<meta property="og:url" content="https://projektex.de/kontakt">
+<meta property="og:title" content="Kontakt: Projekt anfragen | PROJEKT EX">
+<meta property="og:description" content="Projekt anfragen bei PROJEKT EX: Formular ausfüllen oder E-Mail schreiben. Kostenloses Erstgespräch, dann 2–3 Moodboards und die Umsetzung.">
+<meta property="og:image" content="https://projektex.de/assets/og/kontakt.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Kontakt zu PROJEKT EX">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://projektex.de/kontakt">
+<meta name="description" content="Projekt anfragen bei PROJEKT EX: Formular ausfüllen oder E-Mail schreiben. Kostenloses Erstgespräch, dann 2–3 Moodboards und die Umsetzung.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%2714%27 fill=%27none%27 stroke=%27%230071E3%27 stroke-width=%273%27/%3E%3C/svg%3E">
+<style>
+  :root {
+    --bg: #FFFFFF; --bg-2: #F5F5F7; --ink: #1D1D1F; --ink-2: #6E6E73; --line: #D2D2D7;
+    --blue: #0071E3; --blue-ink: #0066CC; --amber: #A34A00; --amber-bg: #FFF4E5;
+    --font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", "Segoe UI", Inter, Arial, sans-serif;
+    --gutter: clamp(20px, 6vw, 88px);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { background: var(--bg); scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body { font-family: var(--font); color: var(--ink); font-size: 17px; line-height: 1.55; letter-spacing: -.01em; -webkit-font-smoothing: antialiased; }
+  a { color: var(--blue-ink); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  :focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; border-radius: 6px; }
+  .skip { position: absolute; left: -999px; top: 8px; background: var(--ink); color: #fff; padding: 8px 12px; z-index: 60; border-radius: 8px; }
+  .skip:focus { left: 8px; }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+
+  header.top { position: sticky; top: 0; z-index: 30; height: 60px; display: flex; align-items: center; justify-content: space-between; padding: 0 var(--gutter);
+    background: rgba(255,255,255,.82); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); border-bottom: 1px solid rgba(210,210,215,.6); }
+  .brand { font-size: 17px; font-weight: 500; color: var(--ink); display: flex; align-items: center; gap: 10px; }
+  .brand:hover { text-decoration: none; }
+  .brand b { color: var(--blue); font-weight: 650; }
+  .brand i { width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid var(--blue); position: relative; }
+  .brand i::after { content: '···'; position: absolute; inset: 0; display: grid; place-items: center; color: var(--blue); font-style: normal; font-size: 10px; }
+  .back { font-size: 14px; }
+
+  main { max-width: 980px; margin: 0 auto; padding: 72px var(--gutter) 120px; }
+  .kicker { font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: var(--ink-2); margin-bottom: 16px; }
+  h1 { font-size: clamp(40px, 5vw, 72px); font-weight: 650; letter-spacing: -.05em; line-height: 1.02; }
+  h1 .mute { color: var(--ink-2); }
+  .notice { margin-top: 28px; background: var(--amber-bg); border-radius: 18px; padding: 16px 20px; font-size: 14px; color: #5C3A10; max-width: 74ch; }
+  .ph { background: var(--amber-bg); color: var(--amber); border-radius: 6px; padding: 0 6px; font-weight: 500; white-space: nowrap; }
+  .updated { margin-top: 18px; font-size: 14px; color: var(--ink-2); }
+
+  nav.toc { display: flex; flex-wrap: wrap; gap: 10px; margin: 36px 0 24px; }
+  nav.toc a { display: inline-flex; align-items: center; height: 40px; padding: 0 18px; border-radius: 999px; border: 1px solid var(--line); color: var(--ink); font-size: 15px; }
+  nav.toc a:hover { border-color: var(--ink); text-decoration: none; }
+
+  section.legal { scroll-margin-top: 88px; background: var(--bg-2); border-radius: 32px; padding: clamp(28px, 5vw, 56px); margin-top: 20px; }
+  section.legal h2 { font-size: clamp(28px, 3vw, 40px); font-weight: 650; letter-spacing: -.04em; line-height: 1.08; }
+  section.legal h3 { font-size: 19px; font-weight: 600; letter-spacing: -.02em; margin-top: 30px; }
+  section.legal h4 { font-size: 16px; font-weight: 600; margin-top: 18px; }
+  section.legal p, section.legal li { color: #3A3A3C; max-width: 72ch; }
+  section.legal p { margin-top: 10px; }
+  section.legal ul, section.legal ol { margin: 10px 0 0 22px; display: grid; gap: 6px; }
+  section.legal address { font-style: normal; margin-top: 12px; line-height: 1.7; }
+  .card { background: #fff; border-radius: 18px; padding: 18px 22px; margin-top: 14px; max-width: 72ch; }
+  .totop { margin-top: 22px; display: inline-block; font-size: 15px; }
+
+  footer { background: var(--bg-2); padding: 34px var(--gutter) 60px; display: flex; flex-wrap: wrap; gap: 12px 28px; font-size: 13px; color: var(--ink-2); }
+  footer span:first-child { margin-right: auto; }
+  footer a { color: var(--ink-2); }
+  @media (max-width: 680px) { .ph { white-space: normal; } }
+
+  form.contact { display: grid; gap: 16px; margin-top: 18px; max-width: 640px; }
+  form.contact .field { display: grid; gap: 6px; }
+  form.contact label { font-size: 15px; font-weight: 500; color: var(--ink); }
+  form.contact input, form.contact select, form.contact textarea { font: inherit; font-size: 16px; color: var(--ink); background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; width: 100%; }
+  form.contact textarea { resize: vertical; min-height: 140px; }
+  form.contact input:focus-visible, form.contact select:focus-visible, form.contact textarea:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+  form.contact [aria-invalid="true"] { border-color: #B3261E; }
+  form.contact .err { font-size: 14px; color: #B3261E; min-height: 0; }
+  form.contact .hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+  form.contact .privacy-hint { font-size: 14px; color: #515154; }
+  form.contact button.send { justify-self: start; font: inherit; font-size: 16px; font-weight: 500; border: 0; border-radius: 999px; padding: 12px 26px; cursor: pointer; /* Color+Fill: liquid-glass.css */ }
+  form.contact fieldset.q { border: 0; margin: 4px 0 0; padding: 8px 0 0; display: grid; gap: 10px; }
+  form.contact fieldset.q legend { font-size: 17px; font-weight: 600; letter-spacing: -.02em; display: flex; gap: 10px; align-items: baseline; padding: 0; }
+  form.contact fieldset.q legend i { font-style: normal; color: var(--blue); font-size: 13px; font-variant-numeric: tabular-nums; font-weight: 600; }
+  form.contact .q-hint { font-size: 14px; color: var(--ink-2); }
+  form.contact .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  form.contact .chips button { font: inherit; font-size: 14.5px; line-height: 1.3; color: var(--ink); background: #fff; border: 1px solid var(--line); border-radius: 999px; padding: 8px 14px; cursor: pointer; }
+  form.contact .chips button[aria-pressed="true"] { background: #E8F2FC; border-color: var(--blue); color: var(--blue-ink); }
+  .form-status:empty { display: none; }
+  .form-status { margin-top: 12px; background: #fff; border-radius: 14px; padding: 12px 16px; }
+  /* Audit: Links im Text unterstreichen (WCAG 1.4.1) */
+  section.legal p a, section.legal li a, .updated a, .notice a { text-decoration: underline; text-underline-offset: 2px; }
+
+  /* High-End Kontakt: Einleitung links, Formular rechts (Desktop) */
+  main { max-width: 1320px; padding-top: clamp(40px, 8vh, 96px); }
+  .k-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(32px, 6vw, 96px); align-items: start; }
+  .k-intro { position: sticky; top: 104px; }
+  .k-intro h1 { font-size: clamp(44px, 5.6vw, 96px); line-height: .98; letter-spacing: -.055em; max-width: 11ch; }
+  .k-steps { list-style: none; display: grid; gap: 0; margin-top: clamp(32px, 6vh, 56px); border-top: 1px solid #E5E5EA; }
+  .k-steps li { display: grid; grid-template-columns: 40px 1fr; gap: 2px 16px; padding: 18px 0; border-bottom: 1px solid #E5E5EA; }
+  .k-steps i { grid-row: span 2; width: 32px; height: 32px; border-radius: 50%; background: var(--blue); color: #fff; font-style: normal; font-size: 14px; font-weight: 600; display: grid; place-items: center; }
+  .k-steps b { font-size: 19px; letter-spacing: -.02em; }
+  .k-steps span { color: var(--ink-2); font-size: 15.5px; }
+  .k-direct { display: flex; align-items: center; flex-wrap: wrap; gap: 16px; margin-top: 28px; }
+  .k-direct p { font-size: 15px; color: var(--ink-2); }
+  .k-direct a { font-size: 17px; font-weight: 500; text-decoration: underline; text-underline-offset: 3px; }
+  .k-wa { margin-top: 16px; }
+  .k-wa .btn { display: inline-flex; align-items: center; height: 36px; padding: 0 17px; border-radius: 999px; font-size: 14px; font-weight: 600; text-decoration: none; }
+  .k-wa .btn:hover { text-decoration: none; }
+  .k-faces { display: flex; }
+  .k-faces img, .k-faces b { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; box-shadow: 0 0 0 3px #fff; }
+  .k-faces b { margin-left: -12px; background: #0B0B0D; color: #F5F5F7; display: flex; align-items: center; justify-content: center; font-size: 17px; letter-spacing: -.04em; }
+  .k-faces b em { font-style: normal; color: #2997FF; }
+  .kontakt section.legal { margin-top: 0; background: #fff; box-shadow: 0 0 0 1px #E5E5EA, 0 60px 120px -60px rgba(0, 40, 100, .25); }
+  .kontakt form.contact { max-width: none; }
+  .kontakt form.contact input, .kontakt form.contact select, .kontakt form.contact textarea { background: var(--bg-2); border-color: transparent; transition: background-color .2s ease, border-color .2s ease; }
+  .kontakt form.contact input:focus, .kontakt form.contact select:focus, .kontakt form.contact textarea:focus { background: #fff; border-color: var(--blue); }
+  .kontakt form.contact button.send { height: 52px; padding: 0 30px; font-size: 17px; transition: background-color .2s ease, transform .16s cubic-bezier(.23, 1, .32, 1); }
+  .kontakt form.contact button.send:active { transform: scale(.97); }
+  @media (max-width: 900px) { .k-grid { grid-template-columns: 1fr; } .k-intro { position: static; } }
+  .k-photo { position: relative; margin-top: clamp(56px, 10vh, 120px); border-radius: clamp(22px, 2.6vw, 36px); overflow: hidden; background: var(--bg-2); box-shadow: 0 60px 120px -60px rgba(0, 40, 100, .35); }
+  .k-photo picture { display: block; }
+  .k-photo img { display: block; width: 100%; height: auto; aspect-ratio: 21 / 9; object-fit: cover; }
+  .k-photo figcaption { position: absolute; left: clamp(14px, 2vw, 24px); bottom: clamp(14px, 2vw, 24px); font-size: 14px; color: #fff; background: rgba(0, 0, 0, .42); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); padding: 7px 14px; border-radius: 999px; }
+  @media (max-width: 700px) { .k-photo img { aspect-ratio: 4 / 3; } .k-photo figcaption { font-size: 12.5px; right: 14px; } }
+  @media (prefers-reduced-motion: no-preference) { @supports (animation-timeline: view()) { .k-photo img { animation: k-par linear both; animation-timeline: view(); } } }
+  @keyframes k-par { from { transform: scale(1.12) translateY(-3%); } to { transform: scale(1.12) translateY(3%); } }
+</style>
+<link rel="stylesheet" href="assets/vendor/cookieconsent/cookieconsent.css">
+<link rel="stylesheet" href="assets/consent-theme.css">
+<link rel="stylesheet" href="assets/ep-fx.css">
+<link rel="stylesheet" href="assets/liquid-glass.css">
+</head>
+<body class="kontakt">
+<a class="skip" href="#main">Direkt zum Inhalt</a>
+<header class="top">
+  <a class="brand" href="index.html">PROJEKT <b>EX</b><i aria-hidden="true"></i></a>
+  <a class="back" href="index.html">‹ Zurück zur Startseite</a>
+</header>
+
+<main id="main">
+
+  <div class="k-grid">
+  <div class="k-intro">
+  <p class="kicker">PROJEKT EX / Kontakt</p>
+  <h1 data-hw><span class="hw"><span style="--i:0">Projekt</span></span> <span class="hw"><span style="--i:1">starten.</span></span> <span class="mute"><span class="hw"><span style="--i:2">Erzähl</span></span> <span class="hw"><span style="--i:3">uns,</span></span> <span class="hw"><span style="--i:4">worum</span></span> <span class="hw"><span style="--i:5">es</span></span> <span class="hw"><span style="--i:6">geht.</span></span></span></h1>
+  <ol class="k-steps">
+    <li><i>1</i><b>Ihr schreibt uns</b><span>Ein paar Sätze reichen. Ziel, Zeitraum, was es schon gibt.</span></li>
+    <li><i>2</i><b>Wir sprechen kurz</b><span>Persönlich, ohne Fachvokabular. Danach wisst ihr, was sinnvoll ist.</span></li>
+    <li><i>3</i><b>2–3 Moodboards</b><span>Ihr wählt den Favoriten, dann wird gebaut.</span></li>
+  </ol>
+  <div class="k-direct">
+    <span class="k-faces" aria-hidden="true"><img src="img/team/eugen-kelberer-320.webp" alt="" width="320" height="320"><b>P<em>H</em></b></span>
+    <div>
+      <p>Ihr sprecht direkt mit uns.<br><a href="mailto:kontakt@projektex.de">kontakt@projektex.de</a><br><a href="tel:+4915204388945">+49 1520 4388945</a></p>
+      <p class="k-wa"><a class="btn small" href="https://wa.me/4915204388945">WhatsApp</a></p>
+    </div>
+  </div>
+  </div>
+
+  <section class="legal" aria-labelledby="h-form">
+    <h2 id="h-form">Anfrage</h2>
+    <p id="form-status" class="form-status" role="status" aria-live="polite"></p>
+    <form class="contact" id="contact-form" action="kontakt.php" method="post" accept-charset="utf-8" novalidate>
+      <div class="field"><label for="f-name">Name <span aria-hidden="true">*</span></label>
+        <input id="f-name" name="name" type="text" autocomplete="name" required maxlength="100" aria-describedby="e-name"><span class="err" id="e-name"></span></div>
+      <div class="field"><label for="f-email">E-Mail <span aria-hidden="true">*</span></label>
+        <input id="f-email" name="email" type="email" autocomplete="email" required maxlength="200" aria-describedby="e-email"><span class="err" id="e-email"></span></div>
+      <div class="field"><label for="f-kundentyp">Ich frage an als (optional)</label>
+        <select id="f-kundentyp" name="kundentyp"><option value="">Bitte wählen</option><option>Unternehmen</option><option>Verein</option><option>Öffentlicher Auftraggeber</option><option>Privatperson</option></select></div>
+      <div class="field"><label for="f-firma">Unternehmen oder Verein (optional)</label>
+        <input id="f-firma" name="firma" type="text" autocomplete="organization" maxlength="150"></div>
+      <fieldset class="q"><legend><i>1</i> Was macht Ihr Unternehmen?</legend>
+        <div class="chips" role="group" aria-label="Branche" data-chips="branche">
+          <button type="button" aria-pressed="false">Handwerk</button>
+          <button type="button" aria-pressed="false">Gastronomie</button>
+          <button type="button" aria-pressed="false">Einzelhandel/Shop</button>
+          <button type="button" aria-pressed="false">Gesundheit/Praxis</button>
+          <button type="button" aria-pressed="false">Beauty/Friseur</button>
+          <button type="button" aria-pressed="false">Immobilien</button>
+          <button type="button" aria-pressed="false">Beratung/Dienstleistung</button>
+          <button type="button" aria-pressed="false">Steuer/Recht</button>
+          <button type="button" aria-pressed="false">Fitness/Sport</button>
+          <button type="button" aria-pressed="false">Industrie/Produktion</button>
+          <button type="button" aria-pressed="false">Bildung</button>
+          <button type="button" aria-pressed="false">Event</button>
+          <button type="button" aria-pressed="false">Tourismus/Hotel</button>
+          <button type="button" aria-pressed="false">Sonstiges</button>
+        </div>
+        <input type="hidden" name="branche" id="f-branche" value="">
+        <div class="field"><label for="f-sonst-branche">Sonstiges / eigene Antwort</label>
+          <input id="f-sonst-branche" name="sonst_branche" type="text" maxlength="240"></div>
+      </fieldset>
+      <fieldset class="q"><legend><i>2</i> Website und Social Media</legend>
+        <div class="chips" role="group" aria-label="Website und Social Media" data-chips="kanaele">
+          <button type="button" aria-pressed="false">keine Website</button>
+          <button type="button" aria-pressed="false">Website vorhanden</button>
+          <button type="button" aria-pressed="false">Instagram</button>
+          <button type="button" aria-pressed="false">Facebook</button>
+          <button type="button" aria-pressed="false">TikTok</button>
+          <button type="button" aria-pressed="false">YouTube</button>
+          <button type="button" aria-pressed="false">LinkedIn</button>
+          <button type="button" aria-pressed="false">Google-Unternehmensprofil</button>
+          <button type="button" aria-pressed="false">kein Social Media</button>
+        </div>
+        <input type="hidden" name="kanaele" id="f-kanaele" value="">
+        <div class="field"><label for="f-sonst-kanaele">Sonstiges / eigene Antwort</label>
+          <input id="f-sonst-kanaele" name="sonst_kanaele" type="text" maxlength="300"></div>
+      </fieldset>
+      <fieldset class="q"><legend><i>3</i> Zielgruppe und Region</legend>
+        <div class="chips" role="group" aria-label="Zielgruppe und Region" data-chips="region">
+          <button type="button" aria-pressed="false">lokal</button>
+          <button type="button" aria-pressed="false">regional</button>
+          <button type="button" aria-pressed="false">deutschlandweit</button>
+          <button type="button" aria-pressed="false">international</button>
+          <button type="button" aria-pressed="false">B2B</button>
+          <button type="button" aria-pressed="false">B2C</button>
+          <button type="button" aria-pressed="false">beides</button>
+        </div>
+        <input type="hidden" name="region" id="f-region" value="">
+        <div class="field"><label for="f-sonst-region">Sonstiges / eigene Antwort</label>
+          <input id="f-sonst-region" name="sonst_region" type="text" maxlength="240"></div>
+      </fieldset>
+      <fieldset class="q"><legend><i>4</i> Wichtigstes Ziel</legend>
+        <div class="chips" role="group" aria-label="Wichtigstes Ziel" data-chips="ziel">
+          <button type="button" aria-pressed="false">mehr Anfragen</button>
+          <button type="button" aria-pressed="false">mehr Reichweite</button>
+          <button type="button" aria-pressed="false">Bekanntheit</button>
+          <button type="button" aria-pressed="false">Mitarbeiter finden</button>
+          <button type="button" aria-pressed="false">Online-Verkauf</button>
+          <button type="button" aria-pressed="false">bei Google gefunden werden</button>
+          <button type="button" aria-pressed="false">Social Media aufbauen</button>
+          <button type="button" aria-pressed="false">Abläufe entlasten</button>
+          <button type="button" aria-pressed="false">Marke schärfen</button>
+          <button type="button" aria-pressed="false">unzulässige Bewertungen prüfen lassen</button>
+        </div>
+        <input type="hidden" name="ziel" id="f-ziel" value="">
+        <div class="field"><label for="f-sonst-ziel">Sonstiges / eigene Antwort</label>
+          <input id="f-sonst-ziel" name="sonst_ziel" type="text" maxlength="240"></div>
+      </fieldset>
+      <fieldset class="q"><legend><i>5</i> Wo hakt es gerade?</legend>
+        <div class="chips" role="group" aria-label="Wo hakt es gerade?" data-chips="haken">
+          <button type="button" aria-pressed="false">zu wenige Anfragen</button>
+          <button type="button" aria-pressed="false">kaum Reichweite</button>
+          <button type="button" aria-pressed="false">Website veraltet oder fehlt</button>
+          <button type="button" aria-pressed="false">keine Zeit für Social Media</button>
+          <button type="button" aria-pressed="false">Werbung bringt nichts</button>
+          <button type="button" aria-pressed="false">Auftritt uneinheitlich</button>
+          <button type="button" aria-pressed="false">zu viel Handarbeit</button>
+          <button type="button" aria-pressed="false">kein Überblick</button>
+          <button type="button" aria-pressed="false">Online-Shop fehlt oder hakt</button>
+        </div>
+        <input type="hidden" name="haken" id="f-haken" value="">
+        <div class="field"><label for="f-sonst-haken">Sonstiges / eigene Antwort</label>
+          <input id="f-sonst-haken" name="sonst_haken" type="text" maxlength="240"></div>
+      </fieldset>
+      <fieldset class="q"><legend><i>6</i> Leistungen</legend>
+        <div class="chips" role="group" aria-label="Leistungen" data-chips="leistungen">
+          <button type="button" aria-pressed="false">Websites</button>
+          <button type="button" aria-pressed="false">SEO &amp; Sichtbarkeit</button>
+          <button type="button" aria-pressed="false">Systeme &amp; Dashboards</button>
+          <button type="button" aria-pressed="false">Automatisierung &amp; Chatbots</button>
+          <button type="button" aria-pressed="false">App Design</button>
+          <button type="button" aria-pressed="false">Werbeclips</button>
+          <button type="button" aria-pressed="false">Ads-Management</button>
+          <button type="button" aria-pressed="false">Newsletter-Marketing</button>
+          <button type="button" aria-pressed="false">Logo Design</button>
+          <button type="button" aria-pressed="false">Print Design</button>
+          <button type="button" aria-pressed="false">Merch-Produktion</button>
+          <button type="button" aria-pressed="false">Räume &amp; Visualisierung</button>
+          <button type="button" aria-pressed="false">Individuelle Aufträge</button>
+          <button type="button" aria-pressed="false">Bewertungs-Löschservice</button>
+        </div>
+        <input type="hidden" name="leistungen" id="f-leistungen" value="">
+        <div class="field"><label for="f-sonst-leistungen">Sonstiges / eigene Antwort</label>
+          <input id="f-sonst-leistungen" name="sonst_leistungen" type="text" maxlength="240"></div>
+      </fieldset>
+      <fieldset class="q"><legend><i>7</i> Was haben Sie schon?</legend>
+        <div class="chips" role="group" aria-label="Was haben Sie schon?" data-chips="material" data-exclusive="nichts davon">
+          <button type="button" aria-pressed="false">Logo</button>
+          <button type="button" aria-pressed="false">eigene Fotos</button>
+          <button type="button" aria-pressed="false">eigene Videos</button>
+          <button type="button" aria-pressed="false">Texte</button>
+          <button type="button" aria-pressed="false">Farben und Schriften</button>
+          <button type="button" aria-pressed="false">Domain</button>
+          <button type="button" aria-pressed="false">nichts davon</button>
+        </div>
+        <input type="hidden" name="material" id="f-material" value="">
+        <div class="field"><label for="f-sonst-material">Sonstiges / eigene Antwort</label>
+          <input id="f-sonst-material" name="sonst_material" type="text" maxlength="240"></div>
+      </fieldset>
+      <fieldset class="q"><legend><i>8</i> Zeitpunkt</legend>
+        <div class="chips" role="group" aria-label="Zeitpunkt" data-chips="zeitpunkt" data-mode="single">
+          <button type="button" aria-pressed="false">sofort</button>
+          <button type="button" aria-pressed="false">in 1–3 Monaten</button>
+          <button type="button" aria-pressed="false">in diesem Jahr</button>
+          <button type="button" aria-pressed="false">später</button>
+          <button type="button" aria-pressed="false">noch offen</button>
+        </div>
+        <input type="hidden" name="zeitpunkt" id="f-zeitpunkt" value="">
+        <div class="field"><label for="f-sonst-zeitpunkt">Sonstiges / eigene Antwort</label>
+          <input id="f-sonst-zeitpunkt" name="sonst_zeitpunkt" type="text" maxlength="240"></div>
+      </fieldset>
+      <fieldset class="q"><legend><i>9</i> Wer entscheidet?</legend>
+        <div class="chips" role="group" aria-label="Wer entscheidet?" data-chips="entscheidet" data-mode="single">
+          <button type="button" aria-pressed="false">ich selbst</button>
+          <button type="button" aria-pressed="false">mit Partner/Team</button>
+          <button type="button" aria-pressed="false">Geschäftsführung</button>
+          <button type="button" aria-pressed="false">noch unklar</button>
+        </div>
+        <input type="hidden" name="entscheidet" id="f-entscheidet" value="">
+        <div class="field"><label for="f-sonst-entscheidet">Sonstiges / eigene Antwort</label>
+          <input id="f-sonst-entscheidet" name="sonst_entscheidet" type="text" maxlength="240"></div>
+      </fieldset>
+      <div class="field"><label for="f-nachricht">Nachricht <span aria-hidden="true">*</span></label>
+        <textarea id="f-nachricht" name="nachricht" rows="6" required minlength="10" maxlength="5000" aria-describedby="e-nachricht"></textarea><span class="err" id="e-nachricht"></span></div>
+      <div class="hp" aria-hidden="true"><label for="f-website">Website (bitte leer lassen)</label><input id="f-website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+      <input type="hidden" name="ts" id="f-ts" value="">
+      <p class="privacy-hint">In dieser GitHub-Pages-Vorschau öffnet das Formular eine vorbereitete E-Mail in Ihrem Mailprogramm; erst dortiges Senden übermittelt Ihre Anfrage. Auf projektex.de ist eine serverseitige Übermittlung vorbereitet, aber hier nicht aktiv. Bitte nur Testdaten eingeben. Name, E-Mail und Nachricht werden für eine gewünschte Antwort benötigt; optionale Angaben sind freiwillig. Dies ist keine Werbeeinwilligung. Mehr dazu in der <a href="datenschutz.html#kontakt">Datenschutzerklärung</a>. Pflichtfelder sind mit * markiert. Eine Anfrage ist noch kein Auftrag; das Erstgespräch ist kostenlos. Privatpersonen nennen wir Preise inkl. MwSt.; vor dem Auftrag erhaltet ihr unser Angebot mit <a href="rechtliches.html#agb">AGB</a> und <a href="widerruf.html">Widerrufsbelehrung</a>.</p>
+      <button class="send" type="submit">Anfrage senden</button>
+    </form>
+  </section>
+  </div>
+
+  <figure class="k-photo"><picture><source type="image/avif" srcset="img/seite/kontakt-studio-640.avif 640w, img/seite/kontakt-studio-1080.avif 1080w, img/seite/kontakt-studio-1600.avif 1600w, img/seite/kontakt-studio-2400.avif 2400w" sizes="(max-width: 1440px) 90vw, 1320px"><source type="image/webp" srcset="img/seite/kontakt-studio-640.webp 640w, img/seite/kontakt-studio-1080.webp 1080w, img/seite/kontakt-studio-1600.webp 1600w, img/seite/kontakt-studio-2400.webp 2400w" sizes="(max-width: 1440px) 90vw, 1320px"><img src="img/seite/kontakt-studio-1080.webp" width="2400" height="1340" alt="Heller Besprechungstisch aus Holz am großen Fenster mit Kaffeetassen, zugeklapptem Laptop, Notizbuch und ausgedruckten Farbpaletten, ringsum freie Stühle" loading="lazy" decoding="async" style="object-position:50% 55%"></picture><figcaption>So fängt es an: ein Tisch, ein Gespräch, eure Moodboards.</figcaption></figure>
+
+</main>
+
+<footer class="epf" id="epf" role="contentinfo">
+  <div class="epf-cta">
+    <p class="epf-kicker">Projekt starten</p>
+    <p class="epf-big"><a href="kontakt.html">Erzähl uns von deiner Idee. <span>Wir machen sie sichtbar.</span><i aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></i></a></p>
+    <p class="epf-mail"><a href="mailto:kontakt@projektex.de">kontakt@projektex.de</a></p>
+    <p class="epf-phone"><a href="tel:+4915204388945">+49 1520 4388945</a></p>
+    <p class="epf-wa"><a class="btn small" href="https://wa.me/4915204388945">WhatsApp</a></p>
+  </div>
+  <div class="epf-cols">
+    <nav aria-label="Leistungen"><p class="epf-h">Leistungen</p><ul><li><a href="leistungen/websites.html">Websites</a></li><li><a href="leistungen/seo.html">SEO &amp; Sichtbarkeit</a></li><li><a href="leistungen/systeme.html">Systeme &amp; Dashboards</a></li><li><a href="leistungen/automatisierung-chatbots.html">Automatisierung &amp; Chatbots</a></li><li><a href="leistungen/apps.html">App Design</a></li><li><a href="leistungen/bewertungs-loeschservice.html">Bewertungs-Löschservice</a></li><li><a href="leistungen/werbeclips.html">Werbeclips</a></li><li><a href="leistungen/ads-management.html">Ads-Management</a></li><li><a href="leistungen/newsletter-marketing.html">Newsletter-Marketing</a></li><li><a href="leistungen/logo-design.html">Logo Design</a></li><li><a href="leistungen/print-design.html">Print Design</a></li><li><a href="leistungen/merch.html">Merch-Produktion</a></li><li><a href="leistungen/visualisierung.html">Räume &amp; Visualisierung</a></li><li><a href="leistungen/individuelle-auftraege.html">Individuelle Aufträge</a></li></ul></nav>
+    <nav aria-label="Studio"><p class="epf-h">Studio</p><ul><li><a href="index.html">Start</a></li><li><a href="prozess.html">Prozess</a></li><li><a href="faq.html">FAQ</a></li><li><a href="index.html#finder">Potenzialfinder</a></li><li><a href="kontakt.html">Kontakt</a></li></ul></nav>
+    <nav aria-label="Rechtliches"><p class="epf-h">Rechtliches</p><ul><li><a href="impressum.html">Impressum</a></li><li><a href="datenschutz.html">Datenschutz</a></li><li><a href="rechtliches.html#cookies">Cookie-Policy</a></li><li><a href="rechtliches.html#agb">AGB</a></li><li><a href="widerruf.html">Widerruf</a></li><li><a href="rechtliches.html#barrierefreiheit">Barrierefreiheit</a></li><li><a id="cookie-einstellungen" href="#cookie-einstellungen" class="cc-settings-link" data-cc="show-preferencesModal">Cookie-Einstellungen</a></li></ul></nav>
+  </div>
+  <div class="epf-mark" aria-hidden="true"><span>PROJEKT</span><b>EX</b></div>
+  <p class="epf-legal"><span>© 2026 PROJEKT EX</span><span>Vom ersten Gedanken. Zum fertigen Ergebnis.</span></p>
+</footer>
+<script src="assets/kontakt.js" defer></script>
+<script src="assets/liquid-glass.js" defer></script>
+<script src="assets/vendor/cookieconsent/cookieconsent.umd.js" defer></script>
+<script src="assets/consent.js" defer></script>
+<script src="assets/ep-fx.js" defer></script>
+</body>
+</html>
