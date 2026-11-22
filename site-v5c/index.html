@@ -869,14 +869,10 @@ PRODUCTS.forEach((p, i) => {
   li.querySelector('.add').addEventListener('click', () => addToCart(0, p.id, state.colour[p.id]));
   li.querySelectorAll('.sw').forEach(b => b.addEventListener('click', () => selectColour(p.id, +b.dataset.k)));
   // drag to rotate the live model
-  const media = li.querySelector('.card-media'); const drag = { yaw: 0, v: 0, down: false, x: 0, y: 0, h: false }; media._drag = drag;
-  // touch: the model only turns once the drag is clearly horizontal, so a vertical scroll that starts on the card leaves it still
-  media.addEventListener('pointerdown', e => { drag.down = true; drag.x = e.clientX; drag.y = e.clientY; drag.h = e.pointerType === 'mouse'; drag.moved = 0; media.setPointerCapture(e.pointerId); });
-  media.addEventListener('pointermove', e => { if (!drag.down) return; const dx = e.clientX - drag.x;
-    if (!drag.h) { if (Math.abs(dx) < 8 || Math.abs(dx) < Math.abs(e.clientY - drag.y)) return; drag.h = true; }
-    drag.x = e.clientX; drag.moved += Math.abs(dx); drag.v = dx * .012; drag.yaw += drag.v; });
-  const up = e => { const turned = drag.down && drag.h && (e.pointerType === 'mouse' || e.type === 'pointerup'); drag.down = false; if (turned) media._kick = 1; };
-  media.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') media._kick = .7; }); media.addEventListener('pointerup', up); media.addEventListener('pointercancel', up);
+  const media = li.querySelector('.card-media'); const drag = { yaw: 0, v: 0, down: false, x: 0 }; media._drag = drag;
+  media.addEventListener('pointerdown', e => { drag.down = true; drag.x = e.clientX; drag.moved = 0; media.setPointerCapture(e.pointerId); });
+  media.addEventListener('pointermove', e => { if (!drag.down) return; const dx = e.clientX - drag.x; drag.x = e.clientX; drag.moved += Math.abs(dx); drag.v = dx * .012; drag.yaw += drag.v; });
+  const up = () => { drag.down = false; media._kick = 1; }; media.addEventListener('pointerenter', () => { media._kick = .7; }); media.addEventListener('pointerup', up); media.addEventListener('pointercancel', up);
   media.tabIndex = 0; media.setAttribute('role', 'link'); media.setAttribute('aria-label', `${p.label} in 3D. Enter opens the product, arrow keys rotate.`);
   media.addEventListener('click', () => { if ((drag.moved || 0) < 6) location.hash = '#/product/' + SLUG[p.id]; });
   media.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); location.hash = '#/product/' + SLUG[p.id]; } if (e.key === 'ArrowLeft') { drag.yaw -= .3; e.preventDefault(); } if (e.key === 'ArrowRight') { drag.yaw += .3; e.preventDefault(); } });
@@ -1002,7 +998,7 @@ $('#newsForm').addEventListener('submit', e => {
 /* ---------- pointer field: lattice squares brighten under the cursor ---------- */
 const field = $('#field'), fctx = field.getContext('2d');
 const cells = new Map(); let pointer = { x: -999, y: -999, nx: 0, ny: 0, moved: false };
-addEventListener('pointermove', e => { if (e.pointerType !== 'mouse') return; pointer.x = e.clientX; pointer.y = e.clientY; pointer.nx = e.clientX / innerWidth * 2 - 1; pointer.ny = e.clientY / innerHeight * 2 - 1; pointer.moved = true; }, { passive: true });
+addEventListener('pointermove', e => { pointer.x = e.clientX; pointer.y = e.clientY; pointer.nx = e.clientX / innerWidth * 2 - 1; pointer.ny = e.clientY / innerHeight * 2 - 1; pointer.moved = true; }, { passive: true });
 function sizeField() { field.width = innerWidth; field.height = innerHeight; }
 sizeField();
 if (finePointer && !reduced) ticker.add(() => {
@@ -1507,16 +1503,13 @@ const lookP = Promise.all([GLB.puffer, GLB.hoodie, GLB.jogger, printP, PARTS]).t
     setTimeout(() => kickAll(1.1), 120);
   }, kick: kickAll };
   api.ctl = ctl; window.__look = api;
-  // touch: no hover tilt, no kick when a finger lands or a scroll starts on the stage; turning starts only on a clearly horizontal drag
-  stageEl.addEventListener('pointerdown', e => { if (e.target.closest('button')) return; ctl.down = true; ctl.x = e.clientX; ctl.y0 = e.clientY; ctl.h = e.pointerType === 'mouse'; if (ctl.h) ctl.last = performance.now(); stageEl.setPointerCapture(e.pointerId); });
+  stageEl.addEventListener('pointerdown', e => { if (e.target.closest('button')) return; ctl.down = true; ctl.x = e.clientX; ctl.last = performance.now(); stageEl.setPointerCapture(e.pointerId); });
   stageEl.addEventListener('pointermove', e => {
-    if (e.pointerType === 'mouse') { const r = stageEl.getBoundingClientRect(); ctl.hy = ((e.clientX - r.left) / r.width - .5) * .5; ctl.hp = ((e.clientY - r.top) / r.height - .5) * .22; }
-    if (!ctl.down) return; const dx = e.clientX - ctl.x;
-    if (!ctl.h) { if (Math.abs(dx) < 8 || Math.abs(dx) < Math.abs(e.clientY - ctl.y0)) return; ctl.h = true; }
-    ctl.x = e.clientX; ctl.v = dx * .011; ctl.yaw += ctl.v; ctl.last = performance.now(); if (VARIANT === 'c') ctl.sw.vz += dx * .0016; });
-  stageEl.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') kickAll(.6); });
+    const r = stageEl.getBoundingClientRect(); ctl.hy = ((e.clientX - r.left) / r.width - .5) * .5; ctl.hp = ((e.clientY - r.top) / r.height - .5) * .22;
+    if (!ctl.down) return; const dx = e.clientX - ctl.x; ctl.x = e.clientX; ctl.v = dx * .011; ctl.yaw += ctl.v; ctl.last = performance.now(); if (VARIANT === 'c') ctl.sw.vz += dx * .0016; });
+  stageEl.addEventListener('pointerenter', () => kickAll(.6));
   stageEl.addEventListener('pointerleave', () => { ctl.hy = 0; ctl.hp = 0; });
-  const up = e => { if (ctl.down && ctl.h && (e.pointerType === 'mouse' || e.type === 'pointerup')) kickAll(.5); ctl.down = false; }; stageEl.addEventListener('pointerup', up); stageEl.addEventListener('pointercancel', up);
+  const up = () => { if (ctl.down) kickAll(.5); ctl.down = false; }; stageEl.addEventListener('pointerup', up); stageEl.addEventListener('pointercancel', up);
   stageEl.addEventListener('keydown', e => { if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') { ctl.v = (e.key === 'ArrowLeft' ? -1 : 1) * .09; ctl.last = performance.now(); e.preventDefault(); } });
   $$('.pdp-views [data-view]').forEach(b => b.addEventListener('click', () => { ctl.view = b.dataset.view; $$('.pdp-views [data-view]').forEach(x => x.setAttribute('aria-pressed', x === b)); kickAll(.5); }));
   const spinB = $('.pdp-views [data-spin]'); spinB.setAttribute('aria-pressed', ctl.spin);
