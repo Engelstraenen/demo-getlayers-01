@@ -422,22 +422,22 @@ html.touch-gl #garment{position:absolute;left:0;top:0;will-change:transform}
   .burger::before,.add::before,.pdp-back::after,.linkish::after,.pdp-views button::after,.tech-tabs button::after,.qty button::after,.x::after{content:"";position:absolute;left:50%;top:50%;width:max(100%,44px);height:max(100%,44px);transform:translate(-50%,-50%)}
   .sw::after{inset:auto;left:50%;top:50%;width:44px;height:44px;transform:translate(-50%,-50%)}
   .swatches{gap:calc(44px - 12rem)}
-  .pdp-sw{gap:12px}.pdp-sw .sw{width:32px;height:32px}
+  .pdp-sw{gap:max(12px,10rem)}.pdp-sw .sw{width:max(32px,26rem);height:max(32px,26rem)}
   .logo{display:flex;align-items:center;min-height:44px}
   .btn-b{height:max(44px,40rem)}
-  .shop-now{height:44px}
+  .shop-now{height:max(44px,32rem)}
   .card-name{display:flex;align-items:center;min-height:44px;margin:-5px 0}
   .f-logo{display:flex;align-items:center;min-height:44px}
-  .pdp-sizes button{height:44px;min-width:48px}
-  .acc summary{align-items:center;min-height:44px;padding:12px 0}
+  .pdp-sizes button{height:max(44px,36rem);min-width:max(48px,46rem)}
+  .acc summary{align-items:center;min-height:44px;padding:max(12px,12rem) 0}
   .mobile-menu ul{gap:0}
   .mobile-menu a,.mobile-menu button{display:flex;align-items:center;min-height:44px}
   .f-cols li+li{margin-top:0}
   .f-cols a,.f-bottom a{display:inline-flex;align-items:center;min-height:44px;min-width:44px}
   .news-row{height:max(46px,42rem)}
   .news-row button{min-width:44px}
-  .consent{min-height:44px;margin-top:4px}
-  .ci select{height:44px}
+  .consent{min-height:44px;margin-top:max(4px,4rem)}
+  .ci select{height:max(44px,24rem)}
   .ci .rm{display:inline-flex;align-items:center;min-height:44px;margin-top:12rem}
   /* readable type on 360-430 px screens */
   .corner .ic{font-size:max(11px,8.5rem)}.corner p{font-size:max(12px,9rem)}
@@ -445,6 +445,119 @@ html.touch-gl #garment{position:absolute;left:0;top:0;will-change:transform}
   .news-note,.news-msg,.f-bottom,.pdp-views button,.qty button,.linkish,.pdp-msg,.pdp-note,.ci .meta,.ci select,.ci .rm,.drawer-foot .sub,.cart-msg{font-size:max(12px,10rem)}
   body,.preloader-count,.edge,.spec p,.layer p,.layer-card p,.card-top,.shop-now,.faq-row dt .idx,.f-cols a,.news-row input,.pdp-top,.pdp-loading,.pdp-idx,.pdp-field legend,.rel p,.rel .go,.tech-tabs button,.x,.modal table,.toast{font-size:max(12px,11rem)}
   .hero-claim,.spec h3,.layer h3,.layer-card h3,.price,.faq-row dt,.f-cols h2,.news h2,.pdp-sizes button,.acc summary,.ci h3,.ci .lp{font-size:max(12px,12rem)}
+}
+
+/* phones held sideways (short screens): scale the phone layout by the screen height instead of the width
+   (844 x 390 would otherwise render the 390 artboard at 2.2x), copy beside the 3D stages, menus scroll */
+@media (max-width:1023px) and (orientation:landscape) and (max-height:540px){
+  html{font-size:calc(100vh / 390);font-size:calc(100svh / 390)}
+  .mobile-menu{overflow-y:auto;overscroll-behavior:contain;padding-top:66rem}
+  .hero{grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:28rem;align-items:center;padding-top:62rem}
+  .hero-edges,.hero-claim,.hero-cta,.corner-l{grid-column:1}
+  .hero-anchor{grid-column:2;grid-row:1 / span 3;height:calc(100svh - 80rem);margin:0}
+  .corner-r{grid-column:2}
+  .hero-plate{left:75%;top:70rem;width:min(330rem,44vw)}
+  .pdp{padding-top:62rem}
+  .pdp-grid{grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);align-items:start;gap:20rem}
+  .pdp-stage{position:sticky;top:60rem;height:calc(100svh - 72rem)}
+  .reel{aspect-ratio:auto;height:calc(100svh - 90rem)}
+}
+/* touch tablets in landscape (desktop artboard, >=1024 px, no mouse): 44 px hit areas and >=12 px type;
+   the desktop look with a mouse stays exactly as it is */
+@media (min-width:1024px) and (pointer:coarse){
+  .primary a,.sub-toggle,.cart,.add,.pdp-back,.linkish,.pdp-views button,.tech-tabs button,.qty button,.x{position:relative}
+  .primary a::after,.sub-toggle::after,.cart::after,.add::before,.pdp-back::after,.linkish::after,.pdp-views button::after,.tech-tabs button::after,.qty button::after,.x::after{content:"";position:absolute;left:50%;top:50%;width:max(100%,44px);height:max(100%,44px);transform:translate(-50%,-50%)}
+  .sw::after{inset:auto;left:50%;top:50%;width:44px;height:44px;transform:translate(-50%,-50%)}
+  .swatches{gap:calc(44px - 12rem)}
+  .f-cols a,.f-bottom a{display:inline-flex;align-items:center;min-height:44px}
+  .submenu a{align-items:center;min-height:44px}
+  .f-cols li+li{margin-top:0}
+  .pdp-sizes button{min-height:44px}
+  .consent{min-height:44px}
+  body{font-size:max(12px,11rem)}
+  body{font-size:max(12px,12rem)}
+  .preloader-count{font-size:max(12px,11rem)}
+  .mobile-menu .sub a{font-size:max(12px,13rem)}
+  .primary a,.sub-toggle{font-size:max(12px,15rem)}
+  .submenu a{font-size:max(12px,12rem)}
+  .cart{font-size:max(12px,15rem)}
+  .btn-b{font-size:max(12px,13rem)}
+  .btn-b{font-size:max(12px,15rem)}
+  .edge{font-size:max(12px,11rem)}
+  .hero-claim{font-size:max(12px,12rem)}
+  .corner .ic{font-size:max(12px,8.5rem)}
+  .corner p{font-size:max(12px,9rem)}
+  .edge{font-size:max(12px,14.5rem)}
+  .corner .ic{font-size:max(12px,10rem)}
+  .corner p{font-size:max(12px,10rem)}
+  .spec h3,.layer h3,.layer-card h3{font-size:max(12px,12rem)}
+  .spec p,.layer p,.layer-card p{font-size:max(12px,11rem)}
+  .spec .idx,.layer-card .idx{font-size:max(12px,13rem)}
+  .spec h3,.layer-card h3{font-size:max(12px,14rem)}
+  .spec p,.layer-card p{font-size:max(12px,13rem)}
+  .details-copy{font-size:max(12px,14rem)}
+  .card-top{font-size:max(12px,11rem)}
+  .card-head h3{font-size:max(12px,16rem)}
+  .price{font-size:max(12px,12rem)}
+  .news-note{font-size:max(12px,10rem)}
+  .drag-hint{font-size:max(12px,9.5rem)}
+  .colour-name{font-size:max(12px,9.5rem)}
+  .tags li{font-size:max(12px,9.5rem)}
+  .shop-now{font-size:max(12px,11rem)}
+  .collection-blurb{font-size:max(12px,14rem)}
+  .card-top{font-size:max(12px,13rem)}
+  .price{font-size:max(12px,14rem)}
+  .drag-hint,.colour-name{font-size:max(12px,11rem)}
+  .tags li{font-size:max(12px,11rem)}
+  .shop-now{font-size:max(12px,13rem)}
+  .tech-copy{font-size:max(12px,14rem)}
+  .faq-row dt{font-size:max(12px,12rem)}
+  .faq-row dt .idx{font-size:max(12px,11rem)}
+  .faq-row dt{font-size:max(12px,14rem)}
+  .faq-row dt .idx{font-size:max(12px,13rem)}
+  .faq-row dd{font-size:max(12px,13rem)}
+  .f-cols h2{font-size:max(12px,12rem)}
+  .f-cols a{font-size:max(12px,11rem)}
+  .news h2{font-size:max(12px,12rem)}
+  .news-row input{font-size:max(12px,11rem)}
+  .consent{font-size:max(12px,9.5rem)}
+  .news-msg{font-size:max(12px,10rem)}
+  .f-bottom{font-size:max(12px,10rem)}
+  .f-cols h2{font-size:max(12px,15rem)}
+  .f-cols a{font-size:max(12px,14rem)}
+  .news h2{font-size:max(12px,15rem)}
+  .consent{font-size:max(12px,10rem)}
+  .f-bottom{font-size:max(12px,12rem)}
+  .pdp-top{font-size:max(12px,11rem)}
+  .pdp-hint{font-size:max(12px,10rem)}
+  .pdp-views button,.pdp-sizes button,.qty button,.tech-tabs button{font-size:max(12px,10rem)}
+  .pdp-loading{font-size:max(12px,11rem)}
+  .pdp-idx{font-size:max(12px,11rem)}
+  .pdp-price{font-size:max(12px,16rem)}
+  .pdp-field legend{font-size:max(12px,11rem)}
+  .pdp-sizes button{font-size:max(12px,12rem)}
+  .linkish{font-size:max(12px,10rem)}
+  .pdp-add{font-size:max(12px,14rem)!important}
+  .pdp-msg{font-size:max(12px,10rem)}
+  .pdp-note{font-size:max(12px,10rem)}
+  .acc summary{font-size:max(12px,12rem)}
+  .rel h3{font-size:max(12px,14rem)}
+  .rel p{font-size:max(12px,11rem)}
+  .rel .go{font-size:max(12px,11rem)}
+  .pdp-copy{font-size:max(12px,13rem)}
+  .tech-tabs button{font-size:max(12px,11rem)}
+  .drawer-head h2{font-size:max(12px,14rem)}
+  .x{font-size:max(12px,11rem)}
+  .ci h3{font-size:max(12px,12rem)}
+  .ci .meta{font-size:max(12px,10rem)}
+  .ci select{font-size:max(12px,10rem)}
+  .qty button{font-size:max(12px,13rem)}
+  .ci .lp{font-size:max(12px,12rem)}
+  .ci .rm{font-size:max(12px,10rem)}
+  .drawer-foot .sub{font-size:max(12px,10rem)}
+  .cart-msg{font-size:max(12px,10rem)}
+  .modal table{font-size:max(12px,11rem)}
+  .toast{font-size:max(12px,11rem)}
 }
 </style>
 </head>
