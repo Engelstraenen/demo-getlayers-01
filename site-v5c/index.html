@@ -412,6 +412,38 @@ html.is-pdp main>section:not(.pdp){display:none}
 .pdp-sw .sw i{opacity:1}.pdp-sw .sw{border-color:rgba(255,255,255,.3)}.pdp-sw .sw[aria-pressed="true"]{border-color:#fff;outline:1px solid #fff;outline-offset:2rem}
 .tech-tabs[hidden]{display:none}
 @media (max-width:1023px){.pdp-hint{display:none}}
+/* ---------- phones and tablets: touch canvas, 44px tap targets, readable type (desktop >=1024px untouched) ---------- */
+.lvh-probe{position:fixed;left:0;top:0;width:0;height:100vh;height:100lvh;visibility:hidden;pointer-events:none}
+.gl-layer{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:1}
+html.touch-gl #garment{position:absolute;left:0;top:0;will-change:transform}
+@media (max-width:1023px){
+  /* invisible hit areas around small controls; the visible marks keep their size */
+  .burger,.add,.pdp-back,.linkish,.pdp-views button,.tech-tabs button,.qty button,.x{position:relative}
+  .burger::before,.add::before,.pdp-back::after,.linkish::after,.pdp-views button::after,.tech-tabs button::after,.qty button::after,.x::after{content:"";position:absolute;left:50%;top:50%;width:max(100%,44px);height:max(100%,44px);transform:translate(-50%,-50%)}
+  .sw::after{inset:auto;left:50%;top:50%;width:44px;height:44px;transform:translate(-50%,-50%)}
+  .swatches{gap:calc(44px - 12rem)}
+  .pdp-sw{gap:12px}.pdp-sw .sw{width:32px;height:32px}
+  .logo{display:flex;align-items:center;min-height:44px}
+  .btn-b{height:max(44px,40rem)}
+  .shop-now{height:44px}
+  .card-name{padding:5px 0;margin:-5px 0}
+  .pdp-sizes button{height:44px;min-width:48px}
+  .acc summary{align-items:center;min-height:44px;padding:12px 0}
+  .mobile-menu ul{gap:0}
+  .mobile-menu a,.mobile-menu button{display:flex;align-items:center;min-height:44px}
+  .f-cols li+li{margin-top:0}
+  .f-cols a,.f-bottom a{display:inline-flex;align-items:center;min-height:44px}
+  .news-row{height:max(44px,42rem)}
+  .consent{min-height:44px;margin-top:4px}
+  .ci select{height:44px}
+  .ci .rm{display:inline-flex;align-items:center;min-height:44px;margin-top:12rem}
+  /* readable type on 360-430 px screens */
+  .corner .ic{font-size:max(11px,8.5rem)}.corner p{font-size:max(11px,9rem)}
+  .drag-hint,.colour-name,.tags li,.consent{font-size:max(11px,9.5rem)}
+  .news-note,.news-msg,.f-bottom,.pdp-views button,.qty button,.linkish,.pdp-msg,.pdp-note,.ci .meta,.ci select,.ci .rm,.drawer-foot .sub,.cart-msg{font-size:max(11px,10rem)}
+  body,.preloader-count,.edge,.spec p,.layer p,.layer-card p,.card-top,.shop-now,.faq-row dt .idx,.f-cols a,.news-row input,.pdp-top,.pdp-loading,.pdp-idx,.pdp-field legend,.rel p,.rel .go,.tech-tabs button,.x,.modal table,.toast{font-size:max(12px,11rem)}
+  .hero-claim,.spec h3,.layer h3,.layer-card h3,.price,.faq-row dt,.f-cols h2,.news h2,.pdp-sizes button,.acc summary,.ci h3,.ci .lp{font-size:max(12px,12rem)}
+}
 </style>
 </head>
 <body>
@@ -835,10 +867,14 @@ PRODUCTS.forEach((p, i) => {
   li.querySelector('.add').addEventListener('click', () => addToCart(0, p.id, state.colour[p.id]));
   li.querySelectorAll('.sw').forEach(b => b.addEventListener('click', () => selectColour(p.id, +b.dataset.k)));
   // drag to rotate the live model
-  const media = li.querySelector('.card-media'); const drag = { yaw: 0, v: 0, down: false, x: 0 }; media._drag = drag;
-  media.addEventListener('pointerdown', e => { drag.down = true; drag.x = e.clientX; drag.moved = 0; media.setPointerCapture(e.pointerId); });
-  media.addEventListener('pointermove', e => { if (!drag.down) return; const dx = e.clientX - drag.x; drag.x = e.clientX; drag.moved += Math.abs(dx); drag.v = dx * .012; drag.yaw += drag.v; });
-  const up = () => { drag.down = false; media._kick = 1; }; media.addEventListener('pointerenter', () => { media._kick = .7; }); media.addEventListener('pointerup', up); media.addEventListener('pointercancel', up);
+  const media = li.querySelector('.card-media'); const drag = { yaw: 0, v: 0, down: false, x: 0, y: 0, h: false }; media._drag = drag;
+  // touch: the model only turns once the drag is clearly horizontal, so a vertical scroll that starts on the card leaves it still
+  media.addEventListener('pointerdown', e => { drag.down = true; drag.x = e.clientX; drag.y = e.clientY; drag.h = e.pointerType === 'mouse'; drag.moved = 0; media.setPointerCapture(e.pointerId); });
+  media.addEventListener('pointermove', e => { if (!drag.down) return; const dx = e.clientX - drag.x;
+    if (!drag.h) { if (Math.abs(dx) < 8 || Math.abs(dx) < Math.abs(e.clientY - drag.y)) return; drag.h = true; }
+    drag.x = e.clientX; drag.moved += Math.abs(dx); drag.v = dx * .012; drag.yaw += drag.v; });
+  const up = e => { const turned = drag.down && drag.h && (e.pointerType === 'mouse' || e.type === 'pointerup'); drag.down = false; if (turned) media._kick = 1; };
+  media.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') media._kick = .7; }); media.addEventListener('pointerup', up); media.addEventListener('pointercancel', up);
   media.tabIndex = 0; media.setAttribute('role', 'link'); media.setAttribute('aria-label', `${p.label} in 3D. Enter opens the product, arrow keys rotate.`);
   media.addEventListener('click', () => { if ((drag.moved || 0) < 6) location.hash = '#/product/' + SLUG[p.id]; });
   media.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); location.hash = '#/product/' + SLUG[p.id]; } if (e.key === 'ArrowLeft') { drag.yaw -= .3; e.preventDefault(); } if (e.key === 'ArrowRight') { drag.yaw += .3; e.preventDefault(); } });
@@ -964,7 +1000,7 @@ $('#newsForm').addEventListener('submit', e => {
 /* ---------- pointer field: lattice squares brighten under the cursor ---------- */
 const field = $('#field'), fctx = field.getContext('2d');
 const cells = new Map(); let pointer = { x: -999, y: -999, nx: 0, ny: 0, moved: false };
-addEventListener('pointermove', e => { pointer.x = e.clientX; pointer.y = e.clientY; pointer.nx = e.clientX / innerWidth * 2 - 1; pointer.ny = e.clientY / innerHeight * 2 - 1; pointer.moved = true; }, { passive: true });
+addEventListener('pointermove', e => { if (e.pointerType !== 'mouse') return; pointer.x = e.clientX; pointer.y = e.clientY; pointer.nx = e.clientX / innerWidth * 2 - 1; pointer.ny = e.clientY / innerHeight * 2 - 1; pointer.moved = true; }, { passive: true });
 function sizeField() { field.width = innerWidth; field.height = innerHeight; }
 sizeField();
 if (finePointer && !reduced) ticker.add(() => {
@@ -992,6 +1028,33 @@ track(new Promise(res => { const i = $('.hero-plate'); if (i.complete && i.natur
 
 /* ---------- WebGL: one canvas, one context (viewport + scissor per DOM anchor) ---------- */
 const canvas = $('#garment');
+/* touch screens (phones, tablets): the page scrolls natively on the compositor, so a position:fixed canvas redrawn on the main
+   thread trails its DOM frames by a frame or more and the models visibly swim. There the canvas sits inside <main>, scrolls with
+   the content and is only re-centred on the viewport each frame (glSync); models are drawn in page space, so they stay glued to
+   their frames whatever the scroll timing. Its height is taken from the large viewport, so the URL bar sliding in and out neither
+   stretches it nor triggers a reallocation. Mouse/desktop keeps the original fixed canvas. */
+const TOUCH_GL = !finePointer;
+const mainEl = $('#main'), lvhProbe = document.createElement('div');
+let glW = 0, glH = 0, glOffY = 0, glTop = null;
+if (TOUCH_GL) {
+  document.documentElement.classList.add('touch-gl');
+  lvhProbe.className = 'lvh-probe'; lvhProbe.setAttribute('aria-hidden', 'true'); document.body.append(lvhProbe);
+  const layer = document.createElement('div'); layer.className = 'gl-layer'; mainEl.prepend(layer); layer.append(canvas);
+}
+const stableVh = () => TOUCH_GL ? Math.max(lvhProbe.offsetHeight, innerHeight) : innerHeight;
+function glSize() {
+  if (!TOUCH_GL) { renderer.setSize(innerWidth, innerHeight, false); return; }
+  const w = document.documentElement.clientWidth, h = Math.ceil(stableVh() * 1.7);
+  if (w === glW && h <= glH) return;
+  glW = w; glH = h; glTop = null; renderer.setSize(glW, glH, true);
+}
+function glSync() {
+  const mr = mainEl.getBoundingClientRect();
+  const top = Math.round(clamp(-mr.top - (glH - innerHeight) / 2, 0, Math.max(0, mr.height - glH)));
+  if (top !== glTop) { canvas.style.transform = `translate3d(0,${top}px,0)`; glTop = top; }
+  glOffY = mr.top + top;
+}
+const glShift = r => ({ ...r, y: r.y - glOffY, fade: r.fade && [r.fade[0] - glOffY, r.fade[1] - glOffY] });
 let renderer;
 try { renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance' }); }
 catch (e) { fail('WebGL context', e); }
@@ -1002,7 +1065,7 @@ const instances = [];
 const LIGHT = { exposure: .9, envIntensity: .32, key: [0xfff7ee, 1.15, [-2.5, 3, 4]], fill: [0xeef0f2, .35, [3, .5, 3]], rim: [0xffffff, 1.5, [2.5, 2.5, -3.5]], hemi: [0xf4f2ee, 0x101010, .22] };
 if (renderer) {
   renderer.setPixelRatio(Math.min(devicePixelRatio, isDesk() ? 2 : 1.75));
-  renderer.setSize(innerWidth, innerHeight, false);
+  glSize();
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.NeutralToneMapping; renderer.toneMappingExposure = LIGHT.exposure;
   renderer.setClearColor(0x000000, 0); renderer.autoClear = false;
@@ -1220,7 +1283,8 @@ function frameAndDraw(inst, rect, W, H, dpr) {
 }
 function renderAll(t, dt) {
   if (!renderer) return;
-  const W = innerWidth, H = innerHeight, dpr = renderer.getPixelRatio();
+  let W = innerWidth, H = innerHeight; const dpr = renderer.getPixelRatio();
+  if (TOUCH_GL) { glSync(); W = glW; H = glH; }
   scrollSpeed = lerp(scrollSpeed, (scrollY - lastScroll) / Math.max(dt, .001), .2); lastScroll = scrollY;
   vec.yaw = lerp(vec.yaw, reduced ? 0 : pointer.nx, .06); vec.pitch = lerp(vec.pitch, reduced ? 0 : pointer.ny, .06);
   renderer.setScissorTest(false); renderer.clear();
@@ -1228,10 +1292,16 @@ function renderAll(t, dt) {
     if (inst.route !== 'any' && (inst.route || 'home') !== route) continue;
     const rect = inst.rect(); if (!rect) continue;
     inst.update && inst.update(t, dt, rect);
-    frameAndDraw(inst, rect, W, H, dpr);
+    frameAndDraw(inst, TOUCH_GL ? glShift(rect) : rect, W, H, dpr);
   }
 }
-addEventListener('resize', () => { sizeField(); if (renderer) { renderer.setPixelRatio(Math.min(devicePixelRatio, isDesk() ? 2 : 1.75)); renderer.setSize(innerWidth, innerHeight, false); } });
+addEventListener('resize', () => {
+  sizeField(); if (!renderer) return;
+  const pr = Math.min(devicePixelRatio, isDesk() ? 2 : 1.75);
+  if (!TOUCH_GL) { renderer.setPixelRatio(pr); renderer.setSize(innerWidth, innerHeight, false); return; }
+  if (pr !== renderer.getPixelRatio()) { renderer.setPixelRatio(pr); glW = 0; }
+  glSize();   // URL bar in/out keeps the buffer; width/orientation changes resize it
+});
 
 /* ---------- loaders ---------- */
 const draco = new DRACOLoader().setDecoderPath(DRACO_PATH);
@@ -1435,13 +1505,16 @@ const lookP = Promise.all([GLB.puffer, GLB.hoodie, GLB.jogger, printP, PARTS]).t
     setTimeout(() => kickAll(1.1), 120);
   }, kick: kickAll };
   api.ctl = ctl; window.__look = api;
-  stageEl.addEventListener('pointerdown', e => { if (e.target.closest('button')) return; ctl.down = true; ctl.x = e.clientX; ctl.last = performance.now(); stageEl.setPointerCapture(e.pointerId); });
+  // touch: no hover tilt, no kick when a finger lands or a scroll starts on the stage; turning starts only on a clearly horizontal drag
+  stageEl.addEventListener('pointerdown', e => { if (e.target.closest('button')) return; ctl.down = true; ctl.x = e.clientX; ctl.y0 = e.clientY; ctl.h = e.pointerType === 'mouse'; if (ctl.h) ctl.last = performance.now(); stageEl.setPointerCapture(e.pointerId); });
   stageEl.addEventListener('pointermove', e => {
-    const r = stageEl.getBoundingClientRect(); ctl.hy = ((e.clientX - r.left) / r.width - .5) * .5; ctl.hp = ((e.clientY - r.top) / r.height - .5) * .22;
-    if (!ctl.down) return; const dx = e.clientX - ctl.x; ctl.x = e.clientX; ctl.v = dx * .011; ctl.yaw += ctl.v; ctl.last = performance.now(); if (VARIANT === 'c') ctl.sw.vz += dx * .0016; });
-  stageEl.addEventListener('pointerenter', () => kickAll(.6));
+    if (e.pointerType === 'mouse') { const r = stageEl.getBoundingClientRect(); ctl.hy = ((e.clientX - r.left) / r.width - .5) * .5; ctl.hp = ((e.clientY - r.top) / r.height - .5) * .22; }
+    if (!ctl.down) return; const dx = e.clientX - ctl.x;
+    if (!ctl.h) { if (Math.abs(dx) < 8 || Math.abs(dx) < Math.abs(e.clientY - ctl.y0)) return; ctl.h = true; }
+    ctl.x = e.clientX; ctl.v = dx * .011; ctl.yaw += ctl.v; ctl.last = performance.now(); if (VARIANT === 'c') ctl.sw.vz += dx * .0016; });
+  stageEl.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') kickAll(.6); });
   stageEl.addEventListener('pointerleave', () => { ctl.hy = 0; ctl.hp = 0; });
-  const up = () => { if (ctl.down) kickAll(.5); ctl.down = false; }; stageEl.addEventListener('pointerup', up); stageEl.addEventListener('pointercancel', up);
+  const up = e => { if (ctl.down && ctl.h && (e.pointerType === 'mouse' || e.type === 'pointerup')) kickAll(.5); ctl.down = false; }; stageEl.addEventListener('pointerup', up); stageEl.addEventListener('pointercancel', up);
   stageEl.addEventListener('keydown', e => { if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') { ctl.v = (e.key === 'ArrowLeft' ? -1 : 1) * .09; ctl.last = performance.now(); e.preventDefault(); } });
   $$('.pdp-views [data-view]').forEach(b => b.addEventListener('click', () => { ctl.view = b.dataset.view; $$('.pdp-views [data-view]').forEach(x => x.setAttribute('aria-pressed', x === b)); kickAll(.5); }));
   const spinB = $('.pdp-views [data-spin]'); spinB.setAttribute('aria-pressed', ctl.spin);
@@ -1597,7 +1670,7 @@ addInstance({ pivot: stackPivot, mats: [], route: 'any', rect: () => { const r =
   update: (t, dt, rect) => {
     const sec = $('#technology'); let p;
     if (isDesk()) { const r = sec.getBoundingClientRect(); p = clamp(-r.top / (r.height - innerHeight)); }
-    else { const r = reel.getBoundingClientRect(); p = clamp((innerHeight - r.top) / (innerHeight + r.height)); }
+    else { const r = reel.getBoundingClientRect(), vh = stableVh(); p = clamp((vh - r.top) / (vh + r.height)); }
     techP.p = p; const e = easeIO(clamp(p / .85));
     layerMeshes.forEach((m, i) => { m.position.y = (2 - i) * lerp(.045, .36, e); });
     stack.rotation.y = -.62 + e * .22 + (reduced ? 0 : vec.yaw * .06);
