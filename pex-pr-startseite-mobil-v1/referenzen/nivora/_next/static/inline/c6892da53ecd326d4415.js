@@ -1,1 +1,0 @@
-(globalThis["TURBOPACK"] || (globalThis["TURBOPACK"] = [])).push({"otherChunks":["static/chunks/1ckvzn7sfprko.js","static/chunks/2bzlqb104tejm.js","static/chunks/216iyidhmrh3u.js","static/chunks/1w1mdpnj72u8k.js"],"runtimeModuleIds":[94553]});
