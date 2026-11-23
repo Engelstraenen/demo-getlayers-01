@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-6SYSAYD/XmJo0bydQxoSp4QK6ZYYKeTaHk5n2UTLR9s=' 'sha256-NG8xqvrKrX82LRSWTe54jx9hJYkJ+X9aWHJWybojydU=' 'sha256-NYQYEEdVfUYaWS8zawz+2W1gWHFaer3Yf9ULIKnByZc=' 'sha256-Z2bDqGIPmcVKFMBT9xfS4rdRZ90pvzKggQIXe2FWlN4=' 'sha256-tailY8JBFgwNmdhLzbQ2iAuA80ZU19ZDvkmOYibwUZQ=' 'sha256-vs9+pzqcNrXcb8XBunFuIivrkBFsUu9w8vDWUYtMvDY=' 'sha256-z+vUOCn7r76JKSqm5W12EexkOH1518Qt5hcRm3Xu2mo='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; manifest-src 'self'; worker-src 'self' blob:; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-6SYSAYD/XmJo0bydQxoSp4QK6ZYYKeTaHk5n2UTLR9s=' 'sha256-EAd3zzHv9eTXuYfeRsueaaixK6bNP715wa11ukquIyk=' 'sha256-NYQYEEdVfUYaWS8zawz+2W1gWHFaer3Yf9ULIKnByZc=' 'sha256-nigyU7FjmygWcmNoAcDMzj3tB814goYlvhR/PYG2HiE=' 'sha256-tailY8JBFgwNmdhLzbQ2iAuA80ZU19ZDvkmOYibwUZQ=' 'sha256-vs9+pzqcNrXcb8XBunFuIivrkBFsUu9w8vDWUYtMvDY=' 'sha256-z+vUOCn7r76JKSqm5W12EexkOH1518Qt5hcRm3Xu2mo='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; manifest-src 'self'; worker-src 'self' blob:; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <script>window.__errs = []; addEventListener("error", (e) => window.__errs.push(String(e.message || e.target?.src || e))); addEventListener("unhandledrejection", (e) => window.__errs.push("Promise: " + (e.reason?.message || e.reason))); { const ce = console.error; console.error = (...a) => { window.__errs.push("Konsole: " + a.join(" ").slice(0, 300)); ce.apply(console, a); }; }</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -949,7 +949,7 @@ async function textShape(txt, colorFn) {
 }
 const IMG_W = 4.5, IMG_H = 3.0;
 const imgCache = {};
-const loadImg = (name) => imgCache[name] ||= new Promise((res, rej) => { const im = new Image(); im.onload = () => res(im); im.onerror = rej; im.src = `img/kapitel/${name}-640.webp`; });
+const loadImg = (name) => imgCache[name] ||= new Promise((res, rej) => { const im = new Image(); im.onload = () => res(im); im.onerror = rej; im.src = `/demo-getlayers-01/pex-aktuell/img/kapitel/${name}-640.webp`; });
 async function imageShape(name) {
   const im = await loadImg(name);
   const W = 300, H = 200, c = document.createElement('canvas'); c.width = W; c.height = H;
@@ -1367,7 +1367,7 @@ else {
   const PAD = .5;
   const texLoader = new THREE.TextureLoader(), texCache = {};
   const TEX_PX = [640, 1280, 1920, 2560].find((w) => w >= innerWidth * .6 * dpr) || 2560; // Karte ist höchstens ~58 % der Breite
-  const tex = (name) => texCache[name] ||= (() => { const t = texLoader.load(`img/kapitel/${name}-${TEX_PX}.webp`); t.colorSpace = THREE.NoColorSpace; t.anisotropy = 8; return t; })();
+  const tex = (name) => texCache[name] ||= (() => { const t = texLoader.load(`/demo-getlayers-01/pex-aktuell/img/kapitel/${name}-${TEX_PX}.webp`); t.colorSpace = THREE.NoColorSpace; t.anisotropy = 8; return t; })();
   chapters.forEach((s) => { if (s.dataset.key.startsWith('img:')) tex(s.dataset.key.slice(4)); });
   function makeCard(role) {
     const m = new THREE.ShaderMaterial({
