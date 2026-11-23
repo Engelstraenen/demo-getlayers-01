@@ -1,0 +1,609 @@
+/* Liquid Glass · Zwei Blautöne + neutrales Grauglas · 05.11.2026
+   Dicke 3D-Glaskapseln/Linsen: niedrige Fill-Deckkraft, backdrop-filter, Spekular, Rim.
+   Getöntes Glas statt Lack — Hintergrund muss durchscheinen (hell & dunkel).
+   Klar-Glas (.th-kinds / .pb-tags) in themen.css; aktive/selektierte Neutrals hier (.lg-chip-on).
+   --blue #0071E3 bleibt für Schrift, Links, Icons, Fokus — niemals flacher/opaker Pill-Fill.
+   Blau-CTAs NICHT durch Grau ersetzen — nur bisher schwarze Chip-/Filter-/Segment-Zustände. */
+
+:root {
+  /* Pastell-Glas (Neben-Buttons) — helles getöntes Glas, ~14–26% Deckkraft */
+  --lg-blue-top: rgba(160, 198, 230, .22);
+  --lg-blue-core: rgba(135, 178, 215, .12);
+  --lg-blue-deep: rgba(110, 162, 202, .20);
+  --lg-blue-hover-top: rgba(180, 212, 238, .28);
+  --lg-blue-hover-core: rgba(150, 192, 225, .16);
+  --lg-blue-hover-deep: rgba(125, 172, 212, .24);
+  /* Markenblau-Glas (Haupt-CTAs) — weich/entsättigt vs. #0071E3, ~12–24% Deckkraft */
+  --lg-brand-top: rgba(95, 155, 215, .24);
+  --lg-brand-core: rgba(55, 125, 190, .12);
+  --lg-brand-deep: rgba(35, 100, 170, .22);
+  --lg-brand-hover-top: rgba(120, 175, 230, .30);
+  --lg-brand-hover-core: rgba(75, 145, 205, .16);
+  --lg-brand-hover-deep: rgba(45, 115, 180, .26);
+  /* Neutrales Grauglas (aktive Chips/Filter/Segmente) — sichtbares Mittelgrau, durchscheinend */
+  --lg-gray-top: rgba(255, 255, 255, .50);
+  --lg-gray-core: rgba(155, 161, 171, .22);
+  --lg-gray-deep: rgba(150, 156, 166, .28);
+  --lg-gray-wash: rgba(148, 154, 164, .22);
+  --lg-gray-ink: #1D1D1F;
+  /* Text: Tinte auf hellem Grund (klares Glas); Weiß nur wo nötig / auf Dunkel */
+  --lg-ink: #0A3A6E;
+  --lg-ink-soft: #F7FBFF;
+  --lg-ease: cubic-bezier(.23, 1, .32, 1);
+}
+
+/* ---------- Gemeinsame Kapsel-Basis (Spekular + Rim) ---------- */
+.btn:not(.ghost),
+.more.cta,
+.film-cta,
+.rb-jump a[aria-current],
+main > .hero .kicker span:first-child,
+.lk-live,
+.trk-live,
+.trk-btn,
+form.contact button.send,
+.btn-widerruf,
+header.top a.back {
+  position: relative;
+  isolation: isolate;
+  overflow: visible;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn:not(.ghost)::before,
+.more.cta::before,
+.film-cta::before,
+.rb-jump a[aria-current]::before,
+main > .hero .kicker span:first-child::before,
+.lk-live::before,
+.trk-live::before,
+.trk-btn::before,
+form.contact button.send::before,
+.btn-widerruf::before,
+header.top a.back::before {
+  content: '';
+  position: absolute;
+  inset: 1.5px 6% auto;
+  height: 48%;
+  border-radius: 999px 999px 60% 60% / 999px 999px 100% 100%;
+  pointer-events: none;
+  z-index: 0;
+  background: linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.18) 75%, rgba(255,255,255,0));
+  opacity: .70;
+}
+
+.btn:not(.ghost)::after,
+.more.cta::after,
+.film-cta::after,
+.rb-jump a[aria-current]::after,
+main > .hero .kicker span:first-child::after,
+.lk-live::after,
+.trk-live::after,
+.trk-btn::after,
+form.contact button.send::after,
+.btn-widerruf::after,
+header.top a.back::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  pointer-events: none;
+  z-index: 0;
+  background: linear-gradient(160deg, rgba(255,255,255,1) 0%, rgba(255,255,255,.18) 28%, rgba(255,255,255,0) 58%, rgba(255,255,255,.62) 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+}
+
+/* Text über dem Glanz halten */
+.btn:not(.ghost) > *,
+.more.cta > *,
+.film-cta > *,
+.lk-live > *,
+.trk-live > *,
+.trk-btn > *,
+form.contact button.send > *,
+.btn-widerruf > *,
+header.top a.back > * { position: relative; z-index: 1; }
+
+/* CTA-Pills: kein Textlink-Chevron (Rim braucht ::after) */
+.more.cta::after { content: ''; margin: 0; translate: none; }
+.more.cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  padding: 0 20px;
+  border-radius: 999px;
+  text-decoration: none;
+}
+.film-cta { border-radius: 999px; }
+
+/* ---------- 1) Markenblau-Glas (Haupt-CTAs) — getönt, durchsichtig ---------- */
+.btn.small { display: inline-flex; align-items: center; justify-content: center; height: 36px; padding: 0 17px; border-radius: 999px; font-size: 14px; font-weight: 600; line-height: 1; text-decoration: none; white-space: nowrap; }
+
+.btn:not(.ghost):not(.pastel),
+.more.cta,
+.film-cta,
+.rb-jump a[aria-current],
+main > .hero .kicker span:first-child,
+.lk-live,
+.trk-live,
+.trk-btn,
+form.contact button.send,
+.btn-widerruf {
+  color: var(--lg-ink);
+  font-weight: 600;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, .45);
+  background:
+    radial-gradient(120% 90% at 50% 120%, rgba(220, 240, 255, .22), rgba(220, 240, 255, 0) 58%),
+    linear-gradient(180deg, var(--lg-brand-top) 0%, var(--lg-brand-core) 52%, var(--lg-brand-deep) 100%);
+  -webkit-backdrop-filter: blur(12px) saturate(150%) contrast(1.04);
+  backdrop-filter: blur(12px) saturate(150%) contrast(1.04);
+  border: 0;
+  box-shadow:
+    inset 0 0 0 .5px rgba(255, 255, 255, .65),
+    inset 0 0 0 1px rgba(50, 110, 175, .22),
+    inset 0 1.5px 1px rgba(255, 255, 255, .90),
+    inset 0 -2px 3px rgba(220, 240, 255, .35),
+    inset 0 -7px 10px -7px rgba(25, 75, 135, .22),
+    inset 3px 0 7px -5px rgba(25, 75, 135, .14),
+    inset -3px 0 7px -5px rgba(25, 75, 135, .14),
+    0 1px 1px rgba(20, 60, 110, .10),
+    0 8px 18px -10px rgba(30, 90, 160, .28),
+    0 18px 32px -20px rgba(20, 70, 130, .22);
+  transition: transform .16s var(--lg-ease), box-shadow .22s var(--lg-ease), background .22s var(--lg-ease), color .22s var(--lg-ease), text-shadow .22s var(--lg-ease);
+}
+
+/* Night-/Dark-Kapitel: dunkel-klares Glas mit blauem Hauch + weißer Kante */
+[data-dark-on] .more.cta,
+[data-dark-on] .btn:not(.ghost):not(.pastel),
+[data-dark-on] .film-cta,
+.cta-band .btn:not(.ghost):not(.pastel),
+footer#epf .epf-wa .btn,
+#film .more.cta,
+#film .film-cta {
+  color: #FFFFFF;
+  text-shadow:
+    0 1px 2px rgba(0, 0, 0, .55),
+    0 0 14px rgba(80, 150, 220, .25);
+  background:
+    radial-gradient(120% 90% at 50% 120%, rgba(180, 220, 255, .16), rgba(180, 220, 255, 0) 58%),
+    linear-gradient(180deg,
+      rgba(100, 160, 225, .22) 0%,
+      rgba(55, 120, 195, .10) 52%,
+      rgba(35, 95, 165, .22) 100%);
+  box-shadow:
+    inset 0 0 0 .5px rgba(255, 255, 255, .50),
+    inset 0 0 0 1px rgba(160, 210, 255, .22),
+    inset 0 1.5px 1px rgba(255, 255, 255, .70),
+    inset 0 -2px 4px rgba(180, 220, 255, .22),
+    inset 0 -8px 12px -8px rgba(0, 20, 50, .45),
+    inset 4px 0 8px -6px rgba(0, 30, 70, .28),
+    inset -4px 0 8px -6px rgba(0, 30, 70, .28),
+    0 1px 1px rgba(0, 0, 0, .28),
+    0 10px 22px -10px rgba(40, 110, 190, .40),
+    0 22px 40px -20px rgba(0, 30, 70, .40);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .btn:not(.ghost):not(.pastel):hover,
+  .more.cta:hover,
+  .film-cta:hover,
+  .lk-live:hover,
+  .trk-live:hover,
+  form.contact button.send:hover,
+  .btn-widerruf:hover {
+    background:
+      radial-gradient(120% 90% at 50% 120%, rgba(230, 245, 255, .30), rgba(230, 245, 255, 0) 58%),
+      linear-gradient(180deg, var(--lg-brand-hover-top) 0%, var(--lg-brand-hover-core) 52%, var(--lg-brand-hover-deep) 100%);
+    box-shadow:
+      inset 0 0 0 .5px rgba(255, 255, 255, .70),
+      inset 0 0 0 1px rgba(60, 130, 200, .28),
+      inset 0 1.5px 1px rgba(255, 255, 255, .95),
+      inset 0 -2px 4px rgba(220, 240, 255, .50),
+      inset 0 -8px 12px -8px rgba(20, 70, 130, .30),
+      inset 4px 0 8px -6px rgba(20, 70, 130, .18),
+      inset -4px 0 8px -6px rgba(20, 70, 130, .18),
+      0 1px 1px rgba(20, 60, 110, .12),
+      0 10px 22px -8px rgba(40, 110, 180, .36),
+      0 20px 36px -18px rgba(20, 70, 130, .30);
+    text-decoration: none;
+  }
+  [data-dark-on] .more.cta:hover,
+  [data-dark-on] .btn:not(.ghost):not(.pastel):hover,
+  [data-dark-on] .film-cta:hover,
+  .cta-band .btn:not(.ghost):not(.pastel):hover,
+  footer#epf .epf-wa .btn:hover,
+  #film .more.cta:hover,
+  #film .film-cta:hover {
+    background:
+      radial-gradient(120% 90% at 50% 120%, rgba(200, 230, 255, .22), rgba(200, 230, 255, 0) 58%),
+      linear-gradient(180deg,
+        rgba(125, 180, 235, .32) 0%,
+        rgba(70, 140, 210, .18) 52%,
+        rgba(40, 105, 175, .32) 100%);
+  }
+}
+
+.btn:not(.ghost):not(.pastel):active,
+.more.cta:active,
+.film-cta:active,
+.lk-live:active,
+.trk-live:active,
+.trk-btn:active,
+form.contact button.send:active,
+.btn-widerruf:active,
+header.top a.back:active,
+.rb-jump a[aria-current]:active {
+  transform: scale(.97);
+}
+
+.btn:not(.ghost):focus-visible,
+.more.cta:focus-visible,
+.film-cta:focus-visible,
+.lk-live:focus-visible,
+.trk-live:focus-visible,
+form.contact button.send:focus-visible,
+.btn-widerruf:focus-visible,
+header.top a.back:focus-visible {
+  outline: 2px solid #0071E3;
+  outline-offset: 3px;
+}
+
+/* Sprung-Nav aktiv: etwas kompakter, gleiche Kapsel */
+.rb-jump a[aria-current] {
+  background:
+    radial-gradient(120% 90% at 50% 120%, rgba(200, 230, 255, .32), rgba(200, 230, 255, 0) 58%),
+    linear-gradient(180deg, var(--lg-brand-top) 0%, var(--lg-brand-core) 55%, var(--lg-brand-deep) 100%);
+}
+.rb-jump a[aria-current]::before { opacity: .70; height: 44%; }
+
+/* Hero-Kicker-Nummer: kleine Kapsel */
+main > .hero .kicker span:first-child {
+  font-weight: 650;
+  letter-spacing: .04em;
+}
+main > .hero .kicker span:first-child::before {
+  inset: 1px 10% auto;
+  height: 46%;
+  opacity: .75;
+}
+
+/* Unterarten: kurz Marken-Glas beim Drücken (transparent, nicht flat) */
+.th-kinds-links li:active {
+  color: var(--lg-ink);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, .4);
+  background:
+    radial-gradient(120% 90% at 50% 120%, rgba(200, 230, 255, .32), rgba(200, 230, 255, 0) 58%),
+    linear-gradient(180deg, var(--lg-brand-top) 0%, var(--lg-brand-core) 55%, var(--lg-brand-deep) 100%) !important;
+  -webkit-backdrop-filter: blur(8px) saturate(150%) contrast(1.04);
+  backdrop-filter: blur(8px) saturate(150%) contrast(1.04);
+  box-shadow:
+    inset 0 0 0 .5px rgba(255, 255, 255, .55),
+    inset 0 0 0 1px rgba(40, 100, 170, .28),
+    inset 0 1.5px 1px rgba(255, 255, 255, .75),
+    inset 0 -8px 12px -8px rgba(20, 70, 130, .35),
+    0 6px 14px -8px rgba(30, 90, 160, .30) !important;
+}
+.th-kinds-links li:active::before { opacity: .55; }
+.th-kinds-links a:active { background: transparent !important; color: inherit !important; }
+
+/* Look-Varianten der System-Karten: CI der Looks behalten */
+[data-look="holo"] .lk-live,
+[data-look="shopcontrol"] .lk-live {
+  text-shadow: none;
+  filter: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+[data-look="holo"] .lk-live {
+  background: #1D1D1F;
+  box-shadow: 0 0 0 1px #0071E3, 0 0 22px rgba(0, 113, 227, .45);
+}
+[data-look="holo"] .lk-live::before,
+[data-look="holo"] .lk-live::after,
+[data-look="shopcontrol"] .lk-live::before,
+[data-look="shopcontrol"] .lk-live::after { display: none; }
+[data-look="shopcontrol"] .lk-live {
+  border-radius: 4px;
+  background: #1D1D1F;
+  box-shadow: none;
+}
+
+/* ---------- 2) Pastellblau-Glas (Neben-Buttons / Live-Demo) — heller, noch klarer ---------- */
+.btn.pastel,
+.pb-foot .btn:not(.ghost),
+.uc-cap-t > .btn:not(.ghost),
+header.top a.back {
+  color: var(--lg-ink);
+  font-weight: 600;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, .55);
+  background:
+    radial-gradient(120% 90% at 50% 120%, rgba(240, 248, 255, .28), rgba(240, 248, 255, 0) 60%),
+    linear-gradient(180deg, var(--lg-blue-top) 0%, var(--lg-blue-core) 60%, var(--lg-blue-deep) 100%);
+  -webkit-backdrop-filter: blur(12px) saturate(140%) contrast(1.03);
+  backdrop-filter: blur(12px) saturate(140%) contrast(1.03);
+  box-shadow:
+    inset 0 0 0 .5px rgba(255, 255, 255, .70),
+    inset 0 0 0 1px rgba(100, 150, 195, .30),
+    inset 0 1.5px 1px rgba(255, 255, 255, .88),
+    inset 0 -2px 4px rgba(235, 245, 255, .55),
+    inset 0 -8px 12px -8px rgba(50, 100, 150, .28),
+    inset 4px 0 8px -6px rgba(50, 100, 150, .18),
+    inset -4px 0 8px -6px rgba(50, 100, 150, .18),
+    0 1px 1px rgba(40, 85, 130, .12),
+    0 8px 16px -8px rgba(60, 110, 160, .28),
+    0 18px 30px -20px rgba(60, 110, 160, .28);
+}
+.btn.pastel::before,
+.pb-foot .btn:not(.ghost)::before,
+.uc-cap-t > .btn:not(.ghost)::before,
+header.top a.back::before { opacity: .82; }
+
+@media (hover: hover) and (pointer: fine) {
+  .btn.pastel:hover,
+  .pb-foot .btn:not(.ghost):hover,
+  .uc-cap-t > .btn:not(.ghost):hover,
+  header.top a.back:hover {
+    background:
+      radial-gradient(120% 90% at 50% 120%, rgba(245, 252, 255, .36), rgba(245, 252, 255, 0) 60%),
+      linear-gradient(180deg, var(--lg-blue-hover-top) 0%, var(--lg-blue-hover-core) 60%, var(--lg-blue-hover-deep) 100%);
+    box-shadow:
+      inset 0 0 0 .5px rgba(255, 255, 255, .85),
+      inset 0 0 0 1px rgba(110, 160, 205, .28),
+      inset 0 1.5px 1px rgba(255, 255, 255, .95),
+      inset 0 -2px 4px rgba(240, 250, 255, .65),
+      inset 0 -8px 12px -8px rgba(50, 100, 150, .22),
+      inset 4px 0 8px -6px rgba(50, 100, 150, .14),
+      inset -4px 0 8px -6px rgba(50, 100, 150, .14),
+      0 1px 1px rgba(40, 85, 130, .10),
+      0 10px 18px -8px rgba(60, 110, 160, .32),
+      0 20px 34px -20px rgba(60, 110, 160, .30);
+    text-decoration: none;
+  }
+}
+
+/* ---------- SVG-Brechung (Chromium, #lg-refract aus nav.js / rubriken.js) ---------- */
+html.lg-svg .btn:not(.ghost),
+html.lg-svg .more.cta,
+html.lg-svg .film-cta,
+html.lg-svg .rb-jump a[aria-current],
+html.lg-svg main > .hero .kicker span:first-child,
+html.lg-svg .lk-live,
+html.lg-svg .trk-live,
+html.lg-svg .trk-btn,
+html.lg-svg form.contact button.send,
+html.lg-svg .btn.pastel,
+html.lg-svg .pb-foot .btn:not(.ghost),
+html.lg-svg .uc-cap-t > .btn:not(.ghost),
+html.lg-svg .btn-widerruf,
+html.lg-svg header.top a.back {
+  -webkit-backdrop-filter: url(#lg-refract) blur(6px) saturate(160%) contrast(1.05);
+  backdrop-filter: url(#lg-refract) blur(6px) saturate(160%) contrast(1.05);
+}
+html.lg-svg [data-look="holo"] .lk-live,
+html.lg-svg [data-look="shopcontrol"] .lk-live {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+/* ---------- Fallbacks ---------- */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .btn:not(.ghost):not(.pastel),
+  .more.cta,
+  .film-cta,
+  .rb-jump a[aria-current],
+  main > .hero .kicker span:first-child,
+  .lk-live,
+  .trk-live,
+  .trk-btn,
+  form.contact button.send,
+  .btn-widerruf {
+    background: linear-gradient(180deg, rgba(90, 155, 220, .72), rgba(50, 125, 195, .78) 55%, rgba(35, 100, 170, .85));
+  }
+  .btn.pastel,
+  .pb-foot .btn:not(.ghost),
+  .uc-cap-t > .btn:not(.ghost),
+  header.top a.back {
+    background: linear-gradient(180deg, rgba(180, 210, 235, .78), rgba(155, 190, 225, .72) 60%, rgba(140, 180, 215, .80));
+  }
+  [data-dark-on] .more.cta,
+  .cta-band .btn:not(.ghost):not(.pastel),
+  #film .more.cta,
+  #film .film-cta {
+    background: linear-gradient(180deg, rgba(70, 130, 200, .65), rgba(40, 100, 175, .70) 55%, rgba(25, 80, 150, .78));
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .btn:not(.ghost):not(.pastel),
+  .more.cta,
+  .film-cta,
+  .rb-jump a[aria-current],
+  main > .hero .kicker span:first-child,
+  .lk-live,
+  .trk-live,
+  .trk-btn,
+  form.contact button.send,
+  .btn-widerruf {
+    color: #FFFFFF;
+    background: #0071E3;
+    text-shadow: none;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    box-shadow: 0 4px 12px -6px rgba(0, 80, 160, .45);
+  }
+  .btn.pastel,
+  .pb-foot .btn:not(.ghost),
+  .uc-cap-t > .btn:not(.ghost),
+  header.top a.back {
+    color: #FFFFFF;
+    background: #6FA6D3;
+    text-shadow: none;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    box-shadow: 0 4px 10px -6px rgba(40, 85, 130, .35);
+  }
+  .btn:not(.ghost)::before, .btn:not(.ghost)::after,
+  .more.cta::before, .more.cta::after,
+  .film-cta::before, .film-cta::after,
+  .rb-jump a[aria-current]::before, .rb-jump a[aria-current]::after,
+  main > .hero .kicker span:first-child::before,
+  main > .hero .kicker span:first-child::after,
+  .lk-live::before, .lk-live::after,
+  .trk-live::before, .trk-live::after,
+  .trk-btn::before, .trk-btn::after,
+  form.contact button.send::before, form.contact button.send::after,
+  .btn-widerruf::before, .btn-widerruf::after,
+  header.top a.back::before, header.top a.back::after {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn:not(.ghost),
+  .more.cta,
+  .film-cta,
+  .lk-live,
+  .trk-live,
+  .trk-btn,
+  form.contact button.send,
+  .btn-widerruf,
+  header.top a.back,
+  .rb-jump a[aria-current] {
+    transition: none;
+    transform: none !important;
+  }
+}
+
+
+
+/* ---------- 3) Neutrales Grauglas — aktive Chips / Filter / Segmente (statt Lackschwarz) ----------
+   Ersetzt deckendes #1D1D1F/#000 auf selected/active/is-on Pills. Graphit-Schrift auf hellem Glas.
+   Blau-Liquid-Glass (Haupt-CTAs / Pastell / Kapitel-Tabs .rb-jump) bleibt unberührt. */
+.pb-tags li:first-child,
+.uc-cap .pb-tags li:first-child,
+.filter button[aria-pressed="true"],
+.tabs button[aria-pressed="true"],
+.lk-btn[aria-pressed="true"],
+.px-seg button[aria-pressed="true"] {
+  color: var(--lg-gray-ink);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, .45);
+  border-color: transparent;
+  background:
+    linear-gradient(180deg, var(--lg-gray-top) 0%, var(--lg-gray-core) 48%, var(--lg-gray-deep) 100%),
+    var(--lg-gray-wash);
+  -webkit-backdrop-filter: blur(4px) saturate(165%) contrast(1.05);
+  backdrop-filter: blur(4px) saturate(165%) contrast(1.05);
+  box-shadow:
+    inset 0 0 0 .5px rgba(29, 29, 31, .24),
+    inset 0 1.5px 1px rgba(255, 255, 255, .88),
+    inset 0 -2px 3px rgba(255, 255, 255, .62),
+    inset 0 -7px 10px -6px rgba(29, 29, 31, .22),
+    inset 3px 0 6px -4px rgba(29, 29, 31, .14),
+    inset -3px 0 6px -4px rgba(29, 29, 31, .14),
+    0 1px 1px rgba(29, 29, 31, .10),
+    0 6px 14px -6px rgba(29, 29, 31, .24),
+    0 16px 28px -18px rgba(29, 29, 31, .28);
+}
+
+/* Spekular an Stil-Chips (erster Tag) wieder hell — war bei Dunklem Glas gedämpft */
+.pb-tags li:first-child::before,
+.uc-cap .pb-tags li:first-child::before { opacity: .70; }
+.pb-tags li:first-child::after,
+.uc-cap .pb-tags li:first-child::after { opacity: .80; }
+
+/* FAQ-Zähler auf aktivem Filter: Graphit-Nebenfarbe statt hellgrau-auf-schwarz */
+.filter button[aria-pressed="true"] span { color: #6E6E73; }
+
+@media (hover: hover) and (pointer: fine) {
+  .filter button[aria-pressed="true"]:hover,
+  .tabs button[aria-pressed="true"]:hover,
+  .lk-btn[aria-pressed="true"]:hover,
+  .px-seg button[aria-pressed="true"]:hover {
+    color: var(--lg-gray-ink);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, .55) 0%, rgba(155, 161, 171, .30) 48%, rgba(145, 151, 161, .36) 100%),
+      rgba(148, 154, 164, .30);
+    box-shadow:
+      inset 0 0 0 .5px rgba(29, 29, 31, .28),
+      inset 0 1.5px 1px rgba(255, 255, 255, .90),
+      inset 0 -2px 3px rgba(255, 255, 255, .68),
+      inset 0 -7px 10px -6px rgba(29, 29, 31, .22),
+      0 1px 1px rgba(29, 29, 31, .09),
+      0 8px 16px -6px rgba(29, 29, 31, .28),
+      0 18px 30px -18px rgba(29, 29, 31, .32);
+  }
+}
+
+/* Brechung auch für den hervorgehobenen ersten Tag + aktive Neutrals */
+html.lg-svg .pb-tags li:first-child,
+html.lg-svg .uc-cap .pb-tags li:first-child,
+html.lg-svg .filter button[aria-pressed="true"],
+html.lg-svg .tabs button[aria-pressed="true"],
+html.lg-svg .lk-btn[aria-pressed="true"],
+html.lg-svg .px-seg button[aria-pressed="true"] {
+  -webkit-backdrop-filter: url(#lg-refract) blur(2px) saturate(170%) contrast(1.05);
+  backdrop-filter: url(#lg-refract) blur(2px) saturate(170%) contrast(1.05);
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .pb-tags li:first-child,
+  .uc-cap .pb-tags li:first-child,
+  .filter button[aria-pressed="true"],
+  .tabs button[aria-pressed="true"],
+  .lk-btn[aria-pressed="true"],
+  .px-seg button[aria-pressed="true"] {
+    background: linear-gradient(180deg, #D8DCE3, #C5CAD3);
+    color: #1D1D1F;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .pb-tags li:first-child,
+  .uc-cap .pb-tags li:first-child,
+  .filter button[aria-pressed="true"],
+  .tabs button[aria-pressed="true"],
+  .lk-btn[aria-pressed="true"],
+  .px-seg button[aria-pressed="true"] {
+    color: #1D1D1F;
+    text-shadow: none;
+    background: #C9CED6;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    box-shadow: inset 0 0 0 1px #B0B4BC, 0 4px 10px -6px rgba(29, 29, 31, .22);
+  }
+  .filter button[aria-pressed="true"] span { color: #6E6E73; }
+  .pb-tags li:first-child::before,
+  .pb-tags li:first-child::after,
+  .uc-cap .pb-tags li:first-child::before,
+  .uc-cap .pb-tags li:first-child::after { display: none; }
+}
+
+
+/* Simple-Seiten (Kontakt/Legal/404): Zurück-Link & Widerruf-CTA als Glaskapseln */
+header.top a.back {
+  display: inline-flex;
+  align-items: center;
+  height: 36px;
+  padding: 0 17px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none !important;
+}
+.btn-widerruf {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 22px;
+  border-radius: 999px;
+  text-decoration: none !important;
+}
+
+/* KI-Hinweis an WhatsApp-Button und Telefonnummer (AI Act Art. 50): klein, direkt darunter */
+.wa-ki-wrap { display: inline-flex; flex-direction: column; align-items: flex-start; gap: 2px; vertical-align: top; }
+.wa-ki { font-size: 10px; line-height: 1.2; opacity: .6; font-weight: 400; letter-spacing: 0; white-space: nowrap; }
+.epf-wa .wa-ki-wrap, .k-wa .wa-ki-wrap { align-items: inherit; }
