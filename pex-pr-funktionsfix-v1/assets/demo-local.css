@@ -1,0 +1,12 @@
+/* Keep the privacy notice readable across the independent demo themes. */
+html body [data-local-demo] p.demo-local-status {
+  font-size: 14px;
+  line-height: 1.55;
+  color: inherit;
+  max-width: 65ch;
+  margin-block: 1em;
+}
+
+/* Geschlossenes Handy-Menü (details.menu in HOLM, WÄRMEWERK, VOLTA): Inhalt ganz ausblenden.
+   Sonst bekommen die Links im zugeklappten details trotzdem eine Fläche und gelten als „verdeckt“. */
+details.menu:not([open]) > .menu__panel { display: none; }
