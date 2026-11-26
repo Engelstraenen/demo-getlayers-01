@@ -1,0 +1,1 @@
+(()=>{const b=document.querySelector('.bx3-chips');if(!b)return;const s=[...document.querySelectorAll('.bx-group')];b.addEventListener('click',e=>{const c=e.target.closest('button');if(!c)return;b.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===c));s.forEach(x=>x.hidden=c.dataset.g!=='alle'&&x.id!==c.dataset.g)})})();
